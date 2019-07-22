@@ -1,12 +1,22 @@
 ---
-id: getting-started
-title: Getting started
-sidebar_label: Getting started
+id: installation
+title: Installation
+sidebar_label: Installation
 ---
 
-Note: unmock documentation uses yarn, but npm will also work. You can compare yarn and npm [here](https://yarnpkg.com/en/docs/migrating-from-npm#toc-cli-commands-comparison).
-
 ## Installation
+
+### yarn
+
+```bash
+$ yarn add -D unmock-node
+```
+
+### npm
+
+```bash
+$ npm i -D unmock-node
+```
 
 ## Next steps
 
