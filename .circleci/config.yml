@@ -16,17 +16,17 @@ aliases:
       - ~/.cache/yarn
     key: root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
-  - &filter-only-master
+  - &filter-only-source
     branches:
       only:
-        - master
+        - source
 
-  - &filter-ignore-gh-pages
+  - &filter-ignore-master
     branches:
-      ignore: gh-pages
+      ignore: master
 
   - &root-checkout
-    path: ~/unmock-docs
+    path: ~/unmock.github.io
 
   - &root-build
     name: Run build
@@ -34,7 +34,7 @@ aliases:
 
 
 defaults: &defaults
-  working_directory: ~/unmock-docs/website
+  working_directory: ~/unmock.github.io/website
   docker:
     - image: circleci/node:8
 
@@ -64,7 +64,7 @@ jobs:
               git config --global user.email $GITHUB_USERNAME@users.noreply.github.com
               git config --global user.name $GITHUB_USERNAME
               echo "machine github.com login $GITHUB_USERNAME password $GITHUB_TOKEN" > ~/.netrc
-              GIT_USER=$GITHUB_USERNAME USE_SSH=false yarn run publish-gh-pages
+              GIT_USER=$GITHUB_USERNAME CURRENT_BRANCH=source USE_SSH=false yarn run publish-gh-pages
             else
               echo "Skipping deploy"
             fi
@@ -73,8 +73,8 @@ workflows:
   build-deploy:
     jobs:
       - tests:
-          filters: *filter-ignore-gh-pages
+          filters: *filter-ignore-master
       - deploy:
           requires:
            - tests
-          filters: *filter-only-master
+          filters: *filter-only-source
