@@ -1,0 +1,80 @@
+
+    
+aliases:
+  - &root-yarn |
+    yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+  - &root-restore-yarn-cache
+    keys:
+      - root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      # Fallback in case checksum fails
+      - root-yarn-{{ .Branch }}-
+
+  - &root-save-yarn-cache
+    paths:
+      - node_modules
+      - ~/.cache/yarn
+    key: root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+  - &filter-only-master
+    branches:
+      only:
+        - master
+
+  - &filter-ignore-gh-pages
+    branches:
+      ignore: gh-pages
+
+  - &root-checkout
+    path: ~/unmock-docs
+
+  - &root-build
+    name: Run build
+    command: yarn build
+
+
+defaults: &defaults
+  working_directory: ~/unmock-docs/website
+  docker:
+    - image: circleci/node:8
+
+version: 2
+jobs:
+  tests:
+    <<: *defaults
+    steps:
+      - checkout: *root-checkout
+      - run: *root-yarn
+      - save_cache: *root-save-yarn-cache
+      - run:
+          name: "Run linter"
+          command: "yarn lint"
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout: *root-checkout
+      - run: *root-yarn
+      - save_cache: *root-save-yarn-cache
+      - run: *root-build
+      - run:
+          name: Configure GitHub Bot and deploy
+          command: |
+            if [[ $CIRCLE_PROJECT_USERNAME == "unmock" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+              echo "Deploying website..."
+              git config --global user.email $GITHUB_USERNAME@users.noreply.github.com
+              git config --global user.name $GITHUB_USERNAME
+              echo "machine github.com login $GITHUB_USERNAME password $GITHUB_TOKEN" > ~/.netrc
+              GIT_USER=$GITHUB_USERNAME USE_SSH=false yarn run publish-gh-pages
+            else
+              echo "Skipping deploy"
+            fi
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - tests:
+          filters: *filter-ignore-gh-pages
+      - deploy:
+          requires:
+           - tests
+          filters: *filter-only-master
