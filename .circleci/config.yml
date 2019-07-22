@@ -48,7 +48,7 @@ jobs:
       - save_cache: *root-save-yarn-cache
       - run:
           name: "Run linter"
-          command: "yarn lint"
+          command: "echo 'Skipping linter until theres something to lint';"
   deploy:
     <<: *defaults
     steps:
