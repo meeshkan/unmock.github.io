@@ -6,7 +6,7 @@ sidebar_label: Hello World
 
 This guide walks you through through mocking a simple service. Our service will be called `hello`, and it describes a request made to `api.unmock.io`. The root endpoint returns a single value: `hello` - which is a string.
 
-Note: unmock documentation uses yarn, but npm will also work. You can compare yarn and npm [here](https://yarnpkg.com/en/docs/migrating-from-npm#toc-cli-commands-comparison).
+Note: Unmock documentation uses yarn, but npm will also work. You can compare yarn and npm [here](https://yarnpkg.com/en/docs/migrating-from-npm#toc-cli-commands-comparison).
 
 ## Install unmock, jest, and axios
 
@@ -38,7 +38,7 @@ These create the service folder (called `hello` - we'll use this later on when w
 
 ## Filling out `index.yaml`
 
-In `index.yaml` file you just created, copy and paste the following specification. unmock uses OpenAPI specification under the hood, but allows a lazy notation via [`loas3`](https://github.com/unmock/loas3).
+In `index.yaml` file you just created, copy and paste the following specification. unmock uses OpenAPI specification under the hood, but allows a lazy notation via [`loas3`](loas3.md).
 
 ```yaml
 servers:
@@ -81,7 +81,7 @@ This simple example contains everything we need to be up and running with Unmock
 
 ## Returning a specific value
 
-With unmock, you no longer have to worry about mocking the response and/or overriding your code's default behaviour. However, we often want to check against our code against specific values. This is where the state management for `unmock` kicks in. To complete our introduction, add the following to `hello.test.js`:
+With Unmock, you no longer have to worry about mocking the response and/or overriding your code's default behaviour. However, we often want to check against our code against specific values. This is where the [state management](basic.md) for `unmock` kicks in. To complete our introduction, add the following to `hello.test.js`:
 
 ```js
 // ...
@@ -98,4 +98,4 @@ test("setting a value for endpoint", async () => {
 ## Next steps
 
 1. Learn how to define [services](layout.md)
-1. Learn how to override services' default behaviour by defining service [state](basic.md) on per-test basis
+1. Learn how to define [state](basic.md) for a service on per-test basis

@@ -6,7 +6,7 @@ sidebar_label: Fetching services
 
 While there is no default way to fetch services, most OpenAPI specifications of popular third-party libraries are published online. [api.guru](https://apis.guru/browse-apis/) has a great list of them.
 
-To use the Stripe API, for example, you can do the following.
+To mock the [Stripe API](https://stripe.com/docs/api), for example, you can do the following.
 
 ```
 $ mkdir -p __unmock__/stripe && cd __unmock__/stripe

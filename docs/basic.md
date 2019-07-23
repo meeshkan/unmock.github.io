@@ -4,11 +4,11 @@ title: Setting state
 sidebar_label: Setting state
 ---
 
-Once activated, unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Testing your code with indeterministic responses helps you make a more robust code. It helps you **fail your way to success**, a way of coding we strongly believe in.
+Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Testing your code with indeterministic responses helps you make a more robust code. It helps you **fail your way to success**, a way of coding we strongly believe in.
 
 ## Accessing state
 
-Sometimes, you need to refine unmock's default behavior on a test-by-test basis. To do this, you can manipulate the unmock _states_ object returned from `unmock.on()`:
+Sometimes, you need to refine Unmock's default behavior on a test-by-test basis. To do this, you can manipulate the _states_ object returned from `unmock.on()`:
 
 ```javascript
 const states = unmock.on();
@@ -16,7 +16,7 @@ const states = unmock.on();
 
 The `states` object exposes a fluent API that allows you to set specific response bodies for any HTTP method and path combination.
 
-> You can also access the `states` object via `unmock.states()`, but beware: the object is undefined if you haven't called `unmock.on()`.
+> You can also access the `states` object via `unmock.states()`, but beware: the object will be undefined if you haven't called `unmock.on()`.
 
 ## Working examples
 
@@ -86,4 +86,4 @@ axios(`${PETSTORE_URL}/pets`);
 // -> [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]
 ```
 
-More advanced state management with the unmock DSL is the topic of the [next section](advanced.md).
+More advanced state management with the Unmock DSL is the topic of the [next section](advanced.md).

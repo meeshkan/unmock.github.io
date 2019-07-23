@@ -4,7 +4,7 @@ title: Where we're going
 sidebar_label: Where we're going
 ---
 
-The roadmap for unmock is quite ambitious, but we are committed to building a world-class testing tool that makes testing fun and helps developers in their day-to-day work.
+The roadmap for Unmock is quite ambitious, but we are committed to building a world-class testing tool that makes testing fun and helps developers in their day-to-day work.
 
 Here are some highlights from our roadmap. The roadmap itself is open-sourced on [GitHub](https://www.github.com/unmock/unmock-docs), and we always appreciate comments and feedback.
 
