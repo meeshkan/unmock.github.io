@@ -25,19 +25,20 @@ const siteConfig = {
   headerLinks: [
     { doc: "introduction", label: "Docs" },
     { page: "sandbox", label: "Sandbox" },
+    { href: "https://github.com/unmock/unmock-js", label: "GitHub" },
   ],
 
   // If you have users set above, you add it here:
   users,
 
   /* path to images for header/footer */
-  headerIcon: "img/logo.png",
+  headerIcon: "img/logo-white.svg",
   footerIcon: "img/logo.png",
-  favicon: "img/favicon.ico",
+  favicon: "img/logo.png",
 
   /* Colors for website */
   colors: {
-    primaryColor: "#7aa4e8",
+    primaryColor: "#BA00FF",
     secondaryColor: "#353b44",
   },
 
@@ -55,6 +56,8 @@ const siteConfig = {
   },
   */
 
+  editUrl: "https://github.com/unmock/unmock.github.io/edit/source/docs/",
+
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright: `Copyright © ${new Date().getFullYear()} Meeshkan`,
 
@@ -64,16 +67,12 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  scripts: ["https://buttons.github.io/buttons.js"],
+  scripts: [],
 
   // On page navigation for the current documentation page.
   onPageNav: "separate",
   // No .html extensions for paths.
   cleanUrl: true,
-
-  // Open Graph and Twitter card images.
-  ogImage: "img/undraw_online.svg",
-  twitterImage: "img/undraw_tweetstorm.svg",
 
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,
