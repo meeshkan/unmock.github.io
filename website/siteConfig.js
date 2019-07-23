@@ -22,19 +22,22 @@ const siteConfig = {
   organizationName: "unmock",
 
   // For no header links in the top nav bar -> headerLinks: [],
-  headerLinks: [{ doc: "introduction", label: "Docs" }],
+  headerLinks: [
+    { doc: "introduction", label: "Docs" },
+    { href: "https://github.com/unmock/unmock-js", label: "GitHub" },
+  ],
 
   // If you have users set above, you add it here:
   users,
 
   /* path to images for header/footer */
-  headerIcon: "img/logo.png",
+  // headerIcon: "img/logo.png",
   footerIcon: "img/logo.png",
   favicon: "img/logo.png",
 
   /* Colors for website */
   colors: {
-    primaryColor: "#7aa4e8",
+    primaryColor: "#BA00FF",
     secondaryColor: "#353b44",
   },
 
