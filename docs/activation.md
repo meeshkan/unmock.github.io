@@ -8,7 +8,7 @@ Turning Unmock on is quite easy - `unmock.on()`, `unmock.init()` and `unmock.ini
 Turning Unmock off is similarly easy - `unmock.off()`.
 
 ```javascript
-import unmock from "unmock-node";
+const unmock = require("unmock-node");
 
 unmock.on(); // Activate unmock to intercept all outgoing traffic
 // Test your code

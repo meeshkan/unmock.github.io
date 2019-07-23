@@ -12,7 +12,7 @@ Inspired by libraries like [`nock`](https://github.com/nock/nock) and [`hoverfly
 
 ```javascript
 // user.test.js
-import unmock from "unmock-node";
+const unmock = require("unmock-node");
 
 // Activate unmock to intercept all outgoing traffic
 const states = unmock.on();
