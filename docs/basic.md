@@ -79,10 +79,10 @@ states
 The following calls will generate the matching responses:
 
 ```javascript
-axios(`${PETSTORE_URL}/pets/1`); // -> { id: 1, name: "Finn" }
-axios(`${PETSTORE_URL}/pets/3`); // -> { id: -999, name: "Finn" }
-axios(`${PETSTORE_URL}/pets/513`); // -> { id: -999, name: "Finn" }
-axios(`${PETSTORE_URL}/pets`);
+fetch(`${PETSTORE_URL}/pets/1`); // -> { id: 1, name: "Finn" }
+fetch(`${PETSTORE_URL}/pets/3`); // -> { id: -999, name: "Finn" }
+fetch(`${PETSTORE_URL}/pets/513`); // -> { id: -999, name: "Finn" }
+fetch(`${PETSTORE_URL}/pets`);
 // -> [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]
 ```
 
