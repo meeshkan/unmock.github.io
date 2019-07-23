@@ -1,26 +1,22 @@
 ---
 id: basic
-title: Basic concepts
-sidebar_label: Basic concepts
+title: Managing state
+sidebar_label: Managing state
 ---
 
-Once Unmock is activated, it will mock APIs according to the specifications in your `__unmock__` directory.
-
-## Flaky mode
-
-Unmock's default behavior, which we affectionally call "flaky mode", serves random valid responses from your mock APIs. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Unmock keeps track of all the responses it generates so that, if your test ever fails because a random response exposes a corner case, you can use that response to write a new test.
+Once activated, unmock will mock APIs according to the service specifications in your `__unmock__` directory. The default behavior is to serve _randomly generated valid responses_. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Unmock keeps track of all the responses it generates so that, if your test ever fails because a random response exposes a corner case, you can use that response to write a new test.
 
 Testing your code with indeterministic responses helps you make a more robust code. It helps you **fail your way to success**, a way of coding we strongly believe in.
 
 ## Setting a state
 
-Sometimes, you would like to refine Unmock's default behavior on a test-by-test basis. To do this, you can manipulate the unmock _state store_ object. When calling `unmock.on()` (or equivalent), you will get a state store as a returned value.
+Sometimes, you need to refine unmock's default behavior on a test-by-test basis. To do this, you can manipulate the unmock _state_ object. When calling `unmock.on()`, you will get a state store as a returned value.
 
 ```javascript
-var states = unmock.on();
+const states = unmock.on();
 ```
 
-The state store is a fluent API that allows you to set specific responses/content for any HTTP method and endpoint combination. Every call to states is either a name of a service (taken from the service subfolder name), an HTTP method, or a call to `reset()`.
+The `states` object exposes a fluent API that allows you to set specific response bodies for any HTTP method and path combination.
 
 ## A typical flow
 
@@ -41,7 +37,7 @@ To set a state for a service, you may:
   ```
 
   ::: tip
-  Unmock also accepts wildcards for single path item replacements!
+  You can also use wildcards for single path item replacements:
 
   ```javascript
   states.petstore("/pets/*", { name: "lucy" });
@@ -70,10 +66,10 @@ To set a state for a service, you may:
   states.reset();
   ```
   ::: warning
-  A call to `reset()` terminates the fluency of the state store.
+  You cannot chain new calls after calling `reset()`.
   :::
 
-Once the states are set and a request is captured, it is then matched against the service and the most specific state is being used to generate the response. For example, assume the following state is being set:
+Once the states are set and a request is captured, it is matched against the service and the most specific state is being used to generate the response. For example, assume the following state is being set:
 
 ```javascript
 states
@@ -91,3 +87,5 @@ axios(`${PETSTORE_URL}/pets/513`); // -> { id: -999, name: "Finn" }
 axios(`${PETSTORE_URL}/pets`);
 // -> [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]
 ```
+
+More advanced state management with the unmock DSL is the topic of the [next section](advanced.md).

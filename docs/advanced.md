@@ -1,20 +1,18 @@
 ---
 id: advanced
-title: State DSL
-sidebar_label: State DSL
+title: Advanced state management with DSL
+sidebar_label: DSL
 ---
 
-Of course, setting a state (or not) is perfect, but sometimes we need to run tests for specific use cases. We might want to test our code when we hit a 500 error from a 3rd party API, or start with 10 users in our Unmocked project. We might want to set a state with a string, or binary, etc.
-
-We use the term _DSL_ freely, but all it really means is setting some meta-level state. All DSL elements are prefixed with the dollar sign (`$`). We expand this DSL as needed, and currently offer minimal interaction.
+Setting the response body as described in the [previous section](basic.md) is often sufficient, but sometimes you need to more control to test, for example, the behaviour for status code 500 or start with 10 users in a service. This can be achieved with the unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
 
 ## Top-level DSL
 
-Top level DSL is DSL that is truly meta for the entire response. It's not specific to any property within the response. Therefore, it may only be found at the top level of the object passed as a state. At any other level, it will be treated as a proper key. All of the commands below can apply to the top-level DSL or to a specific mocked service.
+Top-level DSL is not specific to any property in the response body and can therefore only be found at the top level of the object passed as a state. At any other level, it will be treated as a proper key. All of the commands below can apply to the top-level DSL or to a specific mocked service.
 
 ## `$code`
 
-Using `$code`, you may specify the response code you want for a specific endpoint. The response code must exist in the service specification.
+Using `$code`, you can specify the status code returned by the service for a call to a given endpoint. The response code must exist in the service specification.
 
 ```javascript
 // Returns a 500 error on requests to `/pets/5`
@@ -36,7 +34,7 @@ states.petstore("/pets/*", { $times: 2, name: "Ace" });
 
 ## `$size`
 
-For array type objects, one can control how many items are returned with the `$size` DSL instruction. Unmock, as always, verifies the instruction is indeed matched for an array object, and that the value for `$size` is logical (rounds to a positive number).
+For array type objects, one can control how many items are returned with the `$size` DSL instruction. Unmock, as always, verifies the instruction is indeed matched for an array object, and that the value for `$size` makes sense (rounds to a positive number).
 
 ```javascript
 // Return 4 pets. We can specify it at top level as the content returned is an array.
@@ -50,7 +48,7 @@ states.github("/search/repositories", {
 
 ## State middleware
 
-Unmock currently offers two middleware functions. The default one is the object-notation middleware. You've seen it in the (basic usage)[/basic] - you pass key-value pairs as a state. The other one is a string middleware. Both are found under `unmock.middleware`.
+Unmock currently offers two middleware functions. The default one is the object-notation middleware. You've seen it in the [basic usage](basic.md) - you pass key-value pairs as a state. The other one is a string middleware. Both are found under `unmock.middleware`.
 
 We roll out more middlewares as are necessary - please [let us know](https://github.com/unmock/unmock-js/issues) if you're missing anything!
 
@@ -67,7 +65,7 @@ Many other content types have a simple schema for a response. `text/plain`, `ima
 The text middleware accepts a string input, and optional object for top-level DSL.
 
 ```javascript
-var textMW = unmock.middleware.textMW;
+const textMW = unmock.middleware.textMW;
 states.petstore(textMW("foo"));
 states.petstore("/pets/*", textMW("bar", { $code: 200 }));
 ```
