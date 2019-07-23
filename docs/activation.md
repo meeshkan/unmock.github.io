@@ -8,13 +8,15 @@ Turning Unmock on is quite easy - `unmock.on()`, `unmock.init()` and `unmock.ini
 Turning Unmock off is similarly easy - `unmock.off()`.
 
 ```javascript
-var unmock = require("unmock");
-unmock.on();
-// do some stuff
+import unmock from "unmock-node";
+
+unmock.on(); // Activate unmock to intercept all outgoing traffic
+// Test your code
 unmock.off();
 ```
 
-Once turned on, Unmock prevents your code from communicating with the internet, excluding `localhost`. This ensures your code is not exposing any test data (or, more crucially, real world data) to any external services.
+Once activated, Unmock prevents your code from communicating with the internet, excluding `localhost`. This ensures your code is not exposing any test data (or, more crucially, real world data) to any external services.
+
 If needed, you may pass an array of regular expressions or wild-carded URLs when turning Unmock on:
 
 ```javascript
