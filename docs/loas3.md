@@ -1,10 +1,10 @@
 ---
 id: loas3
-title: loas3
-sidebar_label: loas3
+title: Lazy OpenAPI
+sidebar_label: Lazy OpenAPI
 ---
 
-Sometimes, you are able to use an OpenAPI specification as-is in order to generate mocks. Mature projects and companies, such as Stripe and Slack, tend to have robust OpenAPI specifications that account for API corner cases and cover all API endpoints. However, in most cases, you will need to deal with APIs that have incomplete or no OpenAPI documentation. In this case, you will need to author your own.
+Often you have an OpenAPI specification available for a service. Mature projects and companies, such as Stripe and Slack, tend to have robust OpenAPI specifications that account for API corner cases and cover all API endpoints. However, if a specification is not available, you will need to deal with APIs that have incomplete or no OpenAPI documentation. In this case, you will need to author your own.
 
 But fear not! Unmock can process [`loas3`](https://www.github.com/unmock/loas3), or Lazy OpenAPI 3, a syntactic superset of OpenAPI 3.0.0. This section gives a quick primer of the `loas3` specification. In addition to being easier to read and write, the specification usually results in documents that are 50% the size (or less!) of their more verbose OpenAPI counterparts.
 
