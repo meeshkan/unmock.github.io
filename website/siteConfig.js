@@ -55,6 +55,8 @@ const siteConfig = {
   },
   */
 
+  editUrl: "https://github.com/unmock/unmock.github.io/edit/source/docs/",
+
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright: `Copyright © ${new Date().getFullYear()} Meeshkan`,
 
@@ -64,7 +66,7 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  scripts: ["https://buttons.github.io/buttons.js"],
+  scripts: [],
 
   // On page navigation for the current documentation page.
   onPageNav: "separate",
