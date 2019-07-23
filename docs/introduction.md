@@ -4,93 +4,27 @@ title: Introduction
 sidebar_label: Introduction
 ---
 
-unmock is an opinionated and scalable way to mock external services in tests.
-
-## What is unmock
-
 Unmock is a JavaScript testing library that allows you to write comprehensive tests for third-party API integrations.
 
 Inspired by libraries like [`nock`](https://github.com/nock/nock) and [`hoverfly`](https://github.com/spectolabs/hoverfly), Unmock aims to simplify the integration testing process by creating a small, isolated, ephemeral stack for every test that makes a network call. This stack represents the world outside your test, and is Just Good Enough™ to reliably mock that world so that your tests pass when they should and, more importantly, fail when they should.
 
 ## How it works
 
-Let's assume you want to fetch a GitHub organization's email address using `fetch`:
-
-```js
-async function fetchGitHubOrganizationEmail(organization) {
-  const headers = new Headers({
-    Authorization: `Bearer ${process.ENV.GITHUB_API_TOKEN}`,
-  });
-  const organizationData = await fetch(
-    `https://api.github.com/orgs/${organization}`,
-    headers
-  );
-  return organizationData.email;
-}
-```
-
-Your test looks like this:
-
-```js
-it("fetches GitHub organization's email", async () => {
-  const email = await fetchGitHubOrganizationEmail("meeshkan");
-  expect(email).toBe("contact@meeshkan.com");  // email address for Meeshkan organization
-}
-```
-
-The test would complete successfully if the `GITHUB_API_TOKEN` environment variable was set properly. However, it is bad practice to hit the API in unit tests, because
-
-1. running unit tests counts against the rate limit,
-1. tests could change production data,
-1. organization's email could change and that would break the test.
-
-Let us add unmock to capture outgoing calls and check if the value returned from `fetchGitHubOrganizationEmail` is a `String`:
-
-```js
+```javascript
+// user.test.js
 import unmock from "unmock-node";
 
-unmock.initialize();  // Capture outgoing calls
+// Activate unmock to intercept all outgoing traffic
+const states = unmock.on();
 
-it("fetches GitHub organization's email", async () => {
-  const email = await fetchGitHubOrganizationEmail("meeshkan");
-  expect(typeof email).toEqual("string");
-}
+test("returns correct response", async () => {
+  states.github({ id: 1 }); // Modify service state, return "id" 1
+  const fetchResult = await fetch("https://api.github.com/user"); // Fetch data
+  expect(fetchResult.json().id).toBe(1);
+});
 ```
 
-To describe what the GitHub service is, we add a yml file:
-
-```yaml
-# __unmock__/github/index.yml
-
-servers:
-  - https://api.github.com/
-
-paths:
-  /orgs/{org}:
-    email: string!
-```
-
-The test passes now. If you're familiar with the OpenAPI specification, the contents of `index.yml` should look familiar to you, and indeed the file format is an extension of the OpenAPI specification. Read more about services and their specifications [here](services.md).
-
-The specification for the `github` service defines the email address as any string. This may be all you need to test the function logic, but if you want the service to return a given email address instead of a random string, simply add a call to `states.github()` to modify the _state_ of the service:
-
-```js
-import unmock from "unmock-node";
-
-const { states } = unmock.initialize();  // Capture outgoing calls
-
-it("fetches GitHub organization's email", async () => {
-  // Set the email address returned by the GitHub service:
-  states.github({ email: "contact@meeshkan.com" });
-  const email = await fetchGitHubOrganizationEmail("meeshkan");
-  expect(email).toBe("contact@meeshkan.com");
-}
-afterAll(() => {
-  unmock.reset();  // Reset the state
-})
-```
-
-Get started with unmock [here](getting-started.md).
+Get started with unmock in the full [Hello World example](hello.md).
 
 ## Motivation
 
@@ -100,12 +34,8 @@ Still, when testing how our applications integrate with external services, we ra
 
 This is what unmock wants to fix. Testing the integration with external services should start from the _service specification_. Setting the service _state_ should happen programmatically before every test. The state should be _consistent_ with the service specification.
 
-## Mission
-
-unmock wants to provide a semantically adequate, mocked version of the services in the internet so you never have to create a mock manually again. Before we get there, we provide best practices for testing external services.
-
 ## Next steps
 
-1. [Get started](getting-started.md) with unmock
-1. Read about [services](services.md)
-1. Read about [unmock DSL and how to modify the service state](state.md)
+1. Get started with a [Hello World example](hello.md)
+1. [Install](installation.md) unmock
+1. Learn about [services](layout.md)

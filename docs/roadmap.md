@@ -1,7 +1,7 @@
 ---
 id: roadmap
-title: Roadmap
-sidebar_label: Roadmap
+title: Where we're going
+sidebar_label: Where we're going
 ---
 
 The roadmap for unmock is quite ambitious, but we are committed to building a world-class testing tool that makes testing fun and helps developers in their day-to-day work.

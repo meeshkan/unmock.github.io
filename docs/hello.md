@@ -38,9 +38,7 @@ These create the service folder (called `hello` - we'll use this later on when w
 
 ## Filling out `index.yaml`
 
-In `index.yaml` file you just created, copy and paste the following [`loas3`](https://www.github.com/unmock/loas3) specification.
-
-unmock uses OpenAPI specification under the hood, but allows a lazy notation via `loas3`. In the example below, we automatically infer that `foo` is an example of a string.
+In `index.yaml` file you just created, copy and paste the following specification. unmock uses OpenAPI specification under the hood, but allows a lazy notation via [`loas3`](https://github.com/unmock/loas3).
 
 ```yaml
 servers:
@@ -49,6 +47,8 @@ paths:
   /:
     hello: foo
 ```
+
+In the example below, we automatically infer that `foo` is an example of a string.
 
 ## Creating our first test
 
@@ -64,10 +64,10 @@ beforeAll(() => {
 });
 
 test("hello endpoint returns correct JSON", async () => {
-  var res = await axios.get("https://api.unmock.io");
+  const res = await axios.get("https://api.unmock.io");
   expect(Object.keys(res.data).length).toEqual(1);
   expect(res.data.hello).toBeDefined();
-  expect(typeof res.data.hello === "string").toBeTruthy();
+  expect(typeof res.data.hello === "string").toBe(true);
 });
 ```
 
@@ -90,9 +90,12 @@ With unmock, you no longer have to worry about mocking the response and/or overr
 
 test("setting a value for endpoint", async () => {
   unmock.states().hello({ hello: "world" });
-  var res = await axios.get("https://api.unmock.io");
+  const res = await axios.get("https://api.unmock.io");
   expect(res.data).toEqual({ hello: "world" });
 });
 ```
 
-The next sections will focus on defining the service specifications and overriding their default behavior with tweaks on a per-test basis.
+## Next steps
+
+1. Learn how to define [services](layout.md)
+1. Learn how to override services' default behaviour by defining service [state](basic.md) on per-test basis
