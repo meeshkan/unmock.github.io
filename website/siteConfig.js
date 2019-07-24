@@ -15,6 +15,7 @@ const siteConfig = {
   title: "Unmock", // Title for your website.
   tagline: "Make mocking fun again",
   url: "https://unmock.github.io", // Your website URL
+  cname: "www.unmock.io",
   baseUrl: "/", // Base URL for your project
   docsUrl: "", // Defaults to `docs`
   // Used for publishing and more
