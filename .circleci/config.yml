@@ -51,6 +51,7 @@ jobs:
           command: "echo 'Skipping linter until theres something to lint';"
   deploy:
     <<: *defaults
+    context: unmock-publish-docusaurus
     steps:
       - checkout: *root-checkout
       - run: *root-yarn
