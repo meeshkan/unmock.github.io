@@ -12,4 +12,3 @@ By default, Unmock intercepts all traffic to internet. If you want to allow comm
 // Allow communication with `*.googleapis.com`
 unmock.allowedHosts.add("*.googleapis.com");
 ```
-

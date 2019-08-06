@@ -31,7 +31,7 @@ beforeAll(() => unmock.on()); // Activate unmock to intercept all outgoing traff
 afterAll(() => unmock.off());
 ```
 
-Calling `unmock.on()` takes care of intercepting traffic, but how should Unmock know what data it should serve back to mock the service? That requires defining [services](layout.md).
+Calling `unmock.on()` takes care of intercepting traffic, but how should Unmock know what data it should serve back to mock the service? That requires defining a [service](layout.md).
 
 ## Next steps
 
