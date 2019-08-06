@@ -1,10 +1,10 @@
 ---
-id: advanced
+id: state:advanced
 title: Advanced state management with DSL
 sidebar_label: DSL
 ---
 
-Setting the response body as described in the [previous section](basic.md) is often sufficient, but sometimes you need to more control to test, for example, the behaviour for status code 500 or start with 10 users in a service. This can be achieved with the unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
+Setting the response body as described in the [previous section](state-basic.md) is often sufficient, but sometimes you need to more control to test, for example, the behaviour for status code 500 or start with 10 users in a service. This can be achieved with the unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
 
 ## Top-level DSL
 
@@ -48,7 +48,7 @@ states.github("/search/repositories", {
 
 ## State middleware
 
-Unmock currently offers two middleware functions. The default one is the object-notation middleware. You've seen it in the [basic usage](basic.md) - you pass key-value pairs as a state. The other one is a string middleware. Both are found under `unmock.middleware`.
+Unmock currently offers two middleware functions. The default one is the object-notation middleware. You've seen it in the [basic usage](state-basic.md) - you pass key-value pairs as a state. The other one is a string middleware. Both are found under `unmock.middleware`.
 
 We roll out more middlewares as are necessary - please [let us know](https://github.com/unmock/unmock-js/issues) if you're missing anything!
 

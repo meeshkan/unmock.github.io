@@ -1,5 +1,5 @@
 ---
-id: basic
+id: state:basic
 title: Setting state
 sidebar_label: Setting state
 ---
