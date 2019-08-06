@@ -2,13 +2,14 @@
   "scripts": {
     "examples": "docusaurus-examples",
     "start": "docusaurus-start",
+    "dev": "yarn start",
     "build": "docusaurus-build",
     "publish-gh-pages": "docusaurus-publish",
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",
     "rename-version": "docusaurus-rename-version",
     "format-check": "prettier --check '**/*.{js,ts}'",
-    "format": "prettier '**/*.{js,ts}' --write",
+    "format": "prettier '{../docs/*.md,**/*.{js,ts}}' --write",
     "lint": "eslint pages/**/*.js"
   },
   "dependencies": {

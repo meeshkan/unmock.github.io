@@ -1,7 +1,11 @@
 {
   "docs": {
-    "Getting started": ["introduction", "hello", "faq"],
-    "Activation": ["installation", "activation"],
+    "Getting started": [
+      "introduction",
+      "hello",
+      "installation",
+      "configuration"
+    ],
     "Services": ["layout", "loas3", "fetching"],
     "State": ["state:basic", "state:advanced"],
     "Roadmap": ["roadmap", "contributing", "about"]
