@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Setting state · Unmock</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Testing your code with indeterministic responses helps you make a more robust code. It helps you **fail your way to success**, a way of coding we strongly believe in."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Setting state · Unmock"/><meta property="og:type" content="website"/><meta property="og:url" content="https://unmock.github.io/"/><meta property="og:description" content="Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Testing your code with indeterministic responses helps you make a more robust code. It helps you **fail your way to success**, a way of coding we strongly believe in."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/logo.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"/><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo-white.svg" alt="Unmock"/><h2 class="headerTitleWithLogo">Unmock</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/unmock/unmock-js" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>State</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting started</h3><ul class=""><li class="navListItem"><a class="navItem" href="/introduction">Introduction</a></li><li class="navListItem"><a class="navItem" href="/hello">Hello World</a></li><li class="navListItem"><a class="navItem" href="/faq">Frequently asked questions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Activation</h3><ul class=""><li class="navListItem"><a class="navItem" href="/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/activation">Activating Unmock</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Services</h3><ul class=""><li class="navListItem"><a class="navItem" href="/layout">Service layout</a></li><li class="navListItem"><a class="navItem" href="/loas3">Lazy OpenAPI</a></li><li class="navListItem"><a class="navItem" href="/fetching">Fetching services</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">State</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/state:basic">Setting state</a></li><li class="navListItem"><a class="navItem" href="/state:advanced">Advanced DSL</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Roadmap</h3><ul class=""><li class="navListItem"><a class="navItem" href="/roadmap">Where we&#x27;re going</a></li><li class="navListItem"><a class="navItem" href="/contributing">Contributing</a></li><li class="navListItem"><a class="navItem" href="/about">About us</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/state-basic.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Setting state</h1></header><article><div><span><p>Once activated, Unmock will mock services according to their specifications. The default behavior is to serve <em>randomly generated valid responses</em>. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Testing your code with indeterministic responses helps you make a more robust code. It helps you <strong>fail your way to success</strong>, a way of coding we strongly believe in.</p>
+<h2><a class="anchor" aria-hidden="true" id="setting-state-for-a-service"></a><a href="#setting-state-for-a-service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setting state for a service</h2>
+<p>Sometimes, you need to refine Unmock's default behavior on a test-by-test basis. To do this, you can use the <em>states</em> object returned from <code>unmock.on()</code> or <code>unmock.states()</code>:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> states = unmock.on();
+<span class="hljs-comment">// or</span>
+<span class="hljs-keyword">const</span> states = unmock.states();
+</code></pre>
+<blockquote>
+<p>Beware: <code>unmock.states()</code> will be undefined if you haven't called <code>unmock.on()</code>.</p>
+</blockquote>
+<p>To modify the state for a service named <code>github</code>, you would then call methods on <code>states.github</code> as described below, allowing you to set specific response bodies for any HTTP method and path.</p>
+<h2><a class="anchor" aria-hidden="true" id="modifying-response-body"></a><a href="#modifying-response-body" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modifying response body</h2>
+<h3><a class="anchor" aria-hidden="true" id="json-response"></a><a href="#json-response" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSON response</h3>
+<p>To modify response bodies for content type <code>application/json</code> for a service named <code>github</code>, you may:</p>
+<ul>
+<li><p>Call <code>states.github</code> with the state you would like to return:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-comment">// Sets the `repository` field _anywhere_ in the response body to "unmock-js"</span>
+states.github({ <span class="hljs-attr">repository</span>: <span class="hljs-string">"unmock-js"</span> });
+</code></pre>
+<p>Unmock automatically finds out which endpoints and which HTTP methods this state change applies to and only applies the state change to those endpoints.</p></li>
+<li><p>Call <code>states.github</code> with the path for which you'd like to define a new state:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-comment">// Set the `name` field to "sparky" for the response to any HTTP operation at `/user`</span>
+states.github(<span class="hljs-string">"/user"</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">"sparky"</span> });
+</code></pre>
+<blockquote>
+<p>Tip:
+You can also use wildcards for single path item replacements:</p>
+<pre><code class="hljs css language-javascript">states.github(<span class="hljs-string">"/users/*"</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">"lucy"</span> });
+</code></pre>
+</blockquote></li>
+<li><p>Call <code>states.github</code> with a specific HTTP method within the service:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-comment">// Set the `name` field to "still sparky" for a GET request to `/user/sparky`</span>
+states.github.get(<span class="hljs-string">"/users/sparky"</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">"Still Sparky"</span> });
+</code></pre></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="text-response"></a><a href="#text-response" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Text response</h3>
+<p>If the service returns content type of <code>text/plain</code> and you want to set a specific text response, you can replace the object inputs above with plain strings:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-comment">// Sets the text response for any operation to any path to "Document not found"</span>
+states.petstore(<span class="hljs-string">"Document not found"</span>);
+
+<span class="hljs-comment">// Sets the text response for any operation to `/path` to "Document not found"</span>
+states.petstore(<span class="hljs-string">"/path"</span>, <span class="hljs-string">"Document not found"</span>);
+
+<span class="hljs-comment">// Sets the text response for `GET /path` to "Document not found"</span>
+states.petstore.get(<span class="hljs-string">"/path"</span>, <span class="hljs-string">"Document not found"</span>);
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="modifying-response-code"></a><a href="#modifying-response-code" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modifying response code</h2>
+<p>To make the service return a specific status code such as 404, use the <code>$code</code> variable in the state input:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-comment">// Sets the response code for any operation to any path to 404</span>
+states.petstore({ <span class="hljs-attr">$code</span>: <span class="hljs-number">404</span> });
+
+<span class="hljs-comment">// Return `{ message: "Not found" }` and code 404</span>
+states.petstore({ <span class="hljs-attr">message</span>: <span class="hljs-string">"Not found"</span>, <span class="hljs-attr">$code</span>: <span class="hljs-number">404</span> });
+
+<span class="hljs-comment">// Return text "Not found" and code 404</span>
+states.petstore({ <span class="hljs-attr">$code</span>: <span class="hljs-number">404</span> }).petstore(<span class="hljs-string">"Not Found"</span>);
+</code></pre>
+<p>You can use the same <code>states.petstore.get</code> and <code>states.petstore(&quot;/path&quot;)</code> constructs as above to set the state for specific operations and paths, respectively.</p>
+<h2><a class="anchor" aria-hidden="true" id="resetting-the-state"></a><a href="#resetting-the-state" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resetting the state</h2>
+<p>Reset a specific service state, or reset all the states:</p>
+<pre><code class="hljs css language-javascript">states.github.reset(); <span class="hljs-comment">// Reset the state for `github`</span>
+states.reset(); <span class="hljs-comment">// Reset the state for all services</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="fluent-api"></a><a href="#fluent-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fluent API</h2>
+<p><code>states</code> object exposes a fluent API so you can chain multiple calls to set multiple states:</p>
+<pre><code class="hljs css language-javascript">states
+  .github
+    .get(<span class="hljs-string">"/users/sparky"</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">"Still Sparky"</span> })
+    .get(<span class="hljs-string">"/users/lilo"</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">"Lilo"</span> })
+  .github
+    .post(...);
+</code></pre>
+<blockquote>
+<p>Warning: You cannot chain new calls after <code>reset()</code> with the fluent API.</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="merged-state"></a><a href="#merged-state" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Merged state</h2>
+<p>Once the states are set and a request is captured, it is matched against the service and the most specific state is being used to generate the response. For example, assume the following state is being set:</p>
+<pre><code class="hljs css language-javascript">states
+  .petstore({ <span class="hljs-attr">id</span>: <span class="hljs-number">-999</span> })
+  .petstore(<span class="hljs-string">"/pets/*"</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">"Finn"</span> })
+  .petstore(<span class="hljs-string">"/pets/1"</span>, { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> });
+</code></pre>
+<p>The following calls will generate the matching responses:</p>
+<pre><code class="hljs css language-javascript">fetch(<span class="hljs-string">`<span class="hljs-subst">${PETSTORE_URL}</span>/pets/1`</span>); <span class="hljs-comment">// -&gt; { id: 1, name: "Finn" }</span>
+fetch(<span class="hljs-string">`<span class="hljs-subst">${PETSTORE_URL}</span>/pets/3`</span>); <span class="hljs-comment">// -&gt; { id: -999, name: "Finn" }</span>
+fetch(<span class="hljs-string">`<span class="hljs-subst">${PETSTORE_URL}</span>/pets/513`</span>); <span class="hljs-comment">// -&gt; { id: -999, name: "Finn" }</span>
+fetch(<span class="hljs-string">`<span class="hljs-subst">${PETSTORE_URL}</span>/pets`</span>);
+<span class="hljs-comment">// -&gt; [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]</span>
+</code></pre>
+<p>More advanced state management with the Unmock DSL is the topic of the <a href="/state:advanced">next section</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/fetching"><span class="arrow-prev">← </span><span>Fetching services</span></a><a class="docs-next button" href="state:advanced"><span>Advanced DSL</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#setting-state-for-a-service">Setting state for a service</a></li><li><a href="#modifying-response-body">Modifying response body</a><ul class="toc-headings"><li><a href="#json-response">JSON response</a></li><li><a href="#text-response">Text response</a></li></ul></li><li><a href="#modifying-response-code">Modifying response code</a></li><li><a href="#resetting-the-state">Resetting the state</a></li><li><a href="#fluent-api">Fluent API</a></li><li><a href="#merged-state">Merged state</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/introduction">Introduction</a><a href="/hello">Hello World</a></div><div><h5>Community</h5><a href="https://spectrum.chat/unmock">Spectrum Chat</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
