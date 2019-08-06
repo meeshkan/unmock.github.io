@@ -81,7 +81,7 @@ This simple example contains everything we need to be up and running with Unmock
 
 ## Returning a specific value
 
-With Unmock, you no longer have to worry about mocking the response and/or overriding your code's default behaviour. However, we often want to check against our code against specific values. This is where the [state management](basic.md) for `unmock` kicks in. To complete our introduction, add the following to `hello.test.js`:
+With Unmock, you no longer have to worry about mocking the response and/or overriding your code's default behaviour. However, we often want to check against our code against specific values. This is where the [state management](state-basic.md) for `unmock` kicks in. To complete our introduction, add the following to `hello.test.js`:
 
 ```js
 // ...
@@ -98,4 +98,4 @@ test("setting a value for endpoint", async () => {
 ## Next steps
 
 1. Learn how to define [services](layout.md)
-1. Learn how to define [state](basic.md) for a service on per-test basis
+1. Learn how to define [state](state-basic.md) for a service on per-test basis
