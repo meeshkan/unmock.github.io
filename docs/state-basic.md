@@ -1,5 +1,5 @@
 ---
-id: state:basic
+id: setting-state
 title: Setting state
 sidebar_label: Setting state
 ---
@@ -16,7 +16,7 @@ const states = unmock.on();
 const states = unmock.states();
 ```
 
-> Beware: `unmock.states()` will be undefined if you haven't called `unmock.on()`.
+> Beware: `unmock.states()` will be undefined if you haven't called `unmock.on()`. In TypeScript, you can skip the `undefined` checks with `unmock.states()!...`
 
 To modify the state for a service named `github`, you would then call methods on `states.github` as described below, allowing you to set specific response bodies for any HTTP method and path.
 
@@ -70,6 +70,56 @@ states.petstore("/path", "Document not found");
 // Sets the text response for `GET /path` to "Document not found"
 states.petstore.get("/path", "Document not found");
 ```
+
+### Using a function as state
+
+Often you want to set the response body programmatically based on the intercepted request. This can be done by using a function as state input as follows:
+
+```javascript
+// Return the last element of the path as login field
+states.github.post("/users/*", req => ({ login: req.path.split("/").pop() }));
+```
+
+or in TypeScript with typing:
+
+```typescript
+import { Request } from "unmock-node";
+
+states.github.post("/users/*", (req: Request) => ({
+  login: req.path.split("/").pop(),
+}));
+```
+
+Note that the object returned from the function will be set as the _full_ response body.
+
+Request object contains the following fields:
+
+- `host`: request hostname, for example, `"api.github.com"`
+- `headers`: request headers
+- `body`: request body
+- `method`: request method, for example, `"GET"`
+- `protocol`: either `"http"` or `"https"`
+- `path`: request path
+
+> Note that path and query parameters are not automatically parsed in the `Request` object.
+
+> Tip: You can use the `Request` object to verify outgoing requests with the following pattern:
+>
+> ```javascript
+> // Define a mock used as request handler
+> const mockRequestHandler = jest.fn().mockImplementationOnce((req) => "Any response");
+> // Call the mock for intercepted requests
+> states.petstore((req) => mockRequestHandler(req));
+> // Run your code calling the service...
+> // Then run your asserts
+> expect(mockRequestHandler).toHaveBeenCalledWith({
+>   expect.objectContaining({
+>     body: "Expected body"  // Verify request body
+>     method: "GET",
+>   }),
+> });
+> ```
+
 
 ## Modifying response code
 

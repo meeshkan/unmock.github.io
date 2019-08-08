@@ -1,5 +1,5 @@
 ---
-id: state:advanced
+id: setting-state-dsl
 title: Advanced state management with DSL
 sidebar_label: Advanced DSL
 ---
@@ -42,7 +42,7 @@ states.petstore("/pets", { $size: 4 });
 // Generate 40 items for any request to api.github.com/search/repositories
 states.github("/search/repositories", {
   total_count: 40,
-  items: { $size: 40 }
+  items: { $size: 40 },
 });
 ```
 
