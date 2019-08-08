@@ -7,7 +7,7 @@
       "configuration"
     ],
     "Services": ["layout", "loas3", "fetching"],
-    "State": ["state:basic", "state:advanced"],
+    "State": ["setting-state", "setting-state-dsl"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
