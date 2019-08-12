@@ -56,7 +56,7 @@ Unmock works with all major test runners (mocha, jest, etc). Assuming you have j
 
 ```js
 // hello.test.js
-const unmock = require("unmock-node");
+const unmock = require("unmock-node").default;
 const axios = require("axios");
 
 beforeAll(() => {

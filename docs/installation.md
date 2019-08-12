@@ -23,8 +23,8 @@ $ npm i -D unmock-node
 To activate Unmock and start intercepting internet traffic, call `unmock.on()`. Deactivating Unmock is similarly easy - `unmock.off()`.
 
 ```javascript
-// import unmock from "unmock-node";  // For ES6 modules
-const unmock = require("unmock-node");
+// import unmock from "unmock-node";  // ES6
+const unmock = require("unmock-node").default; // CommonJS
 
 beforeAll(() => unmock.on()); // Activate unmock to intercept all outgoing traffic
 // Test your code...

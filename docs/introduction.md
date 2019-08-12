@@ -12,13 +12,14 @@ Inspired by libraries like [`nock`](https://github.com/nock/nock) and [`hoverfly
 
 ```javascript
 // user.test.js
-const unmock = require("unmock-node");
+import unmock from "unmock-node"; // ES6
+// const unmock = require("unmock-node").default;  // CommonJS
 
 // Activate unmock to intercept all outgoing traffic
 const states = unmock.on();
 
 test("returns correct response", async () => {
-  states.github({ id: 1 }); // Modify service state, return "id" 1
+  states.github({ id: 1 }); // Modify `github` service to return "id" 1
   const fetchResult = await fetch("https://api.github.com/user"); // Fetch data
   expect(fetchResult.json().id).toBe(1);
 });
