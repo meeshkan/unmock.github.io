@@ -8,6 +8,7 @@
     ],
     "Services": ["layout", "loas3", "fetching"],
     "State": ["setting-state", "setting-state-dsl"],
+    "Expectations": ["matchers"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
