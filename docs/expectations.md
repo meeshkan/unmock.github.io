@@ -4,19 +4,19 @@ title: Using spies
 sidebar_label: Using spies
 ---
 
-In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the returned (fake) responses, allowing you to
+In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses, allowing you to
 
-1. **assert outgoing requests** were correct:
+1. **assert outgoing requests** are correct:
 
    ```js
    // Using SinonJS assertions
    assert.calledOnceWith(github.spy, expectedRequest);
 
    // Using unmock-expect
-   expect(github).toBeCalledOnceWith(expectedRequest);
+   expect(github).calledOnceWith(expectedRequest);
    ```
 
-1. **assert your code handled responses** correctly:
+1. **assert your code handles responses** correctly:
    ```js
    // Get the return value of the first call to GitHub
    const response: UnmockResponse = github.spy.firstCall.returnValue;
@@ -58,15 +58,15 @@ To use SinonJS asserts, import `assert` from `unmock-node`:
 import { assert } from "unmock-node";
 ```
 
-The full documentation for SinonJS assertions can be found [here](https://sinonjs.org/releases/v7.4.1/assertions/). Here are some example assertions:
+The full documentation for SinonJS assertions can be found [here](https://sinonjs.org/releases/v7.4.1/assertions/). Here are some examples:
 
-1. Verify `github` API was called twice:
+1. Verify GitHub API was called twice:
 
    ```js
    assert.calledTwice(githubSpy);
    ```
 
-1. Verify `github` was called once with the exact expected request:
+1. Verify GitHub was called once with the exact expected request:
 
    ```js
    const expectedRequest = {
@@ -105,9 +105,9 @@ The full documentation for SinonJS assertions can be found [here](https://sinonj
 
 ### Spy calls 101
 
-As noted above, a service spy is essentially a list of request-response pairs. Each member of the list is a **spy call**, representing a single call to a service. Accessing individual calls helps with more detailed behavior verification when the spy is called more than once and also lets you access the response returned by an Unmock service.
+As noted above, a service spy is essentially a wrapper around a list of request-response pairs. Each member of the list is a **spy call**, representing a single call to a service. Accessing individual calls helps with more detailed behavior verification when the spy is called more than once and also lets you access the response returned by an Unmock service.
 
-You can access individual calls via the [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/) as follows:
+You can access individual calls via the [spy API](https://sinonjs.org/releases/v7.4.1/spies/) as follows:
 
 ```js
 const firstCall = githubSpy.firstCall; // First call
@@ -115,16 +115,16 @@ const lastCall = githubSpy.lastCall; // Last call
 const sixthCall = githubSpy.getCall(6); // Sixth call
 ```
 
-A single spy call consists of the arguments of the call and the associated return value. Arguments are accessed via `args` property and is a list of length one with `UnmockRequest` object as the only value:
+A single spy call consists of the arguments of the call and the associated return value. Arguments are accessed via `args` property. It is a list of length one with `UnmockRequest` object as the only value:
 
 ```js
 // Access the request of the first call
 const firstCallRequest = firstCall.args[0]; // UnmockRequest object
-const firstCallRequestAlt = firstCall.lastArg; // Same as above
+const firstCallRequestAlt = firstCall.lastArg; // Same as above, list has one value
 const firstCallRequestMethod = firstCallRequest.method; // "get", "post", "put", etc.
 ```
 
-The return value is an `UnmockResponse` object accessed via the `returnValue` property:
+The return value in a spy call is an `UnmockResponse` object and it is accessed via the `returnValue` property:
 
 ```js
 // Access the response of the first call
