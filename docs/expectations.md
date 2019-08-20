@@ -55,7 +55,7 @@ While it is possible use boolean properties such as `githubSpy.calledOnce` for a
 To use SinonJS asserts, import `assert` from `unmock-node`:
 
 ```js
-import { assert } from "unmock-node";
+import { sinon: { assert } } from "unmock-node";
 ```
 
 The full documentation for SinonJS assertions can be found [here](https://sinonjs.org/releases/v7.4.1/assertions/). Here are some examples:
@@ -145,7 +145,7 @@ Similarly as for spies, it is not recommended to boolean properties for assertio
 First import SinonJS `assert`:
 
 ```js
-import { assert } from "unmock-node";
+import { sinon: { assert } } from "unmock-node";
 ```
 
 Here are some examples of asserts on single calls:
