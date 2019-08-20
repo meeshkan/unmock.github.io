@@ -83,8 +83,11 @@ states.github.post("/users", (request, response) => {
     return response;
 });
 
+// When
+await myActions();
+
 // Verify expects were done
-// states.verifyDone();
+states.verifyDone();
 
 ```
 
@@ -95,29 +98,47 @@ states.github.post("/users", (request, response) => {
 // https://sinonjs.org/releases/v7.4.1/spies/
 assert(spy.calledWith(sinon.match({ author: "cjno" })));
 
-// Service is a "SinonJS spy"
-assert(github.calledOnceWith({ body: someBody, path: "/v1" }));
+// Service exposes a "SinonJS spy"
+assert(github.spy.calledOnceWith({ body: someBody, path: "/v1" }));
 
 // Add custom expects for wrapping spy behaviour
 expect(github).calledOnceWith({ body: "cjno", path: "/v1" });
 expect(github).calledTimes(3);
 
-// Accessing calls
-const { request, response } = github.firstCall;
+// Accessing calls via the spy
+const { lastArg: request, returnValue: response } = github.firstCall;
 // With `getCall`:
 const { request, response } = github.getCall(2);
-// Matchers for easy working with requests and responses
-expect(request).toEqual(unmock.match({ body: "Hello" }));
 
-// Do we need `unmock.match`?
+// Custom matchers for easy working with requests and responses
+// unmock.matchers.path, unmock.matchers.method, unmock.matchers.body?
+// Compose with `.and`
+// Create with `sinon.match(fn)`?
+expect(request).toEqual(unmock.matchers.path("/v1/pets"));
+expect(request).toEqual(unmock.matchers.method("GET"));
+expect(request).toEqual(unmock.matchers.body("Hello"));
+expect(request).toEqual(
+  unmock.matchers.match({ body: "Hello", method: "GET" })
+);
+expect(request).toEqual(
+  unmock.matchers.method("get").and(unmock.matchers.body("Hello"))
+);
+
+// Without matchers, one could use `expect.objectContaining` for similar assertions
 expect(github).calledWith(
   expect.objectContaining({ body: "cjno", path: "/v1" })
 );
 
 // Access given paths or e.g. method by using a filter returning a "subset spy"?
-expect(github.path("/users")).calledOnce();
-expect(github.method("GET")).calledOnce();
-expect(github.with({ path: "/users", method: "GET" })).calledOnce();
+expect(github)
+  .path("/v3/users")
+  .calledOnce();
+expect(github)
+  .method("GET")
+  .calledOnce();
+expect(github)
+  .with({ path: "/users", method: "GET" })
+  .calledOnce();
 ```
 
 #### With unmock 4: Go fully custom ([REST-assured](http://rest-assured.io/))
