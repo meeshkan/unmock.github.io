@@ -50,7 +50,9 @@ expect(response).toEqual(expectedRequestBody));
 
 Of course, this feels like unnecessary trickery.
 
-#### With unmock 1: Maintain list of calls, very similar to yesno
+### How could unmock help
+
+#### Alternative 1: Maintain list of calls, very similar to yesno
 
 ```js
 const requestResponsePairs = github.calls;
@@ -73,7 +75,7 @@ expect(request.method).toEqual("GET");
 expect(request).body.toEqual(...)
 ```
 
-#### With unmock 2: Abuse states
+#### Alternative 2: Abuse states
 
 ```js
 
@@ -91,7 +93,7 @@ states.verifyDone();
 
 ```
 
-#### With unmock 3: Adopt a [SinonJS](https://sinonjs.org/releases/v7.4.1/)-like spy API
+#### Alternative 3: Adopt a [SinonJS](https://sinonjs.org/releases/v7.4.1/)-like spy API
 
 ```js
 // SinonJS spy syntax:
@@ -141,7 +143,9 @@ expect(github)
   .calledOnce();
 ```
 
-#### With unmock 4: Go fully custom ([REST-assured](http://rest-assured.io/))
+#### Alternative 4: Go fully custom ([REST-assured](http://rest-assured.io/))
+
+Something esoteric like...
 
 ```js
 
@@ -161,26 +165,18 @@ given(states.github({ $code: 500 }))
 ## Testing the handling of incoming responses
 
 ```js
-expect(github).toHaveReceivedRequest({
-  path: "/",
-  method: "GET",
-  query: { user: "Meeshkan" },
-});
-expect(github)
-  .toHaveReceivedRequest()
-  .withMethod("GET");
 
-expect(github.calls).toHaveLength(1);
+const { returnValue: response } = github.spy.firstCall;
+// Filtering via helper methods?
+const { returnValue: response } = github.spy.oneWithArgs(...)
 
-// Verifies also request by sufficient filtering?
-const response = github.calls({ path: "/" });
-expect(response).toHaveMethod("GET");
-expect(response).toHaveBody("...");
+// Asserting responses like this does not make much sense:
+// expect(response).toHaveStatus(200);
+// expect(response).toHaveBody("...");
 
-// Is this a bad idea, breaks fluent API?
-const response = expect(github).calledWith(
-  unmock.match({ body: "cjno", path: "/v1" })
-);
+// Instead, you should verify that the return value from **your code** conforms to the response
+const apiResponse = await myAction();
+expect(apiResponse).toEqual(response.body);
 ```
 
 ### Notes
