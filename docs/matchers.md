@@ -183,10 +183,9 @@ expect(apiResponse).toEqual(response.body);
 
 - [REST assured](https://techbeacon.com/app-dev-testing/how-perform-api-testing-rest-assured)
 - [Mocks vs. stubs vs. spies](https://github.com/goldbergyoni/javascript-testing-best-practices#-%EF%B8%8F-%EF%B8%8F15-choose-the-right-test-doubles-avoid-mocks-in-favor-of-stubs-and-spies)
-- [Use realistic fake data](https://github.com/goldbergyoni/javascript-testing-best-practices#-%EF%B8%8F16-dont-foo-use-realistic-input-dataing)
+- ["Use realistic fake data"](https://github.com/goldbergyoni/javascript-testing-best-practices#-%EF%B8%8F16-dont-foo-use-realistic-input-dataing)
 - Are services spies, stubs, or mocks?
-  - For mocks, how to define expectations on "methods" called?
+  - For mocks, one would define expectations on "methods" called. They should also have predefined return values, which does not seem to be their territory but belong to states.
   - For stubs, how to verify correct requests were made?
-- Read about [SinonJS](https://sinonjs.org/releases/v7.4.1/) and how it's used for API testing (especially the [spy](https://sinonjs.org/releases/v7.4.1/spies/) API)
-- What if services were SinonJS spy objects called with requests
-- Logic should be in the test.
+  - => Spies seem like the correct answer. Service operates as a stub delivering fake data and has a spy watching these operations.
+- "Logic should be in the test."
