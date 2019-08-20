@@ -172,3 +172,4 @@ const response = expect(github).calledWith(
   - For stubs, how to verify correct requests were made?
 - Read about [SinonJS](https://sinonjs.org/releases/v7.4.1/) and how it's used for API testing (especially the [spy](https://sinonjs.org/releases/v7.4.1/spies/) API)
 - What if services were SinonJS spy objects called with requests
+- Logic should be in the test.
