@@ -8,17 +8,22 @@ Once activated, Unmock will mock services according to their specifications. The
 
 ## Setting state for a service
 
-Sometimes, you need to refine Unmock's default behavior on a test-by-test basis. To do this, you can use the _states_ object returned from `unmock.on()` or `unmock.states()`:
+Sometimes, you need to refine Unmock's default behavior on a test-by-test basis. To do this, you can use the _state_ object accessible via a service:
 
 ```javascript
-const states = unmock.on();
-// or
-const states = unmock.states();
+// Access services via unmock.services:
+import unmock, { services } from "unmock-node";
+
+// Or via unmock.on():
+const { services } = unmock.on();
+
+// Get a service:
+const github = services.github;
 ```
 
-> Beware: `unmock.states()` will be undefined if you haven't called `unmock.on()`. In TypeScript, you can skip the `undefined` checks with `unmock.states()!...`
+> Beware: `unmock.services` will be empty if you haven't called `unmock.on()`.
 
-To modify the state for a service named `github`, you would then call methods on `states.github` as described below, allowing you to set specific response bodies for any HTTP method and path.
+To modify the state for a service named `github`, you would then call methods on `github.state` as described below, allowing you to set specific response bodies for any HTTP method and path.
 
 ## Modifying response body
 
@@ -26,34 +31,34 @@ To modify the state for a service named `github`, you would then call methods on
 
 To modify response bodies for content type `application/json` for a service named `github`, you may:
 
-- Call `states.github` with the state you would like to return:
+- Call `github.state` with the state you would like to return:
 
   ```javascript
   // Sets the `repository` field _anywhere_ in the response body to "unmock-js"
-  states.github({ repository: "unmock-js" });
+  github.state({ repository: "unmock-js" });
   ```
 
   Unmock automatically finds out which endpoints and which HTTP methods this state change applies to and only applies the state change to those endpoints.
 
-- Call `states.github` with the path for which you'd like to define a new state:
+- Call `github.state` with the path for which you'd like to define a new state:
 
   ```javascript
   // Set the `name` field to "sparky" for the response to any HTTP operation at `/user`
-  states.github("/user", { name: "sparky" });
+  github.state("/user", { name: "sparky" });
   ```
 
   > Tip:
   > You can also use wildcards for single path item replacements:
   >
   > ```javascript
-  > states.github("/users/*", { name: "lucy" });
+  > github.state("/users/*", { name: "lucy" });
   > ```
 
-- Call `states.github` with a specific HTTP method within the service:
+- Call `github.state` with a specific HTTP method within the service:
 
   ```javascript
   // Set the `name` field to "still sparky" for a GET request to `/user/sparky`
-  states.github.get("/users/sparky", { name: "Still Sparky" });
+  github.state.get("/users/sparky", { name: "Still Sparky" });
   ```
 
 ### Text response
@@ -61,14 +66,16 @@ To modify response bodies for content type `application/json` for a service name
 If the service returns content type of `text/plain` and you want to set a specific text response, you can replace the object inputs above with plain strings:
 
 ```javascript
+const petstore = unmock.services.petstore;
+
 // Sets the text response for any operation to any path to "Document not found"
-states.petstore("Document not found");
+petstore.state("Document not found");
 
 // Sets the text response for any operation to `/path` to "Document not found"
-states.petstore("/path", "Document not found");
+petstore.state("/path", "Document not found");
 
 // Sets the text response for `GET /path` to "Document not found"
-states.petstore.get("/path", "Document not found");
+petstore.state.get("/path", "Document not found");
 ```
 
 ### Using a function as state
@@ -77,15 +84,15 @@ Often you want to set the response body programmatically based on the intercepte
 
 ```javascript
 // Return the last element of the path as login field
-states.github.post("/users/*", req => ({ login: req.path.split("/").pop() }));
+github.state.post("/users/*", req => ({ login: req.path.split("/").pop() }));
 ```
 
 or in TypeScript with typing:
 
 ```typescript
-import { Request } from "unmock-node";
+import { UnmockRequest } from "unmock-node";
 
-states.github.post("/users/*", (req: Request) => ({
+states.github.post("/users/*", (req: UnmockRequest) => ({
   login: req.path.split("/").pop(),
 }));
 ```
@@ -101,15 +108,15 @@ Request object contains the following fields:
 - `protocol`: either `"http"` or `"https"`
 - `path`: request path
 
-> Note that path and query parameters are not automatically parsed in the `Request` object.
+> Note that path and query parameters are not automatically parsed in the `UnmockRequest` object.
 
-> Tip: You can use the `Request` object to verify outgoing requests with the following pattern:
+> Tip: You can use the `UnmockRequest` object to verify outgoing requests with the following pattern:
 >
 > ```javascript
 > // Define a mock used as request handler
 > const mockRequestHandler = jest.fn().mockImplementationOnce((req) => "Any response");
 > // Call the mock for intercepted requests
-> states.petstore((req) => mockRequestHandler(req));
+> petstore.state((req) => mockRequestHandler(req));
 > // Run your code calling the service...
 > // Then run your asserts
 > expect(mockRequestHandler).toHaveBeenCalledWith({
@@ -120,44 +127,39 @@ Request object contains the following fields:
 > });
 > ```
 
-
 ## Modifying response code
 
 To make the service return a specific status code such as 404, use the `$code` variable in the state input:
 
 ```javascript
+const petstore = unmock.services.petstore;
+
 // Sets the response code for any operation to any path to 404
-states.petstore({ $code: 404 });
+petstore.state({ $code: 404 });
 
 // Return `{ message: "Not found" }` and code 404
-states.petstore({ message: "Not found", $code: 404 });
-
-// Return text "Not found" and code 404
-states.petstore({ $code: 404 }).petstore("Not Found");
+petstore.state({ message: "Not found", $code: 404 });
 ```
 
-You can use the same `states.petstore.get` and `states.petstore("/path")` constructs as above to set the state for specific operations and paths, respectively.
+You can use the same `petstore.state.get` and `petstore.state("/path")` constructs as above to set the state for specific operations and paths, respectively.
 
 ## Resetting the state
 
 Reset a specific service state, or reset all the states:
 
 ```javascript
-states.github.reset(); // Reset the state for `github`
-states.reset(); // Reset the state for all services
+github.state.reset(); // Reset the state for `github`
+services.reset(); // Reset the state for all services
 ```
 
 ## Fluent API
 
-`states` object exposes a fluent API so you can chain multiple calls to set multiple states:
+`state` object exposes a fluent API so you can chain multiple calls to set multiple states:
 
 ```javascript
-states
-  .github
-    .get("/users/sparky", { name: "Still Sparky" })
-    .get("/users/lilo", { name: "Lilo" })
-  .github
-    .post(...);
+github.state
+  .get("/users/sparky", { name: "Still Sparky" })
+  .get("/users/lilo", { name: "Lilo" });
 ```
 
 > Warning: You cannot chain new calls after `reset()` with the fluent API.
