@@ -4,9 +4,35 @@ title: Introduction
 sidebar_label: Introduction
 ---
 
-Unmock is a JavaScript testing library that allows you to write comprehensive tests for third-party API integrations.
+Unmock is a JavaScript library for API integration testing. It helps programmers focus more on documenting the business logic of their integrations and less on reverse engineering the logic behind these integrations.
 
-Inspired by libraries like [`nock`](https://github.com/nock/nock) and [`hoverfly`](https://github.com/spectolabs/hoverfly), Unmock aims to simplify the integration testing process by creating a small, isolated, ephemeral stack for every test that makes a network call. This stack represents the world outside your test, and is Just Good Enough™ to reliably mock that world so that your tests pass when they should and, more importantly, fail when they should.
+Below is an example of the type of test you will never write again once you start using unmock.
+
+```ts
+import testlib from "some-integration-test-library";
+
+const USER = {id: 3521, name: "Amy Smith", zodiac: "Libra" }
+beforeEach(() => {
+  testlib
+    .get("https://example.com/user/3521")
+    .code(200)
+    .return(USER);
+});
+
+test("my user function returns a user", async () => {
+  const user = await userFunction(3521);
+  expect(user).toEqual(USER);
+});
+```
+
+The issue with tests like the one above is that they are confirming how a reversed-engineered API behaves without documenting why an integration exists or what needs to happen as part of that integration. Unmock fixes this by focusing on four essential questions:
+
+1. Does my code correctly transform the input and output of network calls?
+2. Does my code account for all the ways an external API may behave?
+3. Does my code trigger the correct side effects (ie calls to analytics libraries, loggers, etc)?
+4. Do my tests function as a spec that will help future maintainers understand the code's intent?
+
+This documentation covers these four questions in four separate sections. But first, below, it rolls them all into one sucinct example.
 
 ## How it works
 
@@ -25,15 +51,7 @@ test("returns correct response", async () => {
 });
 ```
 
-Get started with unmock in the full [Hello World example](hello.md).
-
-## Motivation
-
-Services are the glue connecting modern applications: for example, the GitHub API is a service. Every service has a specification describing how the service behaves, be either written documentation, [OpenAPI](https://www.openapis.org/), [RAML](https://raml.org/), or something else. The specification for a service is _reusable_ across applications.
-
-Still, when testing how our applications integrate with external services, we rarely use the specifications directly. Instead, we write adhoc rules for how the services should behave. Writing such rules is error-prone, time-consuming, and hard to maintain.
-
-This is what unmock wants to fix. Testing the integration with external services should start from the _service specification_. Setting the service _state_ should happen programmatically before every test. The state should be _consistent_ with the service specification.
+If the snippet above is our "Hello World", we also provide a set of slightly more robust [examples](examples.md) that can get you started depending on your need and use case.
 
 ## Next steps
 

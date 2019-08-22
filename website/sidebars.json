@@ -6,8 +6,17 @@
       "installation",
       "configuration"
     ],
-    "Services": ["layout", "loas3", "fetching"],
-    "State": ["setting-state", "setting-state-dsl"],
+    "Core concepts": [
+      "services",
+      "states",
+      "stacks"
+    ],
+    "Simulation": ["nock", "openapi", "unmock", "AI"],
+    "Transformation": ["layout", "loas3", "fetching"],
+    "Behavior": ["property"],
+    "Side Effects": ["assertions"],
+    "Specs": ["specs"],
+    "Examples": ["examples"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
