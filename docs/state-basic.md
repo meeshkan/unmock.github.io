@@ -8,7 +8,7 @@ Once activated, Unmock will mock services according to their specifications. The
 
 ## Setting state for a service
 
-Sometimes, you need to refine Unmock's default behavior on a test-by-test basis. To do this, you can use the _state_ object accessible via a service:
+Sometimes, you need to refine Unmock's default behavior on a test-by-test basis. To do this, you can use the _state_ property of a service:
 
 ```javascript
 // Access services via unmock.services:
@@ -17,13 +17,13 @@ import unmock, { services } from "unmock-node";
 // Or via unmock.on():
 const { services } = unmock.on();
 
-// Get a service:
+// Get a service having `state` property.
 const github = services.github;
 ```
 
-> Beware: `unmock.services` will be empty if you haven't called `unmock.on()`.
+> Beware: `unmock.services` will not contain any services if you haven't called `unmock.on()` or defined any services.
 
-To modify the state for a service named `github`, you would then call methods on `github.state` as described below, allowing you to set specific response bodies for any HTTP method and path.
+To modify the state for a service named `github`, you call methods on `github.state` as described below, allowing you to set specific response bodies for any HTTP method and path.
 
 ## Modifying response body
 
@@ -169,10 +169,9 @@ github.state
 Once the states are set and a request is captured, it is matched against the service and the most specific state is being used to generate the response. For example, assume the following state is being set:
 
 ```javascript
-states
-  .petstore({ id: -999 })
-  .petstore("/pets/*", { name: "Finn" })
-  .petstore("/pets/1", { id: 1 });
+petstore.state({ id: -999 });
+petstore.state("/pets/*", { name: "Finn" });
+petstore.state("/pets/1", { id: 1 });
 ```
 
 The following calls will generate the matching responses:
