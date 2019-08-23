@@ -15,15 +15,11 @@
 @media only screen and (min-width: 1500px) {
 }
 
-.button.hero {
+.buttonWrapper .button {
   /*
   background: $primaryColor;
     color: #fff;*/
   font-size: 30px;
   padding: 0.5em 1.25em;
   font-weight: bold;
-}
-
-.projectTitle {
-  background: #aaa;
 }
