@@ -24,8 +24,8 @@ test("user from backend is correct as UI object", async () => {
     const user = await userAsUIObject(id);
     stack(expect).getOnce("https://www.example.com/api/users/");
     const { body } = myapi.response;
-    stack(expect)(user).toExtend(myapi.body()); /* 1 below */
-    stack(expect).postOnce("https://www.analytics.com", { id: body.id }); /* 3 below */
+    stack(expect)(user).toExtend(body)); /* 1 below */
+    stack(expect).postOnce("https://log.io", { id }); /* 3 below */
     stack(expect)(user.welcomeMessage).toBe(`Hello ${user.name}!`)
   });
 });
@@ -43,6 +43,6 @@ You'll also learn about Unmock's different methods for defining external APIs (l
 
 ## Next steps
 
-1. Discover the core concepts behind unmock [Hello World example](hello.md)
-1. [Install](installation.md) unmock
-1. Learn about [services](layout.md)
+1. [Install](installation.md) unmock.
+1. Define a [service](unmock.md).
+1. Write a [test](expectations.md).

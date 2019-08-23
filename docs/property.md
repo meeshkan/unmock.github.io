@@ -1,6 +1,6 @@
 ---
 id: property
-title: Property Testing
-sidebar_label: Property Testing
+title: Properties
+sidebar_label: Properties
 ---
-Some stuff about property testing in unmock.
+*About property testing in unmock.*

@@ -5,16 +5,10 @@
       "installation",
       "configuration"
     ],
-    "Core concepts": [
-      "services",
-      "states",
-      "stacks"
-    ],
-    "Simulation": ["unmock", "openapi", "nock"],
-    "Transformation": ["layout"],
-    "Behavior": ["property"],
-    "Side Effects": ["assertions"],
-    "Examples": ["examples"],
+    "Simulations": ["unmock", "openapi", "nock"],
+    "Expectations": ["expectations"],
+    "Properties": ["properties"],
+    "Side Effects": ["side-effects"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
