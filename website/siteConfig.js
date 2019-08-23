@@ -83,6 +83,9 @@ const siteConfig = {
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
+
+  // Google Analytics tracking ID to track page views.
+  gaTrackingId: process.env.GA_TRACKING_ID,
 };
 
 module.exports = siteConfig;
