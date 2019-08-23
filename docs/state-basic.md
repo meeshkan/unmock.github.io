@@ -145,11 +145,11 @@ You can use the same `petstore.state.get` and `petstore.state("/path")` construc
 
 ## Resetting the state
 
-Reset a specific service state, or reset all the states:
+Reset a specific service state or the whole service:
 
 ```javascript
 github.state.reset(); // Reset the state for `github`
-services.reset(); // Reset the state for all services
+github.reset(); // Reset the service, including state
 ```
 
 ## Fluent API
