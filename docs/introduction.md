@@ -4,57 +4,45 @@ title: Introduction
 sidebar_label: Introduction
 ---
 
-Unmock is a JavaScript library for API integration testing. It helps programmers focus more on documenting the business logic of their integrations and less on reverse engineering the logic behind these integrations.
-
-Below is an example of the type of test you will never write again once you start using unmock.
-
-```ts
-import testlib from "some-integration-test-library";
-
-const USER = {id: 3521, name: "Amy Smith", zodiac: "Libra" }
-beforeEach(() => {
-  testlib
-    .get("https://example.com/user/3521")
-    .code(200)
-    .return(USER);
-});
-
-test("my user function returns a user", async () => {
-  const user = await userFunction(3521);
-  expect(user).toEqual(USER);
-});
-```
-
-The issue with tests like the one above is that they are confirming how a reversed-engineered API behaves without documenting why an integration exists or what needs to happen as part of that integration. Unmock fixes this by focusing on four essential questions:
-
-1. Does my code correctly transform the input and output of network calls?
-2. Does my code account for all the ways an external API may behave?
-3. Does my code trigger the correct side effects (ie calls to analytics libraries, loggers, etc)?
-4. Do my tests function as a spec that will help future maintainers understand the code's intent?
-
-This documentation covers these four questions in four separate sections. But first, below, it rolls them all into one sucinct example.
-
-## How it works
+Unmock is a JavaScript library for API integration testing. Here's an example of how it works.
 
 ```javascript
-// user.test.js
-import unmock from "unmock-node"; // ES6
-// const unmock = require("unmock-node").default;  // CommonJS
+import unmock, { compose, u } from "unmock";
 
-// Activate unmock to intercept all outgoing traffic
-const states = unmock.on();
+unmock("https://www.myapi.com/users/{id}")
+  .serve({
+    id: u._`id`, // uses `id` from the path
+    name: u`name`, // generates a fake name
+    age: u.$`age`, // optionally generates a fake age
+    type: 'user', // the literal word "user"
+  });
 
-test("returns correct response", async () => {
-  states.github({ id: 1 }); // Modify `github` service to return "id" 1
-  const fetchResult = await fetch("https://api.github.com/user"); // Fetch data
-  expect(fetchResult.json().id).toBe(1);
+test("user from backend is correct as UI object", async () => {
+  stack = unmock.on();
+  const { myapi } = stack;
+  compose(myapi.success(), [u.int], async (id) => { /* 2 below */
+    const user = await userAsUIObject(id);
+    stack(expect).getOnce("https://www.example.com/api/users/");
+    const { body } = myapi.response;
+    stack(expect)(user).toExtend(myapi.body()); /* 1 below */
+    stack(expect).postOnce("https://www.analytics.com", { id: body.id }); /* 3 below */
+    stack(expect)(user.welcomeMessage).toBe(`Hello ${user.name}!`)
+  });
 });
 ```
 
-If the snippet above is our "Hello World", we also provide a set of slightly more robust [examples](examples.md) that can get you started depending on your need and use case.
+Unmock focuses on three essential questions:
+
+1. Does my code correctly compose the input and transform the output of network calls?
+2. Does my code account for all the ways an external API or my network connection may behave?
+3. Does my code trigger the correct side effects (ie analytics, logging, etc)?
+
+This documentation covers these questions in three separate sections.
+
+You'll also learn about Unmock's different methods for defining external APIs (like Stripe or another microservice in your company) and the various test reports Unmock can produce.
 
 ## Next steps
 
-1. Get started with a [Hello World example](hello.md)
+1. Discover the core concepts behind unmock [Hello World example](hello.md)
 1. [Install](installation.md) unmock
 1. Learn about [services](layout.md)

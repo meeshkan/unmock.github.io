@@ -2,7 +2,6 @@
   "docs": {
     "Getting started": [
       "introduction",
-      "hello",
       "installation",
       "configuration"
     ],
@@ -11,11 +10,10 @@
       "states",
       "stacks"
     ],
-    "Simulation": ["nock", "openapi", "unmock", "AI"],
-    "Transformation": ["layout", "loas3", "fetching"],
+    "Simulation": ["unmock", "openapi", "nock"],
+    "Transformation": ["layout"],
     "Behavior": ["property"],
     "Side Effects": ["assertions"],
-    "Specs": ["specs"],
     "Examples": ["examples"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
