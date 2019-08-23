@@ -9,6 +9,6 @@
     "Expectations": ["expectations"],
     "Properties": ["properties"],
     "Side Effects": ["side-effects"],
-    "Roadmap": ["roadmap", "contributing", "about"]
+    "Contributing": ["contributing", "about"]
   }
 }
