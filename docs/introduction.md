@@ -16,10 +16,12 @@ import unmock from "unmock-node"; // ES6
 // const unmock = require("unmock-node").default;  // CommonJS
 
 // Activate unmock to intercept all outgoing traffic
-const states = unmock.on();
+const {
+  services: { github },
+} = unmock.on();
 
 test("returns correct response", async () => {
-  states.github({ id: 1 }); // Modify `github` service to return "id" 1
+  github.state({ id: 1 }); // Modify `github` service to return "id" 1
   const fetchResult = await fetch("https://api.github.com/user"); // Fetch data
   expect(fetchResult.json().id).toBe(1);
 });

@@ -16,9 +16,9 @@ The DSL element `$code` was introduced in the [previous section]("./state-basic.
 
 ```javascript
 // Returns a 500 error on requests to `/pets/5`
-states.petstore("/pets/5", { $code: 500 });
+petstore.state("/pets/5", { $code: 500 });
 // Make sure a 200 response for `/pets/2` and set the name property
-states.petstore("/pets/2", { $code: 200, name: "Ace" });
+petstore.state("/pets/2", { $code: 200, name: "Ace" });
 ```
 
 ## `$times`
@@ -29,7 +29,7 @@ With `$times`, you can specify for how many requests the state is valid. Once a 
 ```javascript
 // Returns "Ace" for the first two requests to pets/*.
 // Then generate a random name as usual.
-states.petstore("/pets/*", { $times: 2, name: "Ace" });
+petstore.state("/pets/*", { $times: 2, name: "Ace" });
 ```
 
 ## `$size`
@@ -38,9 +38,9 @@ For array type objects, one can control how many items are returned with the `$s
 
 ```javascript
 // Return 4 pets. We can specify it at top level as the content returned is an array.
-states.petstore("/pets", { $size: 4 });
+petstore.state("/pets", { $size: 4 });
 // Generate 40 items for any request to api.github.com/search/repositories
-states.github("/search/repositories", {
+github.state("/search/repositories", {
   total_count: 40,
   items: { $size: 40 },
 });
@@ -67,6 +67,6 @@ The text middleware accepts a string input, and optional object for top-level DS
 ```javascript
 // import { dsl: textResponse } from "unmock-node";  // ES6
 const { dsl: textResponse } = require();
-states.petstore(textResponse("foo")); // Same as `states.petstore("foo")
-states.petstore("/pets/*", textResponse("bar", { $code: 200 })); // Same as `states.petstore("/pets/*", { $code: 200 }).petstore("/pets/*", "bar");
+petstore.state(textResponse("foo")); // Same as `states.petstore("foo")
+petstore.state("/pets/*", textResponse("bar", { $code: 200 })); // Same as `states.petstore("/pets/*", { $code: 200 }).petstore("/pets/*", "bar");
 ```
