@@ -16,9 +16,14 @@
 }
 
 .button.hero {
-    /*background: $primaryColor;
+  /*
+  background: $primaryColor;
     color: #fff;*/
-    font-size: 30px;
-    padding: .5em 1.25em;
-    font-weight: bold;
-  }
+  font-size: 30px;
+  padding: 0.5em 1.25em;
+  font-weight: bold;
+}
+
+.projectTitle {
+  background: #aaa;
+}
