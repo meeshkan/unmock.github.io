@@ -13,19 +13,14 @@ const users = [];
 
 const siteConfig = {
   title: "Unmock", // Title for your website.
-  tagline: "Make mocking fun again",
-  url: "https://unmock.github.io", // Your website URL
-<<<<<<< HEAD
+  tagline: "We fake it while you make it.",
+  url: "https://www.unmock.io", // Your website URL
   cname: "www.unmock.io",
-  baseUrl: "/", // Base URL for your project
-  docsUrl: "", // Defaults to `docs`
-=======
   baseUrl: "/", // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
 
->>>>>>> parent of ae0beee... Use docs as the landing page (#1)
   // Used for publishing and more
   projectName: "unmock.github.io",
   organizationName: "unmock",
