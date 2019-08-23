@@ -15,12 +15,23 @@ const siteConfig = {
   title: "Unmock", // Title for your website.
   tagline: "Make mocking fun again",
   url: "https://unmock.github.io", // Your website URL
+<<<<<<< HEAD
   cname: "www.unmock.io",
   baseUrl: "/", // Base URL for your project
   docsUrl: "", // Defaults to `docs`
+=======
+  baseUrl: "/", // Base URL for your project */
+  // For github.io type URLs, you would set the url and baseUrl like:
+  //   url: 'https://facebook.github.io',
+  //   baseUrl: '/test-site/',
+
+>>>>>>> parent of ae0beee... Use docs as the landing page (#1)
   // Used for publishing and more
   projectName: "unmock.github.io",
   organizationName: "unmock",
+  // For top-level user or org sites, the organization is still the same.
+  // e.g., for the https://JoelMarcey.github.io site, it would be set like...
+  //   organizationName: 'JoelMarcey'
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [

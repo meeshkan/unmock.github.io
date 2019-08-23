@@ -4,7 +4,16 @@ title: Introduction
 sidebar_label: Introduction
 ---
 
-Unmock is a JavaScript library for API integration testing. Here's an example of how it works.
+Unmock is a JavaScript library for API integration testing.
+
+
+Unmock focuses on three essential questions:
+
+1. Does my code correctly compose the input and transform the output of network calls?
+2. Does my code account for all the ways an external API or my network connection may behave?
+3. Does my code trigger the correct passthrough integrations, like analytics, logging, etc?
+
+Here's an example of how it works.
 
 ```javascript
 import unmock, { compose, u } from "unmock";
@@ -30,12 +39,6 @@ test("user from backend is correct as UI object", async () => {
   });
 });
 ```
-
-Unmock focuses on three essential questions:
-
-1. Does my code correctly compose the input and transform the output of network calls?
-2. Does my code account for all the ways an external API or my network connection may behave?
-3. Does my code trigger the correct side effects (ie analytics, logging, etc)?
 
 This documentation covers these questions in three separate sections.
 
