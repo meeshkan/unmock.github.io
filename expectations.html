@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Using spies · Unmock</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses. Using spies, you can"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Using spies · Unmock"/><meta property="og:type" content="website"/><meta property="og:url" content="https://unmock.github.io/"/><meta property="og:description" content="In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses. Using spies, you can"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/logo-purple.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-107981669-5', 'auto');
+              ga('send', 'pageview');
+            </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo-white.svg" alt="Unmock"/><h2 class="headerTitleWithLogo">Unmock</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/unmock/unmock-js" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Expectations</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting started</h3><ul class=""><li class="navListItem"><a class="navItem" href="/introduction">Introduction</a></li><li class="navListItem"><a class="navItem" href="/hello">Hello World</a></li><li class="navListItem"><a class="navItem" href="/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/configuration">Configuration</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Services</h3><ul class=""><li class="navListItem"><a class="navItem" href="/layout">Service layout</a></li><li class="navListItem"><a class="navItem" href="/loas3">Lazy OpenAPI</a></li><li class="navListItem"><a class="navItem" href="/fetching">Fetching services</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">State</h3><ul class=""><li class="navListItem"><a class="navItem" href="/setting-state">Setting state</a></li><li class="navListItem"><a class="navItem" href="/setting-state-dsl">Advanced DSL</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Expectations</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/expectations">Using spies</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Roadmap</h3><ul class=""><li class="navListItem"><a class="navItem" href="/roadmap">Where we&#x27;re going</a></li><li class="navListItem"><a class="navItem" href="/contributing">Contributing</a></li><li class="navListItem"><a class="navItem" href="/about">About us</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/expectations.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Using spies</h1></header><article><div><span><p>In Unmock, every service has a <code>spy</code> property that is a <a href="https://sinonjs.org/releases/v7.4.1/spies/">SinonJS spy</a>. Spies keep track of the requests made to each service and the associated fake responses. Using spies, you can</p>
+<ol>
+<li><p><strong>assert outgoing requests</strong> are correct:</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// Using SinonJS assertions</span>
+assert.calledOnceWith(github.spy, expectedRequest);
+
+<span class="hljs-comment">// Using unmock-expect</span>
+expect(github).calledOnceWith(expectedRequest);
+</code></pre></li>
+<li><p><strong>assert your code handles responses</strong> correctly:</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// Get the return value of the first call to GitHub</span>
+<span class="hljs-keyword">const</span> response: UnmockResponse = github.spy.firstCall.returnValue;
+expect(myCodeReturnValue).toEqual(response.body);
+</code></pre></li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="verifying-requests"></a><a href="#verifying-requests" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Verifying requests</h2>
+<h3><a class="anchor" aria-hidden="true" id="spies-101"></a><a href="#spies-101" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Spies 101</h3>
+<p>In Unmock, a spy is nothing but a wrapper for <strong>request-response pairs, augmented with the rich <a href="https://sinonjs.org/releases/v7.4.1/spies/">SinonJS API</a></strong> containing properties such as <code>callCount</code>, <code>getCalls</code>, <code>firstCall</code>, <code>calledOnce</code>, etc. To read more about test spies, see the <a href="https://sinonjs.org/releases/v7.4.1/spies/">SinonJS documentation</a>.</p>
+<p>Spies are accessed via the service as follows:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> {
+  <span class="hljs-attr">services</span>: { github },
+} = unmock.on(); <span class="hljs-comment">// Activate unmock and load services</span>
+<span class="hljs-keyword">const</span> githubSpy = github.spy;
+</code></pre>
+<p>Spy has the properties documented in the <a href="https://sinonjs.org/releases/v7.4.1/spies/">SinonJS documentation</a>:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> wasCalled = githubSpy.calledOnce; <span class="hljs-comment">// true or false</span>
+<span class="hljs-keyword">const</span> callCount = githubSpy.callCount; <span class="hljs-comment">// Number of calls</span>
+<span class="hljs-keyword">const</span> firstCallArgs = githubSpy.args[<span class="hljs-number">0</span>]; <span class="hljs-comment">// Arguments of the first call.</span>
+</code></pre>
+<p>While it is possible use boolean properties such as <code>githubSpy.calledOnce</code> for assertions, we recommend using either the SinonJS <code>assert</code> or <code>unmock-expect</code> as explained below for better error messages.</p>
+<h3><a class="anchor" aria-hidden="true" id="using-sinonjs-assert"></a><a href="#using-sinonjs-assert" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using SinonJS assert</h3>
+<p>To use SinonJS asserts, import <code>sinon</code> from <code>unmock-node</code>:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> { sinon } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock-node"</span>;
+<span class="hljs-keyword">const</span> assert = sinon.assert;
+</code></pre>
+<p>The full documentation for SinonJS assertions can be found <a href="https://sinonjs.org/releases/v7.4.1/assertions/">here</a>. Here are some examples:</p>
+<ol>
+<li><p>Verify GitHub API was called twice:</p>
+<pre><code class="hljs css language-js">assert.calledTwice(githubSpy);
+</code></pre></li>
+<li><p>Verify GitHub was called once with the exact expected request:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> expectedRequest = {
+  <span class="hljs-attr">method</span>: <span class="hljs-string">"get"</span>,
+  <span class="hljs-attr">path</span>: <span class="hljs-string">"/v3/users"</span>,
+  <span class="hljs-attr">protocol</span>: <span class="hljs-string">"https"</span>,
+  <span class="hljs-attr">body</span>: <span class="hljs-literal">undefined</span>,
+}; <span class="hljs-comment">// UnmockRequest object</span>
+
+assert.calledOnceWith(githubSpy, expectedRequest);
+</code></pre></li>
+<li><p>Verify <code>github</code> was called with a request that matches the given properties:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> match = sinon.match;
+
+<span class="hljs-keyword">const</span> expectedRequest = {
+  <span class="hljs-attr">method</span>: <span class="hljs-string">"get"</span>,
+  <span class="hljs-attr">path</span>: <span class="hljs-string">"/v3/users"</span>,
+}; <span class="hljs-comment">// Partial UnmockRequest object</span>
+
+<span class="hljs-comment">// Only match method and path</span>
+assert.calledWith(githubSpy, match(expectedRequest));
+</code></pre></li>
+</ol>
+<h3><a class="anchor" aria-hidden="true" id="using-unmock-expect"></a><a href="#using-unmock-expect" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using <code>unmock-expect</code></h3>
+<blockquote>
+<p><code>unmock-expect</code> will be coming soon! It implements expressive assertions such as</p>
+<pre><code class="hljs css language-js">expect(github).calledOnce();
+expect(github).calledOnceWith(expectedRequest);
+expect(github).calledOnceWithMatch({ <span class="hljs-attr">path</span>: <span class="hljs-string">"/v3/users"</span> });
+</code></pre>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="verifying-individual-calls"></a><a href="#verifying-individual-calls" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Verifying individual calls</h2>
+<h3><a class="anchor" aria-hidden="true" id="spy-calls-101"></a><a href="#spy-calls-101" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Spy calls 101</h3>
+<p>As noted above, a service spy is essentially a wrapper around a list of request-response pairs. Each member of the list is a <strong>spy call</strong>, representing a single call to a service. Accessing individual calls helps with more detailed behavior verification when the spy is called more than once and also lets you access the response returned by an Unmock service.</p>
+<p>You can access individual calls via the <a href="https://sinonjs.org/releases/v7.4.1/spies/">spy API</a> as follows:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> firstCall = githubSpy.firstCall; <span class="hljs-comment">// First call</span>
+<span class="hljs-keyword">const</span> lastCall = githubSpy.lastCall; <span class="hljs-comment">// Last call</span>
+<span class="hljs-keyword">const</span> sixthCall = githubSpy.getCall(<span class="hljs-number">6</span>); <span class="hljs-comment">// Sixth call</span>
+</code></pre>
+<p>A single spy call consists of the arguments of the call and the associated return value. Arguments are accessed via <code>args</code> property. It is a list of length one with <code>UnmockRequest</code> object as the only value:</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// Access the request of the first call</span>
+<span class="hljs-keyword">const</span> firstCallRequest = firstCall.args[<span class="hljs-number">0</span>]; <span class="hljs-comment">// UnmockRequest object</span>
+<span class="hljs-keyword">const</span> firstCallRequestAlt = firstCall.lastArg; <span class="hljs-comment">// Same as above, list has one value</span>
+<span class="hljs-keyword">const</span> firstCallRequestMethod = firstCallRequest.method; <span class="hljs-comment">// "get", "post", "put", etc.</span>
+</code></pre>
+<p>The return value in a spy call is an <code>UnmockResponse</code> object and it is accessed via the <code>returnValue</code> property:</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// Access the response of the first call</span>
+<span class="hljs-keyword">const</span> firstCallResponse = firstCall.returnValue; <span class="hljs-comment">// UnmockResponse object</span>
+<span class="hljs-keyword">const</span> firstCallResponseStatus = firstCallResponse.statusCode; <span class="hljs-comment">// Status code</span>
+</code></pre>
+<p>The full spy call API is documented <a href="https://sinonjs.org/releases/v7.4.1/spy-call/">here</a>. For example, this checks if the call matched the expected properties:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> calledCorrectly = firstCall.calledWith(match(expectedUnmockRequest)); <span class="hljs-comment">// true or false</span>
+</code></pre>
+<p>Similarly as for spies, it is not recommended to boolean properties for assertions but use <code>assert</code> or <code>unmock-expect</code> as explained below.</p>
+<h3><a class="anchor" aria-hidden="true" id="using-sinonjs-assert-1"></a><a href="#using-sinonjs-assert-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using SinonJS assert</h3>
+<p>First import SinonJS <code>assert</code>:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> { sinon } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock-node"</span>;
+<span class="hljs-keyword">const</span> assert = sinon.assert;
+</code></pre>
+<p>Here are some examples of asserts on single calls:</p>
+<ol>
+<li><p>Verify call was made with the exact <code>UnmockRequest</code> expected:</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// Full UnmockRequest object</span>
+<span class="hljs-keyword">const</span> expectedRequest = { <span class="hljs-attr">method</span>: <span class="hljs-string">"get"</span>, <span class="hljs-attr">path</span>: <span class="hljs-string">"/v3/users"</span>, ... };
+assert.calledWith(spyCall, expectedRequest);
+</code></pre></li>
+<li><p>Verify call matches the given properties:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> match = sinon.match;
+assert.calledWith(spyCall, match({ <span class="hljs-attr">method</span>: <span class="hljs-string">"get"</span>, <span class="hljs-attr">path</span>: <span class="hljs-string">"/v3"</span> }));
+</code></pre></li>
+</ol>
+<h3><a class="anchor" aria-hidden="true" id="using-unmock-expect-1"></a><a href="#using-unmock-expect-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using <code>unmock-expect</code></h3>
+<blockquote>
+<p>Coming soon!</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="resetting-spy"></a><a href="#resetting-spy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resetting spy</h2>
+<p>Spy history can be reset as follows:</p>
+<pre><code class="hljs css language-js">service.spy.resetHistory(); <span class="hljs-comment">// Reset a single spy, leave everything else intact</span>
+service.reset(); <span class="hljs-comment">// Reset service, including its spy</span>
+</code></pre>
+<p>Resetting the spy history empties the list of calls so that <code>spy.getCalls</code> is an empty list.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/setting-state-dsl"><span class="arrow-prev">← </span><span>Advanced DSL</span></a><a class="docs-next button" href="/roadmap"><span>Where we&#x27;re going</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#verifying-requests">Verifying requests</a><ul class="toc-headings"><li><a href="#spies-101">Spies 101</a></li><li><a href="#using-sinonjs-assert">Using SinonJS assert</a></li><li><a href="#using-unmock-expect">Using <code>unmock-expect</code></a></li></ul></li><li><a href="#verifying-individual-calls">Verifying individual calls</a><ul class="toc-headings"><li><a href="#spy-calls-101">Spy calls 101</a></li><li><a href="#using-sinonjs-assert-1">Using SinonJS assert</a></li><li><a href="#using-unmock-expect-1">Using <code>unmock-expect</code></a></li></ul></li><li><a href="#resetting-spy">Resetting spy</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/introduction">Introduction</a><a href="/hello">Hello World</a></div><div><h5>Community</h5><a href="https://spectrum.chat/unmock">Spectrum Chat</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
