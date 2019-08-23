@@ -4,7 +4,7 @@ title: Using spies
 sidebar_label: Using spies
 ---
 
-In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses, allowing you to
+In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses. Using spies, you can
 
 1. **assert outgoing requests** are correct:
 
@@ -27,13 +27,9 @@ In Unmock, every service has a `spy` property that is a [SinonJS spy](https://si
 
 ### Spies 101
 
-If you're not familiar with the concept of test spies, here's the definition from [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/):
+In Unmock, a spy is nothing but a wrapper for **request-response pairs, augmented with the rich [SinonJS API](https://sinonjs.org/releases/v7.4.1/spies/)** containing properties such as `callCount`, `getCalls`, `firstCall`, `calledOnce`, etc. To read more about test spies, see the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/).
 
-> A test spy is a function that records arguments, return value, the value of this and exception thrown (if any) for all its calls.
-
-In Unmock, a spy is nothing but a wrapper for **request-response pairs, augmented with the rich SinonJS API** containing properties such as `callCount`, `getCalls`, `firstCall`, `calledOnce`, etc.
-
-Spies are accessed as follows:
+Spies are accessed via the service as follows:
 
 ```js
 const {
@@ -85,13 +81,15 @@ The full documentation for SinonJS assertions can be found [here](https://sinonj
 1. Verify `github` was called with a request that matches the given properties:
 
    ```js
+   const match = sinon.match;
+
    const expectedRequest = {
      method: "get",
      path: "/v3/users",
    }; // Partial UnmockRequest object
 
    // Only match method and path
-   assert.calledWithMatch(githubSpy, expectedRequest);
+   assert.calledWith(githubSpy, match(expectedRequest));
    ```
 
 ### Using `unmock-expect`
@@ -135,10 +133,10 @@ const firstCallResponse = firstCall.returnValue; // UnmockResponse object
 const firstCallResponseStatus = firstCallResponse.statusCode; // Status code
 ```
 
-The full spy call API is documented [here](https://sinonjs.org/releases/v7.4.1/spy-call/). For example, this checks if the call was made with exact arguments:
+The full spy call API is documented [here](https://sinonjs.org/releases/v7.4.1/spy-call/). For example, this checks if the call matched the expected properties:
 
 ```js
-const calledCorrectly = firstCall.calledWithExactly(expectedUnmockRequest); // true or false
+const calledCorrectly = firstCall.calledWith(match(expectedUnmockRequest)); // true or false
 ```
 
 Similarly as for spies, it is not recommended to boolean properties for assertions but use `assert` or `unmock-expect` as explained below.
@@ -165,7 +163,8 @@ Here are some examples of asserts on single calls:
 1. Verify call matches the given properties:
 
    ```js
-   assert.calledWithMatch(spyCall, { method: "get", path: "/v3" });
+   const match = sinon.match;
+   assert.calledWith(spyCall, match({ method: "get", path: "/v3" }));
    ```
 
 ### Using `unmock-expect`
