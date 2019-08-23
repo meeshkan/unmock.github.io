@@ -36,7 +36,9 @@ In Unmock, a spy is nothing but a wrapper for **request-response pairs, augmente
 Spies are accessed as follows:
 
 ```js
-const { github } = unmock.on(); // Activate unmock and load services
+const {
+  services: { github },
+} = unmock.on(); // Activate unmock and load services
 const githubSpy = github.spy;
 ```
 
@@ -52,10 +54,11 @@ While it is possible use boolean properties such as `githubSpy.calledOnce` for a
 
 ### Using SinonJS assert
 
-To use SinonJS asserts, import `assert` from `unmock-node`:
+To use SinonJS asserts, import `sinon` from `unmock-node`:
 
 ```js
-import { sinon: { assert } } from "unmock-node";
+import { sinon } from "unmock-node";
+const assert = sinon.assert;
 ```
 
 The full documentation for SinonJS assertions can be found [here](https://sinonjs.org/releases/v7.4.1/assertions/). Here are some examples:
@@ -145,7 +148,8 @@ Similarly as for spies, it is not recommended to boolean properties for assertio
 First import SinonJS `assert`:
 
 ```js
-import { sinon: { assert } } from "unmock-node";
+import { sinon } from "unmock-node";
+const assert = sinon.assert;
 ```
 
 Here are some examples of asserts on single calls:
@@ -174,8 +178,7 @@ Spy history can be reset as follows:
 
 ```js
 service.spy.resetHistory(); // Reset a single spy, leave everything else intact
-service.reset(); // Reset service along with its spy
-unmock.reset(); // Reset all services along with their spies
+service.reset(); // Reset service, including its spy
 ```
 
 Resetting the spy history empties the list of calls so that `spy.getCalls` is an empty list.
