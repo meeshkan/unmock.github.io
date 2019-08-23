@@ -117,7 +117,8 @@ test(<span class="hljs-string">"hello endpoint returns correct JSON"</span>, <sp
 <span class="hljs-comment">// ...</span>
 
 test(<span class="hljs-string">"setting a value for endpoint"</span>, <span class="hljs-keyword">async</span> () =&gt; {
-  unmock.states().hello({ <span class="hljs-attr">hello</span>: <span class="hljs-string">"world"</span> });
+  <span class="hljs-keyword">const</span> helloService = unmock.services.hello;
+  helloService.state({ <span class="hljs-attr">hello</span>: <span class="hljs-string">"world"</span> });
   <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">"https://api.unmock.io"</span>);
   expect(res.data).toEqual({ <span class="hljs-attr">hello</span>: <span class="hljs-string">"world"</span> });
 });
