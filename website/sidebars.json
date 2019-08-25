@@ -1,9 +1,8 @@
 {
   "docs": {
-    "Getting started": [
-      "introduction",
+    "Introduction": [
       "installation",
-      "configuration"
+      "introduction"
     ],
     "Simulations": ["unmock", "openapi", "nock"],
     "Expectations": ["expectations"],

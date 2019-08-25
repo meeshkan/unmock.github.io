@@ -1,10 +1,16 @@
 ---
 id: installation
-title: Installation
-sidebar_label: Installation
+title: Getting started with Unmock
+sidebar_label: Getting started with Unmock
 ---
 
-## [NPM](https://www.npmjs.com)
+Welcome! 👋
+
+Unmock is a JavaScript library that helps you test API integrations, from third-party services like Facebook to microservices. It helps you focus more on verifying your business logic and less on reverse engineering external APIs.
+
+## Installation
+
+Not surprisingly, Unmock can be installed via `yarn` or `npm`.
 
 ### yarn
 
@@ -18,22 +24,38 @@ $ yarn add -D unmock-node
 $ npm i -D unmock-node
 ```
 
-## Usage
+## Turning Unmock on
 
-To activate Unmock and start intercepting internet traffic, call `unmock.on()`. Deactivating Unmock is similarly easy - `unmock.off()`.
+To turn Unmock on in any given file, simply call `unmock.on()`.
 
 ```javascript
-// import unmock from "unmock-node";  // ES6
-const unmock = require("unmock-node").default; // CommonJS
-
-beforeAll(() => unmock.on()); // Activate unmock to intercept all outgoing traffic
-// Test your code...
-afterAll(() => unmock.off());
+const unmock = require('unmock');
+unmock.on();
 ```
 
-Calling `unmock.on()` takes care of intercepting traffic, but how should Unmock know what data it should serve back to mock the service? That requires defining a [service](layout.md).
+## Configuration
 
-## Next steps
+Unmock has several different configuration options, each of which can be configured programatically or in an `unmock.json` file at the root level of your project. The latter will apply your configuration to all files that use Unmock.
 
-1. See [configuration](configuration.md) for how to configure Unmock.
-1. Learn about [services](layout.md)
+### Adding allowed hosts
+
+By default, Unmock intercepts all traffic to internet. If you want to allow communication with specific hosts, you can add a hosts via `allowedHosts`.
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--JSON-->
+```json
+{
+  "allowedHosts": ["*.googleapis.com", "*.azure.com"]
+}
+```
+
+<!--JavaScript-->
+```javascript
+const unmock = require('unmock');
+unmock.allowedHosts.add("*.googleapis.com");
+unmock.allowedHosts.add("*.azure.com");
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+

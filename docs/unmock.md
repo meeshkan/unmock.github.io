@@ -1,7 +1,7 @@
 ---
 id: unmock
-title: Unmock
-sidebar_label: Unmock
+title: Programmatic Simulations
+sidebar_label: Programmatic Simulations
 ---
 
 Unmock provides a programmatic and interactive way of building services across multiple test files. The definitions of services' behaviors are colocated with your tests and are automatically amalgamated into full-fledged service specifications.  Here is a simple example of a GET request in unmock.

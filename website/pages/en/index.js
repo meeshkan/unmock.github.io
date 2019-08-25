@@ -125,17 +125,13 @@ const Kataconda = () => (
 
     const Thanks = () => (
       <div className="homeContainer">
-      <div className="homeSplashFade">
         
-      <div className="inner">
         <div className="section promoSection">
         <div className="promoRow">
           <div className="pluginRowBlock" style={{margin:"auto", width:"80%", display:"block"}}>
           Thanks for checking out Unmock! We value your feedback and hope you will join our community through one of the links below. See you soon!
             </div>
-        </div>
       </div>
-        </div> 
       </div>
     </div>           
     );

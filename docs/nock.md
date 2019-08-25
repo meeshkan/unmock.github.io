@@ -1,7 +1,7 @@
 ---
 id: nock
-title: Nock
-sidebar_label: Nock
+title: Using Nock
+sidebar_label: Using Nock
 ---
 
 [`nock`](https://www.github.com/nock/nock) is a popular tool for HTTP(S) testing in JavaScript.
