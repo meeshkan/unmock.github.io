@@ -1,10 +1,10 @@
 ---
 id: setting-state-dsl
-title: Advanced state management with DSL
-sidebar_label: Advanced DSL
+title: State management
+sidebar_label: State management
 ---
 
-Modifying the response body or status code as described in the [previous section](state-basic.md) is often sufficient, but sometimes you need more control to test, for example, the behaviour for a service with 10 users. This can be achieved with the Unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
+Modifying the response body or status code as described in the [previous section](states.md) is often sufficient, but sometimes you need more control to test, for example, the behaviour for a service with 10 users. This can be achieved with the Unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
 
 ## Top-level DSL
 
