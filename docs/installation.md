@@ -10,7 +10,7 @@ Unmock is a JavaScript library that helps you test API integrations, from third-
 
 ## Installation
 
-Not surprisingly, Unmock can be installed via `yarn` or `npm`.
+Unmock can be installed via `yarn` or `npm`.
 
 ### yarn
 
