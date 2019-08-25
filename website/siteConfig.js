@@ -40,7 +40,7 @@ const siteConfig = {
   /* path to images for header/footer */
   headerIcon: "img/logo-white.svg",
   footerIcon: "img/logo.png",
-  favicon: "img/logo.png",
+  favicon: "img/logo-purple.png",
 
   /* Colors for website */
   colors: {
@@ -73,12 +73,17 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  scripts: [],
+  scripts: [
+    "//katacoda.com/embed.js"
+  ],
 
   // On page navigation for the current documentation page.
   onPageNav: "separate",
   // No .html extensions for paths.
   cleanUrl: true,
+  stylesheets: [
+    // custom css here
+  ],
 
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,
@@ -89,6 +94,9 @@ const siteConfig = {
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
+
+  // Google Analytics tracking ID to track page views.
+  gaTrackingId: process.env.GA_TRACKING_ID,
 };
 
 module.exports = siteConfig;

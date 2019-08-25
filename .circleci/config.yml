@@ -1,5 +1,3 @@
-
-    
 aliases:
   - &root-yarn |
     yarn install --non-interactive --cache-folder ~/.cache/yarn
@@ -32,7 +30,6 @@ aliases:
     name: Run build
     command: yarn build
 
-
 defaults: &defaults
   working_directory: ~/unmock.github.io/website
   docker:
@@ -49,12 +46,15 @@ jobs:
       - run:
           name: "Run linter"
           command: "echo 'Skipping linter until theres something to lint';"
+      - persist_to_workspace:
+          root: ~/unmock.github.io
+          paths:
+            - .
   deploy:
     <<: *defaults
     steps:
-      - checkout: *root-checkout
-      - run: *root-yarn
-      - save_cache: *root-save-yarn-cache
+      - attach_workspace:
+          at: ~/unmock.github.io
       - run: *root-build
       - run:
           name: Configure GitHub Bot and deploy
@@ -77,5 +77,5 @@ workflows:
       - deploy:
           context: unmock-publish-docusaurus
           requires:
-           - tests
+            - tests
           filters: *filter-only-source

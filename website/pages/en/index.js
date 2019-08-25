@@ -27,12 +27,6 @@ class HomeSplash extends React.Component {
       </div>
     );
 
-    const Logo = props => (
-      <div className="projectLogo">
-        <img src={props.img_src} alt="Project Logo" />
-      </div>
-    );
-
     const ProjectTitle = () => (
       <h2 className="projectTitle">
         {siteConfig.title}
@@ -42,6 +36,10 @@ class HomeSplash extends React.Component {
 
     const PromoSection = props => (
       <div className="section promoSection">
+        <img className="promoImage" src={`${baseUrl}img/logo-purple.svg`} alt="Project Logo" />
+        <div className="promoRow">
+          <div className="pluginRowBlock">Unmock helps you test the business logic of your API integrations by creating unreasonably effective simulations of external APIs and microservices. Property testing, rich assertions, passthrough validation and more await you!</div>
+        </div>
         <div className="promoRow">
           <div className="pluginRowBlock">{props.children}</div>
         </div>
@@ -58,7 +56,6 @@ class HomeSplash extends React.Component {
 
     return (
       <SplashContainer>
-        {/*<Logo img_src={`${baseUrl}img/undraw_monitor.svg`} />*/}
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
@@ -82,123 +79,75 @@ class Index extends React.Component {
         background={props.background}
       >
         <GridBlock
-          align="center"
+          align="left"
           contents={props.children}
           layout={props.layout}
         />
       </Container>
     );
 
-    const FeatureCallout = () => (
-      <div
-        className="productShowcaseSection paddingBottom"
-        style={{ textAlign: "center" }}
-      >
-        <h2>Feature Callout</h2>
-        <MarkdownBlock>These are features of this project</MarkdownBlock>
-      </div>
-    );
+const Kataconda = () => (
+  <div style={{backgroundColor: "#f1f1f1"}}>
+    <div id="katacoda-scenario-1"
+        data-katacoda-id="unmock/introduction"
+        data-katacoda-color="004d7f"
+        style={{display:"block", margin:"auto", height: "600px", paddingBottom: "20px", paddingTop: "20px", width:"80%"}}></div>
+  </div>
+);
 
-    const TryOut = () => (
-      <Block id="try">
-        {[
-          {
-            content:
-              "Bring your own OpenAPI specification or use those provided by us to create your mocks",
-            image: `${baseUrl}img/undraw_code_review.svg`,
-            imageAlign: "left",
-            title: "Tight integration with OpenAPI",
-          },
-        ]}
-      </Block>
-    );
-
-    const Description = () => (
-      <Block background="dark">
-        {[
-          {
-            content:
-              "Install our GitHub app to see all the APIs used by your organization",
-            image: `${baseUrl}img/undraw_note_list.svg`,
-            imageAlign: "right",
-            title: "GitHub integration",
-          },
-        ]}
-      </Block>
-    );
-
-    const LearnHow = () => (
+    const Learn = () => (
       <Block background="light">
         {[
           {
             content:
-              "Easily browse tests and mocks in browser or your favorite IDE",
-            image: `${baseUrl}img/undraw_youtube_tutorial.svg`,
-            imageAlign: "right",
-            title: "All your mocks in one place",
+              "With lots of resources and examples, there is something for everyone, from Hello World to advanced API (un)mocking.",
+            image: `${baseUrl}img/undraw_knowledge.svg`,
+            imageAlign: "left",
+            title: "Learn unmock",
           },
         ]}
       </Block>
     );
 
-    const Features = () => (
-      <Block layout="fourColumn">
+    const WhenUnmock = () => (
+      <Block>
         {[
           {
-            content: "Create mocks from editor",
-            image: `${baseUrl}img/undraw_react.svg`,
-            imageAlign: "top",
-            title: "Easy creation of mocks",
-          },
-          {
-            content: "Opinionated organization of mocks",
-            image: `${baseUrl}img/undraw_operating_system.svg`,
-            imageAlign: "top",
-            title: "Manage mocks",
+            content:
+              "Unmock is useful whenever you are testing code that calls an external API. This can be a microservice, a backend server, a third-party API like Stripe or Contentful, or an analytics service like Sentry or Segment.",
+            image: `${baseUrl}img/undraw_programmer.svg`,
+            imageAlign: "right",
+            title: "When should I use unmock?",
           },
         ]}
       </Block>
     );
 
-    const Showcase = () => {
-      if ((siteConfig.users || []).length === 0) {
-        return null;
-      }
-
-      const showcase = siteConfig.users
-        .filter(user => user.pinned)
-        .map(user => (
-          <a href={user.infoLink} key={user.infoLink}>
-            <img src={user.image} alt={user.caption} title={user.caption} />
-          </a>
-        ));
-
-      const pageUrl = page => baseUrl + (language ? `${language}/` : "") + page;
-
-      return (
-        <div className="productShowcaseSection paddingBottom">
-          <h2>Who is Using This?</h2>
-          <p>This project is used by all these people</p>
-          <div className="logos">{showcase}</div>
-          <div className="more-users">
-            <a className="button" href={pageUrl("users.html")}>
-              More {siteConfig.title} Users
-            </a>
-          </div>
+    const Thanks = () => (
+      <div className="homeContainer">
+      <div className="homeSplashFade">
+        
+      <div className="inner">
+        <div className="section promoSection">
+        <div className="promoRow">
+          <div className="pluginRowBlock" style={{margin:"auto", width:"80%", display:"block"}}>
+          Thanks for checking out Unmock! We value your feedback and hope you will join our community through one of the links below. See you soon!
+            </div>
         </div>
-      );
-    };
+      </div>
+        </div> 
+      </div>
+    </div>           
+    );
 
     return (
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
-          <Features />
-          {/*<FeatureCallout />*/}
-          <LearnHow />
-          <TryOut />
-          <Description />
-          {/*<Showcase />*/}
+          <Kataconda />
+          <WhenUnmock />
+          <Learn />
+          <Thanks />
         </div>
       </div>
     );
