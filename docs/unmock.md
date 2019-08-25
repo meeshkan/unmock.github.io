@@ -11,9 +11,9 @@ import unmock, { compose, u } from "unmock";
 
 unmock("https://www.myapi.com/users/{id}")
   .serve({
-    id: u._`id`, // uses `id` from the path
-    name: u`name`, // generates a fake name
-    age: u.$`age`, // optionally generates a fake age
+    id: u._.id, // uses `id` from the path
+    name: u.name., // generates a fake name
+    age: u.$.age., // optionally generates a fake age
     type: 'user', // the literal word "user"
   });
 ```
