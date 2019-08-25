@@ -33,7 +33,7 @@ The reference manual contains an exhaustive list of Unmock's commands for servic
 
 ## Changing specifications
 
-As previously mentioned, you can feel free to delete the code above after you run it for the first time.  If you leave it, it will do no harm but you will see an *dangling service definition* warning in your tests. However, if you change the service definition, or if you create a second one that conflicts with the first, unmock will throw an error.  This prevents team members from accidentally modifying a service spec on which you are relying.
+As previously mentioned, you can feel free to delete the code above after you run it for the first time.  If you leave it, it will do no harm but you will see an *dangling service definition* warning in your tests. However, if you change the service definition, or if you create a second one that conflicts with the first, unmock will throw an error.
 
 When unmock fails because a service has changed, there are two ways to fix the problem - migration and updating.
 
