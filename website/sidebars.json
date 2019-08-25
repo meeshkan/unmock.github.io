@@ -8,6 +8,9 @@
     "Expectations": ["expectations"],
     "Properties": ["properties"],
     "Passthrough integrations": ["side-effects"],
+    "Advanced usage": [
+      "configuration"
+    ],
     "Contributing": ["contributing"]
   }
 }
