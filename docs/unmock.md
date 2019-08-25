@@ -4,9 +4,12 @@ title: Programmatic Simulations
 sidebar_label: Programmatic Simulations
 ---
 
-Unmock provides a programmatic and interactive way of building services across multiple test files. The definitions of services' behaviors are colocated with your tests and are automatically amalgamated into full-fledged service specifications.  Here is a simple example of a GET request in unmock.
+Unmock provides a programmatic and interactive way of building services across multiple test files. A **service** in Unmock is any REST API that is being mocked - a microservice, weather.com, etc.
+
+When using Unmock's programatic API, services are defined in your test files.  Here is a simple example of a GET request in unmock.
 
 ```javascript
+// mytest.js
 import unmock, { compose, u } from "unmock";
 
 unmock("https://www.myapi.com/users/{id}")
@@ -18,7 +21,7 @@ unmock("https://www.myapi.com/users/{id}")
   });
 ```
 
-When you run your tests, this creates a service specification in a directory called `__unmock__` at the root of your project.  The service specification is written in OpenAPI and should be checked into version control. After creating the specification once, you are free to leave calls to `unmock.serve` in your code or delete them. We recommend that you delete them and use the Unmock VSCode plugin or CLI to inspect services after they have been defined.
+When you run your tests, Unmock will use this code to create a service specification in a directory called `__unmock__` at the root of your project.  The service specification is written in OpenAPI and should be checked into version control. After creating the specification once, you are free to leave calls to `unmock.serve` in your code or delete them. We recommend that you delete them and use the Unmock VSCode plugin or CLI to inspect services after they have been defined.
 
 ## Defining specifications
 
