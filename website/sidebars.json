@@ -8,6 +8,6 @@
     "Expectations": ["expectations"],
     "Properties": ["properties"],
     "Passthrough integrations": ["side-effects"],
-    "Contributing": ["contributing", "about"]
+    "Contributing": ["contributing"]
   }
 }
