@@ -1,5 +1,5 @@
 ---
-id: setting-state-dsl
+id: state-management
 title: State management
 sidebar_label: State management
 ---

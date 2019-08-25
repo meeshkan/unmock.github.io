@@ -183,5 +183,3 @@ fetch(`${PETSTORE_URL}/pets/513`); // -> { id: -999, name: "Finn" }
 fetch(`${PETSTORE_URL}/pets`);
 // -> [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]
 ```
-
-More advanced state management with the Unmock DSL is the topic of the [next section](state-advanced.md).

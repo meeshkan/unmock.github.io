@@ -5,7 +5,7 @@
       "introduction"
     ],
     "Simulations": ["unmock", "openapi", "nock"],
-    "Expectations": ["expectations"],
+    "Expectations": ["expectations", "states", "state-management"],
     "Properties": ["properties"],
     "Passthrough integrations": ["side-effects"],
     "Advanced usage": [
