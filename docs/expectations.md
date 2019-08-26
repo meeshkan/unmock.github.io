@@ -98,7 +98,7 @@ The most important thing you'll need to know when working with Sinon assertions 
 
 ### `UnmockRequest`
 
-An `UnmockRequest` is an [Sinon matcher](https://sinonjs.org/releases/v7.4.1/matchers/) with the following fields, all of which are optional:
+An `UnmockRequest` is an [Sinon matcher](https://sinonjs.org/releases/v7.4.1/matchers/) with the following fields, all of which are optional.
 
 ```javascript
 {
@@ -111,11 +111,13 @@ An `UnmockRequest` is an [Sinon matcher](https://sinonjs.org/releases/v7.4.1/mat
 }
 ```
 
+Here is how an Unmock request can be used in a test.
+
 ### `UnmockResponse`
 
 ```javascript
 {
-  protocol: 200, // the status code, either as a number or string
+  status: 200, // the status code, either as a number or string
   header: {}, // the header, represented as key-value pairs
   body: {}, // the body, a JSON object if it is a form or json, otherwise a string
 }
