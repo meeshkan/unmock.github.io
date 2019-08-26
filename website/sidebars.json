@@ -4,10 +4,10 @@
       "installation",
       "introduction"
     ],
-    "Simulations": ["unmock", "openapi", "nock"],
+    "Services": ["unmock", "openapi", "nock"],
     "Expectations": ["expectations", "states", "state-management"],
-    "Properties": ["properties"],
-    "Passthrough integrations": ["side-effects"],
+    "Properties": ["property"],
+    "Passthrough Validation": ["passthrough"],
     "Advanced usage": [
       "configuration"
     ],

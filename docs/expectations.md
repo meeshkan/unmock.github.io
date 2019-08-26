@@ -1,31 +1,34 @@
 ---
 id: expectations
-title: Using spies
-sidebar_label: Using spies
+title: Awesome Assertions
+sidebar_label: Awesome Assertions
 ---
 
-In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses. Using spies, you can
+Now that you know how to define services in Unmock, it would be useful to assert things about how they are used. When services are defined in Unmock, they automagically reside in the `unmock.services` object.
 
-1. **assert outgoing requests** are correct:
+```javascript
+const unmock = require('unmock');
+unmock("https://api.myapi.com/v2/foo").serve({ hello: "world" });
+const myapi = unmock.services.myapi;
+```
 
-   ```js
-   // Using SinonJS assertions
-   assert.calledOnceWith(github.spy, expectedRequest);
+> For Typescript users, services will be typed according to their specifications. Depending on how you define services, the type of the `unmock.services` object will sometimes fall out of sync with your service specifications. If/when this happens, run `unmock ts` from the CLI. It is a good idea to make `unmock ts` part of any compilation or build process.
 
-   // Using unmock-expect
-   expect(github).calledOnceWith(expectedRequest);
-   ```
+These service objects contain lots of useful properties for you to write simple and effective tests with great expectations!
 
-1. **assert your code handles responses** correctly:
-   ```js
-   // Get the return value of the first call to GitHub
-   const response: UnmockResponse = github.spy.firstCall.returnValue;
-   expect(myCodeReturnValue).toEqual(response.body);
-   ```
+## Using `unmock-expect`
 
-## Verifying requests
+Unmock expect is the recommended, idiomatic way to create assertions about services' behavior.
 
-### Spies 101
+```js
+expect(github).calledOnce();
+expect(github).calledOnceWith(expectedRequest);
+expect(github).calledOnceWithMatch({ path: "/v3/users" });
+```
+
+## Using spies
+
+In Unmock, every service has a [**spy**](https://en.wikipedia.org/wiki/Spy_vs._Spy) property that keeps track of the requests made to each service and the associated fake responses. Before using a spy, you should try to write tests that use expectations as defined above. The nice thing about unmock expectations is that they enforce an opinionated but reasonable standard of what *should* be tested. However, sometimes these expectations don't cut it for your use case, in which case you should use spies.
 
 In Unmock, a spy is nothing but a wrapper for **request-response pairs, augmented with the rich [SinonJS API](https://sinonjs.org/releases/v7.4.1/spies/)** containing properties such as `callCount`, `getCalls`, `firstCall`, `calledOnce`, etc. To read more about test spies, see the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/).
 
@@ -38,7 +41,7 @@ const {
 const githubSpy = github.spy;
 ```
 
-Spy has the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/):
+An unmock spy has the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/):
 
 ```js
 const wasCalled = githubSpy.calledOnce; // true or false
@@ -92,15 +95,6 @@ The full documentation for SinonJS assertions can be found [here](https://sinonj
    assert.calledWith(githubSpy, match(expectedRequest));
    ```
 
-### Using `unmock-expect`
-
-> `unmock-expect` will be coming soon! It implements expressive assertions such as
->
-> ```js
-> expect(github).calledOnce();
-> expect(github).calledOnceWith(expectedRequest);
-> expect(github).calledOnceWithMatch({ path: "/v3/users" });
-> ```
 
 ## Verifying individual calls
 
@@ -166,10 +160,6 @@ Here are some examples of asserts on single calls:
    const match = sinon.match;
    assert.calledWith(spyCall, match({ method: "get", path: "/v3" }));
    ```
-
-### Using `unmock-expect`
-
-> Coming soon!
 
 ## Resetting spy
 

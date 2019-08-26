@@ -1,12 +1,12 @@
 ---
 id: openapi
-title: OpenAPI
-sidebar_label: OpenAPI
+title: Using OpenAPI
+sidebar_label: Using OpenAPI
 ---
 
 Unmock supports service descriptions in two different flavors of OpenAPI: vanilla OpenAPI and Lazy OpenAPI 3 (loas3).
 
-## Getting started
+## Your first OpenAPI Spec in Unmock
 
 There are three ways to incldue OpenAPI in an unmock project.
 

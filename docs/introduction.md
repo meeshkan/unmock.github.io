@@ -4,13 +4,13 @@ title: A Simple Example
 sidebar_label: A Simple Example
 ---
 
-Here's an example of several different features in Unmock.  While it is slightly longer than a "Hello World", it shows several useful features of Unmock all rolled into one example.
+Here's an example of several different features in Unmock.  While it is slightly longer than your typical "Hello World", it shows several useful features of Unmock all rolled into one example.
 
 <!--DOCUSAURUS_CODE_TABS-->
 
 <!--Test-->
 ```javascript
-// userAsUIObject.js
+// userAsUIObject.test.js
 
 import unmock, { compose, u } from "unmock";
 import userAsUIObject from "./userAsUIObject";
@@ -59,10 +59,8 @@ export default userAsUIObject;
 
 Examples like the one above show how Unmock helps answer three essential questions.
 
-1. **Output Verification**: Does my code correctly compose the input and transform the output of network calls?
-2. **Property Testing**: Does my code account for all the ways an external API or my network connection may behave?
-3. **Passthrough Validation**: Does my code trigger the correct passthrough integrations, like analytics, logging, etc?
+1. [**IO Verification**](expectations.md): Does my code correctly compose the input and transform the output of network calls?
+2. [**Property Testing**](property.md): Does my code account for all the ways an external API or my network connection may behave?
+3. [**Passthrough Validation**](passthrough.md): Does my code trigger the correct passthrough integrations, like analytics, logging, etc?
 
-This documentation covers these questions in three separate sections.
-
-You'll also learn about Unmock's different methods for simulating external APIs (like Stripe or another microservice in your company) and the various test reports Unmock can produce.
+Before looking at these questions in detail, it's important to understand how services are defined in Unmock.

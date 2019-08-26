@@ -1,10 +1,10 @@
 ---
 id: unmock
-title: Programmatic Simulations
-sidebar_label: Programmatic Simulations
+title: Defining Services
+sidebar_label: Defining Services
 ---
 
-Unmock provides a programmatic and interactive way of building services across multiple test files. A **service** in Unmock is any REST API that is being mocked - a microservice, weather.com, etc.
+Unmock provides a programmatic and interactive way of building services across multiple test files. A **service** in Unmock is any REST API that is being mocked - a microservice, [openweathermap.org](https://openweathermap.org/api), etc.
 
 When using Unmock's programatic API, services are defined in your test files.  Here is a simple example of a GET request in unmock.
 
@@ -21,15 +21,25 @@ unmock("https://www.myapi.com/users/{id}")
   });
 ```
 
-When you run your tests, Unmock will use this code to create a service specification in a directory called `__unmock__` at the root of your project.  The service specification is written in OpenAPI and should be checked into version control. After creating the specification once, you are free to leave calls to `unmock.serve` in your code or delete them. We recommend that you delete them and use the Unmock VSCode plugin or CLI to inspect services after they have been defined.
+When you run your tests, Unmock will use this code to create a service specification in a directory called `__unmock__` at the root of your project. This service specification should be checked into version control.
 
-## Defining specifications
+```bash
+$ git add __unmock__/*
+```
+
+After creating the specification once, you are free to leave calls to `unmock.serve` in your code or delete them. We recommend that you delete them and use the Unmock VSCode plugin or CLI to inspect services after they have been defined.
+
+## Defining service specifications
 
 Let's unpack how the simple example above works. *Explanation*.
 
-Here are some more snippets to get you familiar with Unmock's syntax. *Snippets*
+## Commands
 
 The reference manual contains an exhaustive list of Unmock's commands for service description.
+
+## Examples
+
+Here are some more snippets to get you familiar with Unmock's syntax. *Snippets*
 
 ## Changing specifications
 
@@ -62,4 +72,4 @@ Like migrate, an update that is a no-op will raise an error.
 
 ## Working with services
 
-As mentioned, it is generally a good idea to delete service descriptions from your test files. In order to inspect service descriptions, unmock provides a CLI and VS Code plugin that you can use in realtime as you code.
+As mentioned, it is generally a good idea to delete service descriptions from your test files. However, when you are working with test files, it is often useful to have an overview of how services behave. In order to view service descriptions, unmock provides a CLI and VS Code plugin that you can use in realtime as you code.
