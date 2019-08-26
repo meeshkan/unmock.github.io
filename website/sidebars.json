@@ -21,8 +21,7 @@
       "vscode"
     ],
     "Advanced Usage": [
-      "configuration",
-      "spies"
+      "configuration"
     ],
     "Contributing": ["contributing"]
   }
