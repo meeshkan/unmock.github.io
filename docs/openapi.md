@@ -14,9 +14,27 @@ There are three ways to incldue OpenAPI in an unmock project.
 1. Use the Unmock CLI or VS Code plugin to compose and edit specifications.
 1. Write or paste an OpenAPI file directly in the `unmock` directory.
 
-## Pulling a spec
+## Pulling a spec from [DefinitelyMocked](https://github.com/unmock/definitelymocked)
 
-*Some text*
+Lots of companies define OpenAPI specs for their APIs, and several projects, such as [apis.guru](https://apis.guru) and [OpenAPI Directory](https://github.com/APIs-guru/openapi-directory), act as a directory of OpenAPI specs.  We maintain our own directory, called [DefinitelyMocked](https://github.com/unmock/definitelymocked), that you can use right from the Unmock CLI.
+
+To import a spec from DefinitelyMocked, you can use `npm` or `yarn`. The following example imports the OpenAPI spec for th eStripe Version 3 API.
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--yarn-->
+```bash
+$ yarn add -D @unmock/stripe3
+```
+
+<!--npm-->
+```bash
+$ npm install --save-dev @unmock/stripe3
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+> If you are using typescript, make sure to add `unmock ts` as a post install hook to have types generated for your OpenAPI specs.
 
 ## Composing with the CLI or VS Code
 

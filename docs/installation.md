@@ -20,17 +20,19 @@ We provide three ways to get your feet wet in Unmock depending on what kind of l
 
 Unmock can be installed via `yarn` or `npm`.
 
-### yarn
+<!--DOCUSAURUS_CODE_TABS-->
 
+<!--yarn-->
 ```bash
 $ yarn add -D unmock-node
 ```
 
-### npm
-
+<!--npm-->
 ```bash
-$ npm i -D unmock-node
+$ npm install --save-dev unmock-node
 ```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
 
 ## Turning Unmock on and off
 
