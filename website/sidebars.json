@@ -4,10 +4,22 @@
       "installation",
       "introduction"
     ],
-    "Services": ["unmock", "openapi", "nock"],
-    "Expectations": ["expectations", "states", "state-management"],
+    "Services": [
+      "unmock",
+      "openapi",
+      "nock"
+    ],
+    "Expectations": [
+      "expectations",
+      "states",
+      "state-management"
+    ],
     "Properties": ["property"],
     "Passthrough Validation": ["passthrough"],
+    "Extras": [
+      "cli",
+      "vscode"
+    ],
     "Advanced Usage": [
       "configuration",
       "spies"
