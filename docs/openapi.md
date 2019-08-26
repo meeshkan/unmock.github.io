@@ -10,7 +10,7 @@ Unmock supports service descriptions in two different flavors of OpenAPI: vanill
 
 There are three ways to incldue OpenAPI in an unmock project.
 
-1. Pull in an OpenAPI spec from DefinitelyMocked or another package.
+1. Pull in an OpenAPI spec from [DefinitelyMocked](https://github.com/unmock/definitelymocked) or another package.
 1. Use the Unmock CLI or VS Code plugin to compose and edit specifications.
 1. Write or paste an OpenAPI file directly in the `unmock` directory.
 
@@ -28,9 +28,9 @@ There are three ways to incldue OpenAPI in an unmock project.
 
 ## Lazy Open API 3 (loas3)
 
-Often you have an OpenAPI specification available for a service. Mature projects and companies, such as Stripe and Slack, tend to have robust OpenAPI specifications that account for API corner cases and cover all API endpoints. However, if a specification is not available, you will need to deal with APIs that have incomplete or no OpenAPI documentation. In this case, you will need to author your own.
+Often you have an OpenAPI specification available for a service. Mature projects and companies, such as Stripe and Slack, tend to have robust OpenAPI specifications that account for API corner cases and cover all API endpoints. However, if a specification is not available, you will need to deal with APIs that have incomplete or no OpenAPI documentation. In this case, if you do not want to define a spec programatically, you will need to write your own OpenAPI.
 
-But fear not! Unmock can process [`loas3`](https://www.github.com/unmock/loas3), or Lazy OpenAPI 3, a syntactic superset of OpenAPI 3.0.0. This section gives a quick primer of the `loas3` specification. In addition to being easier to read and write, the specification usually results in documents that are 50% the size (or less!) of their more verbose OpenAPI counterparts.
+To help overcome the verbosity and tedium of hand-rolling an OpenAPI spec, Unmock can process [`loas3`](https://www.github.com/unmock/loas3), or Lazy OpenAPI 3, a syntactic superset of OpenAPI 3.0.0. This section gives a quick primer of the `loas3` specification. In addition to being easier to read and write, the specification usually results in documents that are 50% the size (or less!) of their more verbose OpenAPI counterparts.
 
 ### Cascading objects
 
