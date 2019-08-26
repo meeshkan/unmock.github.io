@@ -8,8 +8,9 @@
     "Expectations": ["expectations", "states", "state-management"],
     "Properties": ["property"],
     "Passthrough Validation": ["passthrough"],
-    "Advanced usage": [
-      "configuration"
+    "Advanced Usage": [
+      "configuration",
+      "spies"
     ],
     "Contributing": ["contributing"]
   }

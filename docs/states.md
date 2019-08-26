@@ -1,7 +1,7 @@
 ---
 id: states
-title: Setting the state
-sidebar_label: Setting the state
+title: Setting the State
+sidebar_label: Setting the State
 ---
 
 Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. While this means that your tests are not deterministic, tests like this help ensure the resiliency of your code. Testing your code with indeterministic responses helps you make a more robust code. It helps you **fail your way to success**, a way of coding we strongly believe in.

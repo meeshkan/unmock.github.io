@@ -1,7 +1,7 @@
 ---
 id: state-management
-title: State management
-sidebar_label: State management
+title: State Management
+sidebar_label: State Management
 ---
 
 Modifying the response body or status code as described in the [previous section](states.md) is often sufficient, but sometimes you need more control to test, for example, the behaviour for a service with 10 users. This can be achieved with the Unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
