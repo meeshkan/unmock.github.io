@@ -98,7 +98,7 @@ The most important thing you'll need to know when working with Sinon assertions 
 
 ### `UnmockRequest`
 
-An `UnmockRequest` is an [Sinon matcher](https://sinonjs.org/releases/v7.4.1/matchers/) with the following fields, all of which are optional.
+An `UnmockRequest` is an object with the following fields, all of which are optional. When used with `sinon`, the fields can be [Sinon matchers](https://sinonjs.org/releases/v7.4.1/matchers/), or the whole object can be enclosed in a matcher.
 
 ```javascript
 {
@@ -113,7 +113,51 @@ An `UnmockRequest` is an [Sinon matcher](https://sinonjs.org/releases/v7.4.1/mat
 
 Here is how an Unmock request can be used in a test.
 
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--test-->
+```javascript
+// augmentedUser.test.js
+import unmock, { services: { myapi }, u } from "unmock";
+import getAugmentedUser from "./getAugmentedUser";
+import { assert, match } from "sinon";
+
+unmock("https://myapi.com")
+  .get("/users/{id}")
+  .reply(200, {
+    id: u._.id,
+    name: u.name.firstName,
+    hobbies: u.array(u.enum("Fishing", "Swimming", "Reading"), { minValue: 1 })
+  })
+
+test("augmented user object composed correctly", async () => {
+  const augmentedUser = await getAugmentedUser(42);
+  assert.calledWith(myapi.spy, match({ method: "get", path: "users/42" }));
+});
+
+```
+
+<!--code-->
+```javascript
+// augmentedUser.js
+import axios from "axios";
+
+export default async (id) => {
+  const { data } = axios("https://myapi.com/users/"+id);
+  return {
+    ...data,
+    fetchedOn: new Date(),
+    seenInSession: false
+  }
+}
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
 ### `UnmockResponse`
+
+Similarly, an object `UnmockResponse` can be used to verify API responses.
 
 ```javascript
 {
@@ -122,3 +166,53 @@ Here is how an Unmock request can be used in a test.
   body: {}, // the body, a JSON object if it is a form or json, otherwise a string
 }
 ```
+
+All spies in Unmock provide the helper methods `getBody`, `getBodyOf`, `getBodies`, `getHeader`, `getHeaderOf`, `getHeaders` as explained [above](expectations#working-with-bodies). We recommend using these accessors instead of using the responses directly. That said, working with the response is useful when more complex verification schemes are necessary. Also, when possible, avoid writing "garbage-in-garbage-out" tests that simply verify your mock is passed throguh. When you do that, you are testing the Unmock library, which we of course appreciate, but that's our job :-)
+
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--test-->
+```javascript
+// augmentedUser.test.js
+import unmock, { services: { myapi }, u } from "unmock";
+import getAugmentedUser from "./getAugmentedUser";
+import { assert, match } from "sinon";
+
+unmock("https://myapi.com")
+  .get("/users/{id}")
+  .reply(200, {
+    id: u._.id,
+    name: u.name.firstName,
+    hobbies: u.array(u.enum("Fishing", "Swimming", "Reading"), { minValue: 1 })
+  })
+
+test("augmented user object composed correctly", async () => {
+  const augmentedUser = await getAugmentedUser(42);
+  // below is a garbage-in-garbage-out expectation using the statusCode
+  // of the UnmockResponse object. while this may be useful for debugging,
+  // it should be avoided when possible, as it tests your test but not
+  // your code
+  expect(200).toBe(myapi.spy.firstCall.returnValue.statusCode);
+  // uses the "body" field of the UnmockResponse object
+  expect(augmentedUser).toMatchObject(myapi.spy.firstCall.returnValue.body);
+});
+
+```
+
+<!--code-->
+```javascript
+// augmentedUser.js
+import axios from "axios";
+
+export default async (id) => {
+  const { data } = axios("https://myapi.com/users/"+id);
+  return {
+    ...data,
+    fetchedOn: new Date(),
+    seenInSession: false
+  }
+}
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
