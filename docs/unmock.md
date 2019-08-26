@@ -28,13 +28,11 @@ When you run your tests, Unmock will use this code to create a service specifica
 $ git add __unmock__/*
 ```
 
-After creating the specification once, you are free to leave calls to `unmock.serve` in your code or delete them. We recommend that you delete them and use the Unmock VSCode plugin or CLI to inspect services after they have been defined.
+After creating the specification once, you are free to leave service definitions in your code or delete them. We recommend that you delete them and use the Unmock VSCode plugin or CLI to inspect services after they have been defined.
 
-## Defining service specifications
+## Requests and responses
 
 Let's unpack how the simple example above works. For specification building, Unmock has syntax parity with most of [`nock`](https://github.com/nock/nock) (version 10.0.6+).
-
-### Requests and Responses
 
 Creating requests and responses is done with the `unmock.u` object, which exposes a number of useful fake-data-generating tools, mostly from the [`faker`](https://github.com/marak/Faker.js/) JS library.
 
@@ -66,7 +64,7 @@ A list of fake data generators is available on the [Faker.js website](https://gi
 
 In addition to fakers, unmock also provides sveral additional utilities for specifying mock data.
 
-#### Optional fields
+### Optional fields
 
 Any of the fields above can be specified as optional by prepending a `$.` before their definition.
 
@@ -78,7 +76,7 @@ const retval = {
 }
 ```
 
-#### Fields from paths, queries, headers, cookies, requests or responses
+### Cross referencing
 
 If you need to use a field from a path, query, header, cookie, request or response, use the underscore (`_`) followed by the field you would like to use.
 
@@ -117,7 +115,7 @@ In the example above, the `request` and `response` versions also provide a path 
 }
 ```
 
-#### Constant values
+### Constant values
 
 Sometimes, an API will return a constant value. In this case, you can just use a constant and forego the `u` object.
 
@@ -129,7 +127,7 @@ const retval = {
 }
 ```
 
-#### Enums
+### Enums
 
 You can specify enums with the `u.enum` function.
 
@@ -141,7 +139,7 @@ const retval = {
 }
 ```
 
-#### Arrays
+### Arrays
 
 Often times, you need to generate an array of objects. To do this, simply define an object using one of the strategies above and then use `u.array` to define how the array should look.
 
@@ -170,7 +168,7 @@ const retval = {
 }
 ```
 
-#### Functions
+### Functions
 
 For fine-grained control over the generation of mock data, you can use a function as input to any parameter. In general, mocking with this level of specificity is not a good idea: it means that the tests are too specific *or* we are missing a useful abstraction in our code base. If it is the latter, then [pull requests](https://github.com/unmock/unmock-js) are welcome!
 
@@ -198,6 +196,10 @@ const retval = {
   ].join("-")
 }
 ```
+
+## Verbs
+
+Like in `nock`, unmock supports all standard HTTP(S) verbs.
 
 ### GET requests
 
@@ -241,7 +243,7 @@ unmock('https://api.myapi.com')
   .reply(200);
 ```
 
-### Headers
+## Headers
 
 Unmock allows you to specify request headers as a second argument to the `unmock` function.
 
@@ -275,24 +277,34 @@ As previously mentioned, you can feel free to delete the code above after you ru
 
 When unmock fails because a service has changed, there are two ways to fix the problem - migration and updating.
 
+### Migrate
+
 In *migration*, unmock deletes the previous service specification and replaces it with a new one.
 
 ```javascript
-unmock("https://www.myapi.com/users/{id}")
-  .migrate({
-    id: u._`id`, // uses `id` from the path
-    name: u`name`, // generates a fake name
-    age: u`age` // generates a fake age
+unmock("https://www.myapi.com")
+  .migrate
+  .get("/users/{id}")
+  .reply(200, {
+    id: u._.random.number,
+    username: u.internet.userName,
+    type: 'user',
   });
 ```
 
-If `unmock.migrate` results in a no-op, it will raise an error. This is to prevent you from leaving dangling migrations in your code base. Unmock update works in a similar fashion: it updates the previous specification with new information.
+If `unmock.migrate` results in a no-op, it will raise an error. This is to prevent you from leaving dangling migrations in your code base. 
+
+### Update
+
+Unmock `update` works in a similar fashion: it updates the previous specification with new information.
 
 ```javascript
-unmock("https://www.myapi.com/users/{id}")
-  .update({
-    name: u`username`, // generates a fake username
-    age: u // delete the age field
+unmock("https://www.myapi.com")
+  .update
+  .get("/users/{id}")
+  .reply(200, {
+    name: u.name.lastName,
+    type: u
   });
 ```
 
