@@ -110,23 +110,6 @@ Request object contains the following fields:
 
 > Note that path and query parameters are not automatically parsed in the `UnmockRequest` object.
 
-> Tip: You can use the `UnmockRequest` object to verify outgoing requests with the following pattern:
->
-> ```javascript
-> // Define a mock used as request handler
-> const mockRequestHandler = jest.fn().mockImplementationOnce((req) => "Any response");
-> // Call the mock for intercepted requests
-> petstore.state((req) => mockRequestHandler(req));
-> // Run your code calling the service...
-> // Then run your asserts
-> expect(mockRequestHandler).toHaveBeenCalledWith({
->   expect.objectContaining({
->     body: "Expected body"  // Verify request body
->     method: "GET",
->   }),
-> });
-> ```
-
 ## Modifying response code
 
 To make the service return a specific status code such as 404, use the `$code` variable in the state input:
