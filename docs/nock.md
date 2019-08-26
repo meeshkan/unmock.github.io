@@ -30,4 +30,4 @@ test("user from backend is correct as UI object", async () => {
 });
 ```
 
-By default, Unmock preserves `nock` functionality, including hardcoded response values. If possible, you should gradually transition from using hardcoded requests and responses in your tests. To do this, Unmock provides a `convert` utility that converts a file from `nock` to native Unmock syntax while preserving functionality. From there, you can slowly transition to dynamic return values.
+By default, Unmock preserves `nock` functionality, including hardcoded response values. If possible, you should gradually transition from using hardcoded requests and responses in your tests.

@@ -27,7 +27,7 @@ unmock("https://www.myapi.com")
 test("user from backend is correct as UI object", async () => {
   stack = unmock.on();
   const { myapi } = stack;
-  compose(myapi.success(), [u.int], async (id) => { /* property testing */
+  compose(myapi.succeeds(), [u.int], async (id) => { /* property testing */
     const user = await userAsUIObject(id);
     stack(expect).getOnce("https://www.example.com/api/users/"+id);
     const { body } = myapi.response;

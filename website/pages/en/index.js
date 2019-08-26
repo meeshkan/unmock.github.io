@@ -103,7 +103,7 @@ const Kataconda = () => (
               "With lots of resources and examples, there is something for everyone, from Hello World to advanced API (un)mocking.",
             image: `${baseUrl}img/undraw_knowledge.svg`,
             imageAlign: "left",
-            title: "Learn unmock",
+            title: "Learn Unmock",
           },
         ]}
       </Block>
@@ -117,7 +117,7 @@ const Kataconda = () => (
               "Unmock is useful whenever you are testing code that calls an external API. This can be a microservice, a backend server, a third-party API like Stripe or Contentful, or an analytics service like Sentry or Segment.",
             image: `${baseUrl}img/undraw_programmer.svg`,
             imageAlign: "right",
-            title: "When should I use unmock?",
+            title: "When should I use Unmock?",
           },
         ]}
       </Block>

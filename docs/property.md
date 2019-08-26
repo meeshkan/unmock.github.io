@@ -4,218 +4,266 @@ title: Property Testing
 sidebar_label: Property Testing
 ---
 
-Unmock allows you to property test APIs. To understand if this is a good fit for your code base, it is good to explore what property testing is and when it's useful.
+Property testing is the preferred way to use Unmock. Unless you are sure an API will always return one and only one response (which is almost never the case), you should use proprety testing.  We've already seen property testing in the [simple example](introduction.md) - all it requires is wrapping your test in `unmock.compose`.
 
-## Property testing 101
+Under the hood, property testing runs the same test multiple times with different outcomes. For example, if a field is optional in an API response body, a property test may omit it and then include it.  This is a lean and fast way to make sure your API integrations are resilient.
 
-Property testing makes sense when you are uncertain about they type of content that a given function will receive or how that content will be transformed into a response. For example, the given function is a poor candidate for property testing.
+## Outcomes
 
-```ts
-const onlyAcceptsTwoThenAddsOne = (n: number) {
-  if (n != 2) {
-    throw Error(`Hey! I wanted the number two. Not ${n}`)
-  }
-  return n + 1;
-}
-```
-
-The function's name, error, and return result makes us pretty confident that two use cases (ie `onlyAcceptsTwoThenAddsOne(2)` and `onlyAcceptsTwoThenAddsOne(-42)`) will sufficiently test `onlyAcceptsTwoThenAddsOne`.
-
-Most trivial functions that have no IO should not be property tested. However, when the function contains several `if/else` branches, or when the function's input can vary drastically because we have no control over it, property testing can find nasty corner cases in milliseconds.
-
-API integrations are generally good candidates for property testing. Unless the API is something like `always-return-two.com` or `unauthorized.io`, chances are that its responses can be subtly different. In this case, simple property tests can save weeks of debugging time down the line!
-
-## Unmock and property testing
-
-Unmock supports property testing as a first class citizen via the `unmock.pt` object.  The four most common ways to do API property testing are `unmock.pt.fails`, `unmock.pt.succeeds`, `unmock.pt.nice` and `unmock.pt.chaos`.
+Property testing in Unmock is always linked to services - `github`, `myapi`, or whatever services you have defined in the `unmock.services` object. There are four different verbs that describe how each API can behave in a property test: `fails`, `succeeds`, `behaves`, and `panics`.  So, in property testing, you write things like `github.fails`, `myapi.succeeds`, `slack.behaves` and `stripe.panics`.
 
 ### Failure
 
-Wrapping part of a test in `unmock.pt.fails` will explore different configurations of failure for a given API call.  For example, let's say that we assume that when `updatesName` fails, its error will contain a field called `message` and this field will always be a `string`.
+User `service.fails` to explore different configurations of failure for a given API call.  Unmock will return any defined `400` responses plus a variety of `500` responses and everyone's favorite `EADDRNOTAVAIL`.
 
-```ts
-// updatesName.ts
-const updatesName = async (id: string, name: string) => {
-  try {
-    const res = await updateProfile({ id, name });
-    sendAnalyticsEvent(PROFILE_UPDATED, { id });
-    const { id, name, avatar, location, ...rest } = res;
-    return { id, name, avatar, location };
-  } catch (e) {
-    return e.message;
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+```javascript
+// userAsUIObject.test.js
+
+import unmock, { compose, u } from "unmock";
+import userAsUIObject from "./userAsUIObject";
+
+unmock("https://www.myapi.com")
+  .get("/users/{id}")
+  .reply(200, {
+    id: u._.id, // uses `id` from the path
+    name: u.name., // generates a fake name
+    age: u.$.age., // optionally generates a fake age
+    type: 'user', // the literal word "user"
+  });
+
+test("user from backend is correct as UI object", async () => {
+  stack = unmock.on();
+  const { myapi } = stack;
+  compose(myapi.fails(), [u.int], async (id) => { /* property testing */
+    expect(async () => {
+      await userAsUIObject(id);
+    }).toThrow();
+  });
+});
+```
+
+<!--Code-->
+```javascript
+// userAsUIObject.js
+/*
+  In this file, we make a call to our API and enrich the object
+  with some client-side fields for representing the user in the UI.
+*/
+const userAsUIObject = async (id) => {
+  const { data } = await axios("https://www.example.com/api/users/"+id);
+  return {
+    ...data,
+    seen: false,
+    edited: false,
   }
 }
+export default userAsUIObject;
 ```
 
-```ts
-// updatesName.test.ts
-test("tests name update failure" => () {
-  unmock.pt.fails(async () => {
-    const res = updatesNicknameAPI('bob');
-    expect(typeof res).toBe("string");
-  });
-});
-```
-
-When we run our test, we may get the following result.
-
-```bash
-***************************************************
-unmock: "tests name update failure" failed on the following configurations:
-- EADDRNOTAVAIL.
-  undefined is not string
-- 501.
-  undefined is not string
-and succeeded on:
-- 400
-- 403
-- 500.
-***************************************************
-```
-
-We can now test just these specific points of failure to drill to the bottom of the problem.
-
-```ts
-// updatesName.test.ts
-test("tests name update failure" => async () {
-  unmock.pt.fails(['EADDRNOTAVAIL', 501], async () => {
-    const res = await updatesNicknameAPI('bob');
-    expect(typeof res).toBe("string");
-  });
-});
-```
+<!--END_DOCUSAURUS_CODE_TABS-->
 
 ### Success
 
 Similarly to the failure scenario, unmock can also test only successful outcomes.
 
-```ts
-// updatesName.test.ts
-test("tests name update success" => async () {
-  unmock.pt.succeeds(async () => {
-    const res = await updatesNicknameAPI('bob');
-    expect(Object.keys(res)).toBe(['id','name','avatar','location']);
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+```javascript
+// userAsUIObject.test.js
+
+import unmock, { compose, u } from "unmock";
+import userAsUIObject from "./userAsUIObject";
+
+unmock("https://www.myapi.com")
+  .get("/users/{id}")
+  .reply(200, {
+    id: u._.id, // uses `id` from the path
+    name: u.name., // generates a fake name
+    age: u.$.age., // optionally generates a fake age
+    type: 'user', // the literal word "user"
+  });
+
+test("user from backend is correct as UI object", async () => {
+  stack = unmock.on();
+  const { myapi } = stack;
+  compose(myapi.succeeds(), [u.int], async (id) => {
+    const user = await userAsUIObject(id);
+    stack(expect).getOnce("https://www.example.com/api/users/"+id);
+    const { body } = myapi.response;
+    stack(expect)(user).toExtend(body));
   });
 });
 ```
 
-```bash
-***************************************************
-unmock: "tests name update success" failed on the following configurations:
-- { id: 'a' }
-  undefined is not string
-- { id: 'a', name: 'bob' }
-and succeeded on:
-- { id: 'a', name: 'bob', avatar: 'avatar.com/bob.png', location: 'Paris' }
-- { id: 'b', name: 'bob', avatar: 'avatar.com/bob.png', location: 'Paris' }
-***************************************************
+<!--Code-->
+```javascript
+// userAsUIObject.js
+/*
+  In this file, we make a call to our API and enrich the object
+  with some client-side fields for representing the user in the UI.
+*/
+const userAsUIObject = async (id) => {
+  const { data } = await axios("https://www.example.com/api/users/"+id);
+  return {
+    ...data,
+    seen: false,
+    edited: false,
+  }
+}
+export default userAsUIObject;
 ```
 
-Great! We found that our test fails because our API can, contrary to our expectations, return an object with the name, avatar, and location field blank. We can tweak our code to account for these scenarios.
+<!--END_DOCUSAURUS_CODE_TABS-->
 
-### Nice
 
-In certain cases, it is good to simulate APIs returning any valid response. Or, in other words, the API behaves "nicely," meaning that even when it fails, it fails the way it is expected to fail. This is especially useful when success and failure should lead to the same outcome. For example, if you are posting information to a non-critical API that has no bearing on UX, you may want to simultaneously test success and failure.
+### Behaves
 
-If you look at the function `updateName` again, you'll notice that there is a call to `sendAnalyticsEvent`. Let's allow it to return any valid response.  Here, we also see a nifty feature of `unmock.pt` - the ability to specify a given API, just like the `states` object.
+The `behaves` command will test out a variety of valid responses, including success and failure. As success and failure normally respond in different code paths, this test should only be used on functions that convert errors to default values.
 
-```ts
-// updatesName.test.ts
-test("tests name update does not crash because of analytics api" => () {
-  unmock.pt.nice.analytics(async () => {
-    await updatesNicknameAPI('bob');
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+```javascript
+// horoscope.test.js
+
+import unmock, { compose, u } from "unmock";
+import userAsUIObject from "./userAsUIObject";
+
+unmock("https://www.horoscope.com")
+  .get("/{sign}")
+  .reply(200, {
+    horoscpe: u.zodiac.horoscope,
+  });
+
+test("user from backend is correct as UI object", async () => {
+  stack = unmock.on();
+  const { horoscope } = stack;
+  compose(horoscope.behaves(), [u.string], async (sign) => {
+    const prediction = await getHoroscope(sign);
+    expect(typeof prediction).toBe("string");
   });
 });
 ```
 
-### Chaos
+<!--Code-->
+```javascript
+// horoscope.js
 
-In some (unfortnately not so) rare circumstances, an API will be so erratic that you cannot trust it to behave correctly. In this case, [Chaos isn't a pit. Chaos is a ladder.](https://www.youtube.com/watch?v=iRS8a8HjqFs) While there are many chaos testing libraries available, `unmock.pt.chaos` introduces a modicum of chaos only for a specific API call, returning *anything* (wrong content length, wrong body structure, etc.). In general, `chaos` is your friend if you want to make sure that part of your code base is resilient.
+const getHoroscope = async (sign) => {
+  try {
+    const { data: { horoscope } } = await axios("https://www.horoscope.com/"+sign);
+    return horoscope;
+  } catch {
+    return "Your internet connection will experience problems."
+  }
+}
+export default getHoroscope;
+```
 
-```ts
-// updatesName.test.ts
-test("tests name update does not crash because of flaky analytics API" => () {
-  unmock.pt.chaos.analytics(async () => {
-    await updatesNicknameAPI('bob');
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+### Panic!
+
+When Unmock panics, it literally responds with *anything*. Random bytes, cat pictures, JSON intercepted from NASA communications. You name it, we'll use it.  This is a great way to stress test your integrations!
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+```javascript
+// horoscope.test.js
+
+import unmock, { compose, u } from "unmock";
+import userAsUIObject from "./userAsUIObject";
+
+unmock("https://www.horoscope.com")
+  .get("/{sign}")
+  .reply(200, {
+    horoscpe: u.zodiac.horoscope,
+  });
+
+test("user from backend is correct as UI object", async () => {
+  stack = unmock.on();
+  const { horoscope } = stack;
+  compose(horoscope.panic(), [u.string], async (sign) => {
+    const prediction = await getHoroscope(sign);
+    expect(typeof prediction).toBe("string");
   });
 });
 ```
 
-### Composition
+<!--Code-->
+```javascript
+// horoscope.js
 
-Sometimes, you will want your property testing to compose various different behaviors. For exmaple, API A will always fail whereas API B will always succeed. To achieve this, you can use `unmock.pt.compose`.
-
-```ts
-// updatesName.test.ts
-test("tests name update does not crash because of flaky analytics API" => () {
-  unmock.pt.compose(unmock.pt.success.apiB(), unmock.pt.failure.apiA(), async () => {
-    myFunction();
-  });
-});
+const getHoroscope = async (sign) => {
+  try {
+    const { data: { horoscope } } = await axios("https://www.horoscope.com/"+sign);
+    return horoscope;
+  } catch {
+    return "Your internet connection will experience problems."
+  }
+}
+export default getHoroscope;
 ```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+## Composition
+
+We have seen the function `unmock.compose` used to control property testing for single APIs, but it can compose as many APIs as you throw at it. Simply pass an array of behaviors instead of a single one and unmock will compose them together in a single test.
 
 ## Unmock and `fast-check`
 
-[`fast-check`](https://www.npmjs.com/package/fast-check) is a popular JavaScript property testing library. `unmock` is interoperable with `fast-check`.
+[`fast-check`](https://www.npmjs.com/package/fast-check) is a popular JavaScript property testing library. `unmock` is interoperable with `fast-check`.  Simply wrap an `unmock.compose` call in a fast-check call or vice versa to combine the two tools.
 
-Let's consider the following example from the `fast-check` documentation.
+<!--DOCUSAURUS_CODE_TABS-->
 
-```js
-const fc = require('fast-check');
- 
-// Code under test
-const contains = (text, pattern) => text.indexOf(pattern) >= 0;
- 
-// Properties
-describe('properties', () => {
-  // string text always contains itself
-  it('should always contain itself', () => {
-    fc.assert(fc.property(fc.string(), text => contains(text, text)));
+<!--Test-->
+```javascript
+// userAsUIObject.test.js
+
+import unmock, { compose, u } from "unmock";
+import userAsUIObject from "./userAsUIObject";
+
+unmock("https://www.myapi.com")
+  .get("/users/{id}")
+  .reply(200, {
+    id: u._.id, // uses `id` from the path
+    name: u.name., // generates a fake name
+    age: u.$.age., // optionally generates a fake age
+    type: 'user', // the literal word "user"
   });
-  // string a + b + c always contains b, whatever the values of a, b and c
-  it('should always contain its substrings', () => {
-    fc.assert(fc.property(fc.string(), fc.string(), fc.string(), (a,b,c) => contains(a+b+c, b)));
+
+test("user from backend is correct as UI object", async () => {
+  stack = unmock.on();
+  const { myapi } = stack;
+  compose(myapi.succeeds(), async () => {
+    fc.assert(fc.property(fc.number(), async (id) => {
+      const user = await userAsUIObject(id);
+      stack(expect).getOnce("https://www.example.com/api/users/"+id);
+      const { body } = myapi.response;
+      return body === user.fromAPI;
+    }));
   });
 });
 ```
 
-Imagine that, instead of using `text.indexOf`, we use the website `index-of.io` to do the same thing.
-
-```js
-const axios = require('axios');
-const fc = require('fast-check');
- 
-// Code under test
-const contains = async (text, pattern) => {
-  try {
-    const { data } = await axios('https://index-of.io/'+text);
-    return data;
-  } catch {
-    return -1;
+<!--Code-->
+```javascript
+// userAsUIObject.js
+const userAsUIObject = async (id) => {
+  const { data } = await axios("https://www.example.com/api/users/"+id);
+  return {
+    fromAPI: data,
+    seen: false,
+    edited: false,
   }
 }
- 
-// Properties
-describe('properties', () => {
-  // string text always contains itself
-  it('should always contain itself', () => {
-    fc.assert(fc.property(unmock.pt.success(), fc.string(), text => contains(text, text)));
-  });
-  // contains returns false when API is broken
-  it('should always contain its substrings', () => {
-    fc.assert(fc.property(unmock.pt.failure(), fc.string(), text => contains(text, text) == -1));
-  });
-});
+export default userAsUIObject;
 ```
 
-You'll see that, in the examples above, `unmock.pt.X()` does not inject anything into the `fast-check` function, but rather instructs unmock to behave a certain way in the context of a test. This can also be useful for composing functions - for example, when you want to test a certain API fails whereas another one succeeds.  The astute reader will note that this is the same as [`unmock.pt.compose`](#composition).
-
-```ts
-// Properties
-describe('properties', () => {
-  // string text always contains itself
-  it('should always contain itself', () => {
-    fc.assert(fc.property(unmock.pt.success.api0(), unmock.pt.chaos.api1(), fc.string(), text => foo(text)));
-  });
-});
-```
+<!--END_DOCUSAURUS_CODE_TABS-->
