@@ -18,7 +18,7 @@ There are three ways to incldue OpenAPI in an unmock project.
 
 Lots of companies define OpenAPI specs for their APIs, and several projects, such as [apis.guru](https://apis.guru) and [OpenAPI Directory](https://github.com/APIs-guru/openapi-directory), act as a directory of OpenAPI specs.  We maintain our own directory, called [DefinitelyMocked](https://github.com/unmock/definitelymocked), that you can use right from the Unmock CLI.
 
-To import a spec from DefinitelyMocked, you can use `npm` or `yarn`. The following example imports the OpenAPI spec for th eStripe Version 3 API.
+To import a spec from DefinitelyMocked, you can use `npm` or `yarn`. The following example imports the OpenAPI spec for the Stripe Version 3 API.
 
 <!--DOCUSAURUS_CODE_TABS-->
 
@@ -36,9 +36,26 @@ $ npm install --save-dev @unmock/stripe3
 
 > If you are using typescript, make sure to add `unmock ts` as a post install hook to have types generated for your OpenAPI specs.
 
+Now, Unmock will automagically mock Stripe V3 whenever you call it.
+
 ## Composing with the CLI or VS Code
 
-*Some text*
+The Unmock CLI and VS Code plugins both allow for you to compose services. This section will explore how to do this with the CLI. The VS Code plugin is self documenting from the Unmock pane in VS Code.
+
+```bash
+$ unmock add https://myapi.com/me get response 200 application/json id number
+$ unmock show https://myapi.com
+paths:
+ /me:
+   get:
+     response:
+       200:
+         application/json:
+           type: object
+           properties:
+             id:
+               type: integer
+```
 
 ## Manual OpenAPI spec creation
 
