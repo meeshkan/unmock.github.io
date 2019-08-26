@@ -6,33 +6,27 @@ sidebar_label: Using Nock
 
 [`nock`](https://www.github.com/nock/nock) is a popular tool for HTTP(S) testing in JavaScript.
 
-Unmock ️❤️ nock, and we've drawn a lot of inspiration for our project from their design decision and fluid API. To use unmock with nock, simply wrap your call to `nock` in `unmock`. It's that easy!  Here is our original Hello World example, written using the `nock` wrapper.
+Unmock ️❤️ nock, and we've drawn a lot of inspiration for our project from their design decision and fluid API. To use unmock with nock, simply wrap your call to `nock` in `unmock`. It's that easy!  Here is a small example that uses the `nock` wrapper.
 
 
 ```javascript
 import nock from "nock";
 import unmock, { compose, u } from "unmock";
 
-unmock(nock)("https://www.myapi.com")
-  .get('/users/42')
-  .reply(200, {
+const MY_REPLY = {
     id: 101,
     name: 'Jane Doe',
     age: 42,
     type: 'user'
-  });
+  }
+unmock(nock)("https://www.myapi.com")
+  .get('/users/42')
+  .reply(200, MY_REPLY);
 
 test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { myapi } = stack;
-  compose(myapi.success(), [u.int], async (id) => { /* 2 below */
-    const user = await userAsUIObject(id);
-    stack(expect).getOnce("https://www.example.com/api/users/");
-    const { body } = myapi.response;
-    stack(expect)(user).toExtend(myapi.body()); /* 1 below */
-    stack(expect).postOnce("https://www.analytics.com", { id: body.id }); /* 3 below */
-    stack(expect)(user.welcomeMessage).toBe(`Hello ${user.name}!`)
-  });
+  unmock.on();
+  const { data } = await userAsUIObject(id);
+  expect(data).toEqual(MY_REPLY);
 });
 ```
 
