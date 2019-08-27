@@ -12,6 +12,26 @@ Under the hood, property testing runs the same test multiple times with differen
 
 Property testing in Unmock is always linked to services - `github`, `myapi`, or whatever services you have defined in the `unmock.services` object. There are four different verbs that describe how each API can behave in a property test: `fails`, `succeeds`, `behaves`, and `panics`.  So, in property testing, you write things like `github.fails`, `myapi.succeeds`, `slack.behaves` and `stripe.panics`.
 
+The anatomy of a property test is always the same: `compose` followed by an array of statements in the form `<api>.<verb>` followed by an optional array of input values followed by a function with the code to test. This function **always** has an expectation object as a first argument (ie `jest.expect` or `mocha.expect` depending on your test runner). You use this, instead of `expect` in Jest or Mocha, to make sure every property test executes.  Here is a simple example.
+
+```javascript
+compose([github.fails(), myapi.succeeds()], [u.random.number], (expt, id) => {
+  const res = await myfunction(id);
+  // don't use expect here! it won't work. use the first argument
+  // to the function above. as a convention, we call it expt.
+  expt(res).toEqual({ foo: { bar: "baz" }});
+});
+```
+
+If there is only one verb (ie only `github.fails`), the array can be replaced with just that statement. Furthermore, the second array is optional - if you have no arguments that need to be randomly generated, you can skip it.
+
+```javascript
+compose([github.fails(), myapi.succeeds()], (expt) => {
+  const res = await myfunction();
+  expt(res).toEqual({ foo: { bar: "baz" }});
+});
+```
+
 ### Failure
 
 User `service.fails` to explore different configurations of failure for a given API call.  Unmock will return any defined `400` responses plus a variety of `500` responses and everyone's favorite `EADDRNOTAVAIL`.
@@ -35,10 +55,9 @@ unmock("https://www.myapi.com")
   });
 
 test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { myapi } = stack;
-  compose(myapi.fails(), [u.int], async (id) => { /* property testing */
-    expect(async () => {
+  const { myapi } = unmock.on().services;
+  compose(myapi.fails(), [u.int], async (expt, id) => { /* property testing */
+    expt(async () => {
       await userAsUIObject(id);
     }).toThrow();
   });
@@ -88,13 +107,11 @@ unmock("https://www.myapi.com")
   });
 
 test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { myapi } = stack;
-  compose(myapi.succeeds(), [u.int], async (id) => {
+  const { myapi } = unmock.on().services;
+  compose(myapi.succeeds(), [u.int], async (expt, id) => {
     const user = await userAsUIObject(id);
-    stack(expect).getOnce("https://www.example.com/api/users/"+id);
-    const { body } = myapi.response;
-    stack(expect)(user).toExtend(body));
+    expt(myapi).getPath("https://www.example.com/api/users/"+id);
+    expt(user).toMatchObject(myapi.getResponseBody());
   });
 });
 ```
@@ -140,8 +157,7 @@ unmock("https://www.horoscope.com")
   });
 
 test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { horoscope } = stack;
+  const { horoscope } = unmock.on().services;
   compose(horoscope.behaves(), [u.string], async (sign) => {
     const prediction = await getHoroscope(sign);
     expect(typeof prediction).toBe("string");
@@ -186,8 +202,7 @@ unmock("https://www.horoscope.com")
   });
 
 test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { horoscope } = stack;
+  const { horoscope } = unmock.on().services;
   compose(horoscope.panic(), [u.string], async (sign) => {
     const prediction = await getHoroscope(sign);
     expect(typeof prediction).toBe("string");
@@ -208,62 +223,6 @@ const getHoroscope = async (sign) => {
   }
 }
 export default getHoroscope;
-```
-
-<!--END_DOCUSAURUS_CODE_TABS-->
-
-## Composition
-
-We have seen the function `unmock.compose` used to control property testing for single APIs, but it can compose as many APIs as you throw at it. Simply pass an array of behaviors instead of a single one and unmock will compose them together in a single test.
-
-## Unmock and `fast-check`
-
-[`fast-check`](https://www.npmjs.com/package/fast-check) is a popular JavaScript property testing library. `unmock` is interoperable with `fast-check`.  Simply wrap an `unmock.compose` call in a fast-check call or vice versa to combine the two tools.
-
-<!--DOCUSAURUS_CODE_TABS-->
-
-<!--Test-->
-```javascript
-// userAsUIObject.test.js
-
-import unmock, { compose, u } from "unmock";
-import userAsUIObject from "./userAsUIObject";
-
-unmock("https://www.myapi.com")
-  .get("/users/{id}")
-  .reply(200, {
-    id: u._.id, // uses `id` from the path
-    name: u.name., // generates a fake name
-    age: u.$.age., // optionally generates a fake age
-    type: 'user', // the literal word "user"
-  });
-
-test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { myapi } = stack;
-  compose(myapi.succeeds(), async () => {
-    fc.assert(fc.property(fc.number(), async (id) => {
-      const user = await userAsUIObject(id);
-      stack(expect).getOnce("https://www.example.com/api/users/"+id);
-      const { body } = myapi.response;
-      return body === user.fromAPI;
-    }));
-  });
-});
-```
-
-<!--Code-->
-```javascript
-// userAsUIObject.js
-const userAsUIObject = async (id) => {
-  const { data } = await axios("https://www.example.com/api/users/"+id);
-  return {
-    fromAPI: data,
-    seen: false,
-    edited: false,
-  }
-}
-export default userAsUIObject;
 ```
 
 <!--END_DOCUSAURUS_CODE_TABS-->

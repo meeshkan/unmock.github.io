@@ -4,7 +4,7 @@ title: State Management
 sidebar_label: State Management
 ---
 
-Modifying the response body or status code as described in the [previous section](states.md) is often sufficient, but sometimes you need more control to test, for example, the behaviour for a service with 10 users. This can be achieved with the Unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
+Modifying the response body as described in the [previous section](states.md) is often sufficient, but sometimes you need to control things like the status code or the number of times an API returns a specific value. This can be achieved with the Unmock DSL. All DSL elements are prefixed with the dollar sign (`$`).
 
 ## Top-level DSL
 
@@ -12,7 +12,7 @@ Top-level DSL is not specific to any property in the response body and can there
 
 ## `$code`
 
-The DSL element `$code` was introduced in the [previous section]("./state-basic.md") for specifying the status code returned by the service for a call to a given endpoint. Note that the response code must exist in the service specification.
+`$code` is used to modify the status code. Note that the response code must exist in the service specification.
 
 ```javascript
 // Returns a 500 error on requests to `/pets/5`
@@ -48,7 +48,7 @@ github.state("/search/repositories", {
 
 ## State DSL middleware
 
-Unmock currently offers two middleware functions. The default one is the object-notation middleware. You've seen it in the [basic usage](state-basic.md) - you pass key-value pairs as a state. The other one is a string middleware. Both are found under `unmock.middleware`.
+Unmock currently offers two middleware functions. The default one is the object-notation middleware. You've seen it in the [basic usage](states.md) - you pass key-value pairs as a state. The other one is a string middleware. Both are found under `unmock.middleware`.
 
 We roll out more middlewares as are necessary - please [let us know](https://github.com/unmock/unmock-js/issues) if you're missing anything!
 

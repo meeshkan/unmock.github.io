@@ -4,144 +4,188 @@ title: Setting the State
 sidebar_label: Setting the State
 ---
 
-Sometimes, it is not enough to verify that a function handles any old API response correctly. You'll often want to verify that a function reacts to *specific data* from an API in a predictable way. To do this, unmock exposes a **state** property for each service.
+Sometimes, it is not enough to verify that a function handles any old API response correctly. You'll often want to verify that a function reacts to *specific data* from an API in a predictable way. There are two ways to do this:
 
-```javascript
-// Access services via unmock.services:
-import unmock, { services } from "unmock-node";
+1. Hardcode return values for API simualtions. This is **bad**.
+1. Override generic API specs on a per-test basis. This is **good** when done in moderation. Too much of this is **bad**, and if you find a lot of these in your code base, you should try [property testing](property.md) instead.
 
-// Or via unmock.on():
-const { services } = unmock.on();
+To do the second one, Unmock exposes a **state** property for each service.
 
-// Get a service having `state` property.
-const github = services.github;
-```
+## Modifying a response body
 
-> Beware: `unmock.services` will not contain any services if you haven't called `unmock.on()` or defined any services.
-
-To modify the state for a service named `github`, you call methods on `github.state` as described below, allowing you to set specific response bodies for any HTTP method and path.
-
-## Modifying response body
+The most common override you will need to make when you are testing is modifying a response body to contain a specific field.
 
 ### JSON response
 
-To modify response bodies for content type `application/json` for a service named `github`, you may:
+There are two ways to modify response bodies with content type `application/json`.
 
-- Call `github.state` with the state you would like to return:
+1. **Global override**. Override a field in *every* response.
+1. **Path override**. Override a field corresponding to a specific path.
+1. **Path-verb override**. Override a field corresponding to a specific path *and* verb.
 
-  ```javascript
-  // Sets the `repository` field _anywhere_ in the response body to "unmock-js"
-  github.state({ repository: "unmock-js" });
-  ```
+The example below contains examples of all three.
 
-  Unmock automatically finds out which endpoints and which HTTP methods this state change applies to and only applies the state change to those endpoints.
+<!--DOCUSAURUS_CODE_TABS-->
 
-- Call `github.state` with the path for which you'd like to define a new state:
+<!--Test-->
+```javascript
+// userAsUIObject.test.js
 
-  ```javascript
-  // Set the `name` field to "sparky" for the response to any HTTP operation at `/user`
-  github.state("/user", { name: "sparky" });
-  ```
+import unmock, { compose, u } from "unmock";
+import userAsUIObject from "./userAsUIObject";
 
-  > Tip:
-  > You can also use wildcards for single path item replacements:
-  >
-  > ```javascript
-  > github.state("/users/*", { name: "lucy" });
-  > ```
+unmock("https://www.foo.com")
+  .get("/users/{id}")
+  .reply(200, { name: u.name.firstName, paid: u.boolean });
+unmock("https://www.bar.com")
+  .get("/users/{id}")
+  .reply(200, { paid: u.boolean, horoscope: u.zodiac.horoscope });
+unmock("https://www.baz.com")
+  .get("/users/{id}")
+  .reply(200, { paid: u.boolean, latitude: u.location.latitude });
 
-- Call `github.state` with a specific HTTP method within the service:
+test("user from backend is correct as UI object", async () => {
+  const { foo, bar, baz } = unmock.on();
+  const paid = true;
+  foo.state({ paid });
+  bar.state("/users/42", { paid });
+  baz.state.get("/users/42", { paid });
+  const info = await userAsUIObject(42);
+  expect(info.foo).toBe(foo.spy.getResponseBody());
+  expect(info.bar).toBe(bar.spy.getResponseBody());
+  expect(info.baz).toBe(baz.spy.getResponseBody());
+});
+```
 
-  ```javascript
-  // Set the `name` field to "still sparky" for a GET request to `/user/sparky`
-  github.state.get("/users/sparky", { name: "Still Sparky" });
-  ```
+<!--Code-->
+```javascript
+// userAsUIObject.js
+const userAsUIObject = async (id) => {
+  const foo = await axios("https://www.foo.com/users/"+id);
+  const bar = await axios("https://www.bar.com/users/"+id);
+  const baz = await axios("https://www.baz.com/users/"+id);
+  return {
+    foo: foo.data.paid ? foo.data : undefined,
+    bar: bar.data.paid ? bar.data : undefined,
+    baz: baz.data.paid ? baz.data : undefined
+  }
+}
+export default userAsUIObject;
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+
+> You can also use wildcards for single path item replacements:
+>
+> ```javascript
+> github.state("/users/*", { name: "lucy" });
+> ```
 
 ### Text response
 
-If the service returns content type of `text/plain` and you want to set a specific text response, you can replace the object inputs above with plain strings:
+If the service returns content type of `text/plain` and you want to set a specific text response, you can replace the object inputs above with plain strings.
 
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
 ```javascript
-const petstore = unmock.services.petstore;
+// getAString.test.js
 
-// Sets the text response for any operation to any path to "Document not found"
-petstore.state("Document not found");
+import unmock, { compose, u } from "unmock";
+import getAString from "./userAsUIObject";
 
-// Sets the text response for any operation to `/path` to "Document not found"
-petstore.state("/path", "Document not found");
+unmock("https://www.foo.com")
+  .get("/users/{id}")
+  .textReply(200);
 
-// Sets the text response for `GET /path` to "Document not found"
-petstore.state.get("/path", "Document not found");
+test("user from backend is correct as UI object", async () => {
+  const { foo } = unmock.on();
+  const anti_pattern = "This is a bad test.";
+  foo.state(anti_pattern);
+  const s = await getAString(42);
+  // the better test would be to test that s is a string
+  // but hey, sometimes anti-patterns get the job done!
+  expect(s).toBe(anti_pattern);
+});
 ```
+
+<!--Code-->
+```javascript
+// getAString.js
+const getAString = async (id) => {
+  const { data } = await axios("https://www.foo.com/api/users/"+id);
+  return data;
+}
+export default getAString;
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
 
 ### Using a function as state
 
-Often you want to set the response body programmatically based on the intercepted request. This can be done by using a function as state input as follows:
+In rare cases, you'll want to set the response body programmatically based on the intercepted request. This can be done by using a function as state input as follows:
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+```javascript
+// is42.test.js
+
+import unmock, { u } from "unmock";
+import is42 from "./is42";
+
+unmock("https://www.is42.com")
+  .get("/{n}")
+  .reply(200, { ok: u.boolean });
+
+test("user from backend is correct as UI object", async () => {
+  const { is42 } = unmock.on();
+  is42.state(req => {
+    body: {
+      ok: req.path.indexOf("42") !== -1 true : false
+    }});
+  const i42 = await is42(42);
+  expect(i42).toBe({ ok: true });
+});
+```
+
+<!--Code-->
+```javascript
+// is42.js
+const is42 = async (n) => {
+  const { data } = await axios("https://www.is42.com/"+n);
+  return data;
+}
+export default is42;
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+Note that the object returned from the function must be a _full_ `UnmockResponse`.
 
 ```javascript
-// Return the last element of the path as login field
-github.state.post("/users/*", req => ({ login: req.path.split("/").pop() }));
+{
+  statusCode: 200, // a number, defaults to 200 if not present
+  body: {}, // a body, a string or an object if application/json
+  headers: {} // optional headers
+}
 ```
 
-or in TypeScript with typing:
+> Danger! Too much logic in your tests is bad. If you find yourself using functions a lot, you should try [property testing](property.md). If that doesn't work, consider refactoring your code. If that doesn't work, let us know, because you have an interesting use case!
 
-```typescript
-import { UnmockRequest } from "unmock-node";
-
-states.github.post("/users/*", (req: UnmockRequest) => ({
-  login: req.path.split("/").pop(),
-}));
-```
-
-Note that the object returned from the function will be set as the _full_ response body.
-
-Request object contains the following fields:
+The request object contains the following fields:
 
 - `host`: request hostname, for example, `"api.github.com"`
 - `headers`: request headers
 - `body`: request body
 - `method`: request method, for example, `"GET"`
 - `protocol`: either `"http"` or `"https"`
-- `path`: request path
-
-> Note that path and query parameters are not automatically parsed in the `UnmockRequest` object.
-
-> Tip: You can use the `UnmockRequest` object to verify outgoing requests with the following pattern:
->
-> ```javascript
-> // Define a mock used as request handler
-> const mockRequestHandler = jest.fn().mockImplementationOnce((req) => "Any response");
-> // Call the mock for intercepted requests
-> petstore.state((req) => mockRequestHandler(req));
-> // Run your code calling the service...
-> // Then run your asserts
-> expect(mockRequestHandler).toHaveBeenCalledWith({
->   expect.objectContaining({
->     body: "Expected body"  // Verify request body
->     method: "GET",
->   }),
-> });
-> ```
-
-## Modifying response code
-
-To make the service return a specific status code such as 404, use the `$code` variable in the state input:
-
-```javascript
-const petstore = unmock.services.petstore;
-
-// Sets the response code for any operation to any path to 404
-petstore.state({ $code: 404 });
-
-// Return `{ message: "Not found" }` and code 404
-petstore.state({ message: "Not found", $code: 404 });
-```
-
-You can use the same `petstore.state.get` and `petstore.state("/path")` constructs as above to set the state for specific operations and paths, respectively.
+- `path`: the **unparsed** request path, including the query string
 
 ## Resetting the state
 
-Reset a specific service state or the whole service:
+You can reset a specific service state or the whole service.
 
 ```javascript
 github.state.reset(); // Reset the state for `github`
@@ -150,32 +194,10 @@ github.reset(); // Reset the service, including state
 
 ## Fluent API
 
-`state` object exposes a fluent API so you can chain multiple calls to set multiple states:
+The `state` object exposes a fluent API so you can chain multiple calls to set multiple states.
 
 ```javascript
 github.state
   .get("/users/sparky", { name: "Still Sparky" })
   .get("/users/lilo", { name: "Lilo" });
-```
-
-> Warning: You cannot chain new calls after `reset()` with the fluent API.
-
-## Merged state
-
-Once the states are set and a request is captured, it is matched against the service and the most specific state is being used to generate the response. For example, assume the following state is being set:
-
-```javascript
-petstore.state({ id: -999 });
-petstore.state("/pets/*", { name: "Finn" });
-petstore.state("/pets/1", { id: 1 });
-```
-
-The following calls will generate the matching responses:
-
-```javascript
-fetch(`${PETSTORE_URL}/pets/1`); // -> { id: 1, name: "Finn" }
-fetch(`${PETSTORE_URL}/pets/3`); // -> { id: -999, name: "Finn" }
-fetch(`${PETSTORE_URL}/pets/513`); // -> { id: -999, name: "Finn" }
-fetch(`${PETSTORE_URL}/pets`);
-// -> [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]
 ```

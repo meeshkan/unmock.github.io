@@ -9,19 +9,19 @@
       "openapi",
       "nock"
     ],
-    "Expectations": [
+    "Basic Usage": [
       "expectations",
-      "states",
-      "state-management"
+      "property",
+      "passthrough"
     ],
-    "Properties": ["property"],
-    "Passthrough Validation": ["passthrough"],
+    "Advanced Usage": [
+      "states",
+      "state-management",
+      "configuration"
+    ],
     "Extras": [
       "cli",
       "vscode"
-    ],
-    "Advanced Usage": [
-      "configuration"
     ],
     "Contributing": ["contributing"]
   }

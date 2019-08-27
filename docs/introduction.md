@@ -18,14 +18,14 @@ import userAsUIObject from "./userAsUIObject";
 unmock("https://www.myapi.com")
   .get("/users/{id}")
   .reply(200, {
-    id: u._.id, // uses `id` from the path
-    name: u.name., // generates a fake name
-    age: u.$.age., // optionally generates a fake age
+    id: u._.random.number, // uses `id` from the path
+    name: u.name.firstName, // generates a fake name
+    age: u.$.age.age, // optionally generates a fake age
     type: 'user', // the literal word "user"
   });
 
 test("user from backend is correct as UI object", async () => {
-  const { myapi } = unmock.on();
+  const { myapi } = unmock.on().services;
   /* property testing */
   compose(myapi.succeeds(), [u.int], async (expt, id) => {
     const user = await userAsUIObject(id);
