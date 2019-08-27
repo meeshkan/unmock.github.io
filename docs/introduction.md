@@ -12,10 +12,11 @@ Here's an example of several different features in Unmock.  While it is slightly
 ```javascript
 // userAsUIObject.test.js
 
-import unmock, { compose, u } from "unmock";
+import unmock, { check, u } from "unmock";
 import userAsUIObject from "./userAsUIObject";
 
-unmock("https://www.myapi.com")
+const myapi = unmock("https://www.myapi.com")
+  .name("myapi")
   .get("/users/{id}")
   .reply(200, {
     id: u._.random.number, // uses `id` from the path
@@ -25,11 +26,11 @@ unmock("https://www.myapi.com")
   });
 
 test("user from backend is correct as UI object", async () => {
-  const { myapi } = unmock.on().services;
+  unmock.on();
   /* property testing */
-  compose(myapi.succeeds(), [u.int], async (expt, id) => {
+  check(myapi.succeeds(), [u.int], async (expt, id) => {
     const user = await userAsUIObject(id);
-    expt(myapi.spy).getPath("https://www.myapi.com/users/"+id);
+    expt(myapi.spy.getPath()).toBe("https://www.myapi.com/users/"+id);
     /* output verification */
     expt(user).toMatchObject(myapi.getResponseBody());
     /* passthrough validation */

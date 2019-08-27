@@ -4,7 +4,7 @@ title: Property Testing
 sidebar_label: Property Testing
 ---
 
-Property testing is the preferred way to use Unmock. Unless you are sure an API will always return one and only one response (which is almost never the case), you should use proprety testing.  We've already seen property testing in the [simple example](introduction.md) - all it requires is wrapping your test in `unmock.compose`.
+Property testing is the preferred way to use Unmock. Unless you are sure an API will always return one and only one response (which is almost never the case), you should use proprety testing.  We've already seen property testing in the [simple example](introduction.md) - all it requires is wrapping your test in `unmock.check`.
 
 Under the hood, property testing runs the same test multiple times with different outcomes. For example, if a field is optional in an API response body, a property test may omit it and then include it.  This is a lean and fast way to make sure your API integrations are resilient.
 
@@ -12,10 +12,10 @@ Under the hood, property testing runs the same test multiple times with differen
 
 Property testing in Unmock is always linked to services - `github`, `myapi`, or whatever services you have defined in the `unmock.services` object. There are four different verbs that describe how each API can behave in a property test: `fails`, `succeeds`, `behaves`, and `panics`.  So, in property testing, you write things like `github.fails`, `myapi.succeeds`, `slack.behaves` and `stripe.panics`.
 
-The anatomy of a property test is always the same: `compose` followed by an array of statements in the form `<api>.<verb>` followed by an optional array of input values followed by a function with the code to test. This function **always** has an expectation object as a first argument (ie `jest.expect` or `mocha.expect` depending on your test runner). You use this, instead of `expect` in Jest or Mocha, to make sure every property test executes.  Here is a simple example.
+The anatomy of a property test is always the same: `check` followed by an array of statements in the form `<api>.<verb>` followed by an optional array of input values followed by a function with the code to test. This function **always** has an expectation object as a first argument (ie `jest.expect` or `mocha.expect` depending on your test runner). You use this, instead of `expect` in Jest or Mocha, to make sure every property test executes.  Here is a simple example.
 
 ```javascript
-compose([github.fails(), myapi.succeeds()], [u.random.number], (expt, id) => {
+check([github.fails(), myapi.succeeds()], [u.random.number], (expt, id) => {
   const res = await myfunction(id);
   // don't use expect here! it won't work. use the first argument
   // to the function above. as a convention, we call it expt.
@@ -26,7 +26,7 @@ compose([github.fails(), myapi.succeeds()], [u.random.number], (expt, id) => {
 If there is only one verb (ie only `github.fails`), the array can be replaced with just that statement. Furthermore, the second array is optional - if you have no arguments that need to be randomly generated, you can skip it.
 
 ```javascript
-compose([github.fails(), myapi.succeeds()], (expt) => {
+check([github.fails(), myapi.succeeds()], (expt) => {
   const res = await myfunction();
   expt(res).toEqual({ foo: { bar: "baz" }});
 });
@@ -42,7 +42,7 @@ User `service.fails` to explore different configurations of failure for a given 
 ```javascript
 // userAsUIObject.test.js
 
-import unmock, { compose, u } from "unmock";
+import unmock, { check, u } from "unmock";
 import userAsUIObject from "./userAsUIObject";
 
 unmock("https://www.myapi.com")
@@ -56,7 +56,7 @@ unmock("https://www.myapi.com")
 
 test("user from backend is correct as UI object", async () => {
   const { myapi } = unmock.on().services;
-  compose(myapi.fails(), [u.int], async (expt, id) => { /* property testing */
+  check(myapi.fails(), [u.int], async (expt, id) => { /* property testing */
     expt(async () => {
       await userAsUIObject(id);
     }).toThrow();
@@ -94,7 +94,7 @@ Similarly to the failure scenario, unmock can also test only successful outcomes
 ```javascript
 // userAsUIObject.test.js
 
-import unmock, { compose, u } from "unmock";
+import unmock, { check, u } from "unmock";
 import userAsUIObject from "./userAsUIObject";
 
 unmock("https://www.myapi.com")
@@ -108,10 +108,10 @@ unmock("https://www.myapi.com")
 
 test("user from backend is correct as UI object", async () => {
   const { myapi } = unmock.on().services;
-  compose(myapi.succeeds(), [u.int], async (expt, id) => {
+  check(myapi.succeeds(), [u.int], async (expt, id) => {
     const user = await userAsUIObject(id);
-    expt(myapi).getPath("https://www.example.com/api/users/"+id);
-    expt(user).toMatchObject(myapi.getResponseBody());
+    expt(myapi.spy.getPath()).toBe("https://www.myapi.com/users/"+id);
+    expt(user).toMatchObject(myapi.spy.getResponseBody());
   });
 });
 ```
@@ -147,7 +147,7 @@ The `behaves` command will test out a variety of valid responses, including succ
 ```javascript
 // horoscope.test.js
 
-import unmock, { compose, u } from "unmock";
+import unmock, { check, u } from "unmock";
 import userAsUIObject from "./userAsUIObject";
 
 unmock("https://www.horoscope.com")
@@ -158,7 +158,7 @@ unmock("https://www.horoscope.com")
 
 test("user from backend is correct as UI object", async () => {
   const { horoscope } = unmock.on().services;
-  compose(horoscope.behaves(), [u.string], async (sign) => {
+  check(horoscope.behaves(), [u.string], async (sign) => {
     const prediction = await getHoroscope(sign);
     expect(typeof prediction).toBe("string");
   });
@@ -192,7 +192,7 @@ When Unmock panics, it literally responds with *anything*. Random bytes, cat pic
 ```javascript
 // horoscope.test.js
 
-import unmock, { compose, u } from "unmock";
+import unmock, { check, u } from "unmock";
 import userAsUIObject from "./userAsUIObject";
 
 unmock("https://www.horoscope.com")
@@ -203,7 +203,7 @@ unmock("https://www.horoscope.com")
 
 test("user from backend is correct as UI object", async () => {
   const { horoscope } = unmock.on().services;
-  compose(horoscope.panic(), [u.string], async (sign) => {
+  check(horoscope.panic(), [u.string], async (sign) => {
     const prediction = await getHoroscope(sign);
     expect(typeof prediction).toBe("string");
   });
