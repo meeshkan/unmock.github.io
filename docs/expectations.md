@@ -29,13 +29,19 @@ const {
 const githubSpy = github.spy;
 ```
 
-An unmock spy has all the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/). In addition to this, it has some useful functions that make retrieving the body of requests and responses easy.
+An unmock spy has all the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/). In addition to this, it has some useful functions that make working with HTTP(S) related concepts, like request headers or response bodies, easy.
 
-## Working with bodies
+## Paths and Headers and Bodies, Oh My!
 
-To access the body of a response, use `spy.getBody()`, `spy.getBodyOf(match)` or `spy.getBodies(/* match */)`. `getBody()` will return one response body from a service and assert a) that the service was called; and b) that it was only called once. `getBodyOf(match)` works in a similar fashion but accepts a [SinonJS matcher](https://sinonjs.org/releases/v7.4.1/matchers/) as an argument. `getBodies()` returns all response bodies emitted, accepting an optional matcher for further refinements.
+When working with network calls, we will often want to make assertions like the right path was called, the right header was used or the right body was returned. Unmock spies have some useful functions for this that follow a simple convention.
 
-Here is a simple test that asserts the body of a response is part of a larger object returned by a function.
+> `<method><OneOrMany>(/* matcher */)`
+
+- **method** is one of get `post`, `put`, `delete`, `patch`, `head`, `options`.
+- **OneOrMany** is one of `protocol`, `host`, `method`, `path`, `query`, `requestHeader`, `requestBody`,`statusCode`, `responseHeader`, `responseBody`. When you are retrieving multiple results, use the plural: `protocols`, `hosts`, `methods`, `queries`, etc...
+- **matcher**, which is optional, is an object against which the value should match *or* a [SinonJS matcher](https://sinonjs.org/releases/v7.4.1/matchers/). For example, if you use `getPaths`, you may want to only match against paths in the form `user/{id}` - this would be the string you pass to `getPaths`.
+
+We've already seen `getPath` and `getResponseBody` in the initial [simple example](introduction.md). Below is a simple test that uses `postRequestBody` to work with the body of a response to a post request.
 
 <!--DOCUSAURUS_CODE_TABS-->
 
@@ -43,26 +49,29 @@ Here is a simple test that asserts the body of a response is part of a larger ob
 ```javascript
 // augmentedUser.test.js
 import unmock, { services: { myapi }, u } from "unmock";
-import getAugmentedUser from "./getAugmentedUser";
+import postAugmentedUser from "./postAugmentedUser";
 import sinon from "sinon";
 
+const hobbies = u.enum("Fishing", "Swimming", "Reading")
 unmock("https://myapi.com")
-  .get("/users/{id}")
+  .post("/users/{id}", { name: u.$.name.firstName, hobby: hobbies })
   .reply(200, {
     id: u._.id,
     name: u.name.firstName,
-    hobbies: u.array(u.enum("Fishing", "Swimming", "Reading"), { minValue: 1 })
+    hobbies: u.array(hobbies, { minValue: 1 })
   })
 
 test("augmented user object composed correctly", async () => {
-  const augmentedUser = await getAugmentedUser(42);
-  expect(augmentedUser).toMatchObject(myapi.spy.getBody());
+  const augmentedUser = await postAugmentedUser(42, "Jane", "Fishing");
+  expect(augmentedUser).toMatchObject(myapi.spy.postRequestBody());
 });
 
 test("augmented user does not have race conditions", async () => {
-  const augmentedUsers = Promise.all([getAugmentedUser(42), getAugmentedUser(43)]);
-  expect(augmentedUsers[0]).toMatchObject(myapi.spy.getBodyOf(sinon.match({id: 42})));
-  expect(augmentedUsers[1]).toMatchObject(myapi.spy.getBodyOf(sinon.match({id: 43})));
+  const augmentedUsers =
+    Promise.all([[42, "Jane", "Fishing"], [43, "Bob", "Reading"]]
+      .map(i => postAugmentedUser.apply(null, i)));
+  expect(augmentedUsers[0]).toMatchObject(myapi.spy.postRequestBody(sinon.match({id: 42})));
+  expect(augmentedUsers[1]).toMatchObject(myapi.spy.postRequestBody(sinon.match({id: 43})));
 });
 ```
 
@@ -71,8 +80,8 @@ test("augmented user does not have race conditions", async () => {
 // augmentedUser.js
 import axios from "axios";
 
-export default async (id) => {
-  const { data } = axios("https://myapi.com/users/"+id);
+export default async (id, name, hobby) => {
+  const { data } = axios.post("https://myapi.com/users/"+id, { name, hobby });
   return {
     ...data,
     fetchedOn: new Date(),
@@ -85,6 +94,8 @@ export default async (id) => {
 
 ## Using SinonJS assert
 
+When possible, you should use functions like `postProtocol` or `putPath` above to reason about HTTP(S) calls. They make your test easy to read and maintain. However, sometimes, you may need to make more fine grained assertions having to do with the order of network calls or other subtleties. In this case, you'll want to use [SinonJS assertions](https://sinonjs.org/releases/v7.4.1/assertions/).
+
 To use SinonJS assertions, import `sinon` from `unmock-node` or from `sinon` directly:
 
 ```javascript
@@ -92,9 +103,8 @@ import { sinon: { assert } } from "unmock-node";
 // or import { assert } from "sinon";
 ```
 
-With `sinon.assert`, you can make assertions about all sorts of things - the [number of times](https://sinonjs.org/releases/v7.4.1/assertions/#sinonassertcalledoncespy) an API is called, the [input](https://sinonjs.org/releases/v7.4.1/assertions/#sinonassertcalledwithspyorspycall-arg1-arg2-) or [output](https://sinonjs.org/releases/v7.4.1/spy-call/#spycallreturnvalue) of a call, etc.  The full documentation for SinonJS assertions can be found [here](https://sinonjs.org/releases/v7.4.1/assertions/).
 
-The most important thing you'll need to know when working with Sinon assertions is how HTTP(S) requests and responses are represented.  For example, Sinon does not have methods like `calledWithPath` or `calledWithReturnCode`. To make assertions about things in HTTP-land like queries or headers, you need to use `UnmockRequest` and `UnmockResponse` objects.
+The most important thing you'll need to know when working with Sinon assertions is how HTTP(S) requests and responses are represented at a lower level.  To make assertions about things in HTTP-land like queries or headers, you need to use `UnmockRequest` and `UnmockResponse` objects.
 
 ### `UnmockRequest`
 
@@ -103,6 +113,7 @@ An `UnmockRequest` is an object with the following fields, all of which are opti
 ```javascript
 {
   protocol: "", // the protocol, either http or https
+  host: "", // the host, like foo.com or bar.org
   method: "", // the HTTP method (get, post, etc.)
   path: "", // the path that was called, with wildcard values in brackets
   query: {}, // the query, represented as key-value pairs
@@ -167,7 +178,7 @@ Similarly, an object `UnmockResponse` can be used to verify API responses.
 }
 ```
 
-All spies in Unmock provide the helper methods `getBody`, `getBodyOf`, `getBodies`, `getHeader`, `getHeaderOf`, `getHeaders` as explained [above](expectations#working-with-bodies). We recommend using these accessors instead of using the responses directly. That said, working with the response is useful when more complex verification schemes are necessary. Also, when possible, avoid writing "garbage-in-garbage-out" tests that simply verify your mock is passed throguh. When you do that, you are testing the Unmock library, which we of course appreciate, but that's our job :-)
+We've avoided being too preachy in this documentation, but it's important to make one small suggestion at this point.  When possible, avoid writing tests that test Unmock more than your own code. Often times, the barrier is subtle, but in the case below, the assertion about the status code can be removed - it makes the test longer, and only tells us that Unmock is working.
 
 
 <!--DOCUSAURUS_CODE_TABS-->

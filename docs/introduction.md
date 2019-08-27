@@ -25,15 +25,16 @@ unmock("https://www.myapi.com")
   });
 
 test("user from backend is correct as UI object", async () => {
-  stack = unmock.on();
-  const { myapi } = stack;
-  compose(myapi.succeeds(), [u.int], async (id) => { /* property testing */
+  const { myapi } = unmock.on();
+  /* property testing */
+  compose(myapi.succeeds(), [u.int], async (expt, id) => {
     const user = await userAsUIObject(id);
-    stack(expect).getOnce("https://www.example.com/api/users/"+id);
-    const { body } = myapi.response;
-    stack(expect)(user).toExtend(body)); /* output verification */
-    stack(expect).postOnce("https://log.io", { id }); /* passthrough validation */
-    stack(expect)(user.welcomeMessage).toBe(`Hello ${user.name}!`)
+    expt(myapi.spy).getPath("https://www.myapi.com/users/"+id);
+    /* output verification */
+    expt(user).toMatchObject(myapi.getResponseBody());
+    /* passthrough validation */
+    expt.postOnce("https://log.io", { id });
+    expt(user.welcomeMessage).toBe(`Hello ${user.name}!`)
   });
 });
 ```
