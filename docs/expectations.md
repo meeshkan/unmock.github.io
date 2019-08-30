@@ -28,7 +28,7 @@ When working with network calls, we will often want to make assertions like the 
 > `<method><Op>(/* matcher */)`
 
 - **method** is one of `get`, `post`, `put`, and `delete`.
-- **Op** is one of `requestHost`, `requestBody`, and `responseBody`.
+- **Op** is one of `requestHost`, `requestBody`, and `responseBody`. An exception is thrown if multiple calls matching the pattern are found.
 - **matcher**, which is optional, is a [SinonJS matcher](https://sinonjs.org/releases/v7.4.1/matchers/). For example, if you use `getPaths`, you may want to only match against paths in the form `user/{id}` - you would pass `sinon.match({ path: sinon.match("user/") })` to `getPaths`. The arguments passed to `sinon.match` should be properties of the [UnmockRequest](#unmockrequest) object. If you're not using `sinon` in your project, you can import it from `unmock`:
 
   ```javascript
@@ -65,6 +65,10 @@ test("augmented user object composed correctly", async () => {
   // Verify output has all properties of `responseBody`
   expect(augmentedUser).toMatchObject(responseBody);
   expect(augmentedUser).toHaveProperty("seenInSession", false);
+});
+
+afterEach(() => {
+  myapi.spy.reset();
 });
 ```
 
@@ -143,6 +147,12 @@ Below is a test that uses only SinonJS spy properties such as `callCount` and `f
 import unmock from "unmock";
 import postAugmentedUser from "./postAugmentedUser";
 
+let myapi;
+
+beforeAll(() => {
+  myapi = unmock.on().services.myapi;
+});
+
 test("augmented user object composed correctly", async () => {
   const augmentedUser = await postAugmentedUser(42, "Jane", "Fishing");
   expect(myapi.spy.callCount).toBe(1);
@@ -167,6 +177,10 @@ test("augmented user does not have race conditions", async () => {
   expect(augmentedUsers[1]).toMatchObject(
     myapi.spy.secondCall.returnValue.body
   );
+});
+
+afterEach(() => {
+  myapi.reset();
 });
 ```
 
@@ -252,7 +266,7 @@ The most important thing you'll need to know when working with Unmock assertions
 
 ### `UnmockRequest`
 
-An `UnmockRequest` is an object with the following fields, all of which are optional. When used with `sinon`, the fields can be [Sinon matchers](https://sinonjs.org/releases/v7.4.1/matchers/), or the whole object can be enclosed in a matcher.
+An `UnmockRequest` is an object with the following fields. When used with `sinon`, the fields can be [Sinon matchers](https://sinonjs.org/releases/v7.4.1/matchers/), or the whole object can be enclosed in a matcher.
 
 ```javascript
 {
@@ -267,7 +281,7 @@ An `UnmockRequest` is an object with the following fields, all of which are opti
 }
 ```
 
-Here is how an Unmock request can be used in a test.
+Here is how one can use `match` on an Unmock request object to perform assertions on specific requests.
 
 <!--DOCUSAURUS_CODE_TABS-->
 
@@ -296,6 +310,10 @@ test("augmented user object composed correctly", async () => {
   );
   // Assert "type" field was set to "user"
   expect(secondtRequestBody).toMatchObject({ type: "user" });
+});
+
+afterEach(() => {
+  myapi.reset();
 });
 ```
 
@@ -352,6 +370,10 @@ test("augmented user object composed correctly", async () => {
   // uses the "body" field of the UnmockResponse object
   expect(augmentedUser).toMatchObject(myapi.spy.getResponseBody());
 });
+
+afterEach(() => {
+  myapi.reset();
+});
 ```
 
 <!--Code-->
@@ -382,4 +404,3 @@ service.reset(); // Reset service, including its spy
 ```
 
 Resetting the spy history empties the list of calls so that `spy.getCalls` is an empty list.
-
