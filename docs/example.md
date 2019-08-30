@@ -77,7 +77,7 @@ paths:
         required: true
         schema:
           type: integer
-          format: int32
+          minimum: 0
     get:
       responses:
         "200":
@@ -93,12 +93,13 @@ paths:
                   - type
                 properties:
                   id:
-                    type: number
-                    format: int32
+                    type: integer
+                    minimum: 0
                   name:
                     type: string
                   age:
-                    type: number
+                    type: integer
+                    minimum: 1
                   type:
                     type: string
                     default: "user"
