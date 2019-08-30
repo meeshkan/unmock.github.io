@@ -28,10 +28,10 @@ describe("user from backend", () => {
   test("should be correct as UI object", async () => {
     const user = await userAsUIObject(id);
     /* Request verification */
-    expect(myapi.spy.getPath()).toBe("https:/api.myapi.com/users/" + id);
+    expect(myapi.spy.getPath()).toBe("https://api.myapi.com/users/" + id);
     /* Output verification */
     expect(user).toMatchObject(myapi.getResponseBody());
-    /* Output verification on fake data */
+    /* Output verification */
     expect(user.welcomeMessage).toBe(`Hello ${user.name}!`);
   });
 });
