@@ -13,7 +13,7 @@ Here's an example of several different features in Unmock. While it is slightly 
 ```javascript
 // userAsUIObject.test.js
 
-import unmock from "unmock-node";
+import unmock from "unmock";
 import userAsUIObject from "./userAsUIObject";
 
 describe("user from backend", () => {
