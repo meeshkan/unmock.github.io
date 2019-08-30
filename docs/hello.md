@@ -15,7 +15,7 @@ First, let's create a project called `hello-unmock`.
 ```bash
 $ mkdir hello-unmock && cd hello-unmock
 $ yarn init -y
-$ yarn add -D unmock-node jest axios
+$ yarn add -D unmock jest axios
 $ yarn jest --init
 ```
 
@@ -56,7 +56,7 @@ Unmock works with all major test runners (mocha, jest, etc). Assuming you have j
 
 ```js
 // hello.test.js
-const unmock = require("unmock-node").default;
+const unmock = require("unmock").default;
 const axios = require("axios");
 
 beforeAll(() => {

@@ -29,7 +29,7 @@ Below is a simple test that uses spy properties such as `callCount` and `firstCa
 
 ```javascript
 // augmentedUser.test.js
-import unmock from "unmock-node";
+import unmock from "unmock";
 import postAugmentedUser from "./postAugmentedUser";
 
 test("augmented user object composed correctly", async () => {
@@ -131,10 +131,10 @@ assert.calledOnce(github.spy);
 assert.calledOnceWith(github.spy, match({ method: "get" }));
 ```
 
-If you're not using `sinon` in your project, you can import `sinon` from `unmock-node`:
+If you're not using `sinon` in your project, you can import `sinon` from `unmock`:
 
 ```javascript
-import { sinon } from "unmock-node";
+import { sinon } from "unmock";
 ```
 
 ## Requests and responses
@@ -164,7 +164,7 @@ Here is how an Unmock request can be used in a test.
 
 ```javascript
 // augmentedUser.test.js
-import unmock from "unmock-node";
+import unmock from "unmock";
 import getAugmentedUser from "./getAugmentedUser";
 import { assert, match } from "sinon";
 

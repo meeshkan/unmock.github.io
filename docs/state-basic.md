@@ -12,7 +12,7 @@ Sometimes, you need to refine Unmock's default behavior on a test-by-test basis.
 
 ```javascript
 // Access services via unmock.services:
-import unmock, { services } from "unmock-node";
+import unmock, { services } from "unmock";
 
 // Or via unmock.on():
 const { services } = unmock.on();
@@ -95,7 +95,7 @@ github.state.post("/users/*", req => ({ login: req.path.split("/").pop() }));
 or in TypeScript with typing:
 
 ```typescript
-import { UnmockRequest } from "unmock-node";
+import { UnmockRequest } from "unmock";
 
 // As value in an object state input
 github.state.post("/users/*", {

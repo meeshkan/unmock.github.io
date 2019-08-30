@@ -12,8 +12,8 @@ Inspired by libraries like [`nock`](https://github.com/nock/nock) and [`hoverfly
 
 ```javascript
 // user.test.js
-import unmock from "unmock-node"; // ES6
-// const unmock = require("unmock-node").default;  // CommonJS
+import unmock from "unmock"; // ES6
+// const unmock = require("unmock").default;  // CommonJS
 
 // Activate unmock to intercept all outgoing traffic
 const {
