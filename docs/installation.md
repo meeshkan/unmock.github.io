@@ -1,39 +1,52 @@
 ---
 id: installation
-title: Installation
-sidebar_label: Installation
+title: Getting started with Unmock
+sidebar_label: Getting started with Unmock
 ---
 
-## [NPM](https://www.npmjs.com)
+Welcome! 👋
 
-### yarn
+Unmock is a JavaScript library that helps you test API integrations, from third-party services like Facebook to microservices. It helps you focus more on verifying the correctness of your code and less on reverse engineering external APIs.
+
+## Installation
+
+Unmock can be installed via `yarn` or `npm`.
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--yarn-->
 
 ```bash
 $ yarn add -D unmock
 ```
 
-### npm
+<!--npm-->
 
 ```bash
-$ npm i -D unmock
+$ npm install --save-dev unmock
 ```
 
-## Usage
+<!--END_DOCUSAURUS_CODE_TABS-->
 
-To activate Unmock and start intercepting internet traffic, call `unmock.on()`. Deactivating Unmock is similarly easy - `unmock.off()`.
+## Turning Unmock on and off
+
+To turn Unmock on in any given file, simply call `unmock.on()`. For example, if you are using Jest, it is a good idea to turn Unmock on before each test or before all tests.
 
 ```javascript
-// import unmock from "unmock";  // ES6
 const unmock = require("unmock").default; // CommonJS
+// import unmock from "unmock";  // ES6
 
-beforeAll(() => unmock.on()); // Activate unmock to intercept all outgoing traffic
-// Test your code...
-afterAll(() => unmock.off());
+beforeAll(() => {
+  unmock.on();
+}); // Activate unmock to start intercepting traffic
 ```
 
-Calling `unmock.on()` takes care of intercepting traffic, but how should Unmock know what data it should serve back to mock the service? That requires defining a [service](layout.md).
+Similarly, you can turn Unmock off with `unmock.off()`.
 
-## Next steps
-
-1. See [configuration](configuration.md) for how to configure Unmock.
-1. Learn about [services](layout.md)
+```javascript
+const unmock = require("unmock").default;
+// import unmock from "unmock";  // ES6
+afterAll(() => {
+  unmock.off();
+});
+```
