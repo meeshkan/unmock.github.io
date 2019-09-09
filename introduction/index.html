@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Introduction · Unmock</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Unmock is a JavaScript testing library that allows you to write comprehensive tests for third-party API integrations."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Introduction · Unmock"/><meta property="og:type" content="website"/><meta property="og:url" content="https://unmock.github.io/"/><meta property="og:description" content="Unmock is a JavaScript testing library that allows you to write comprehensive tests for third-party API integrations."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/logo-purple.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"/><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Getting started with Unmock · Unmock</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Welcome! 👋"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Getting started with Unmock · Unmock"/><meta property="og:type" content="website"/><meta property="og:url" content="https://unmock.github.io/"/><meta property="og:description" content="Welcome! 👋"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/logo-purple.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"/><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -6,33 +6,83 @@
 
               ga('create', 'UA-107981669-5', 'auto');
               ga('send', 'pageview');
-            </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo-white.svg" alt="Unmock"/><h2 class="headerTitleWithLogo">Unmock</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavItemActive"><a href="/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/unmock/unmock-js" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/introduction.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Introduction</h1></header><article><div><span><p>Unmock is a JavaScript testing library that allows you to write comprehensive tests for third-party API integrations.</p>
-<p>Inspired by libraries like <a href="https://github.com/nock/nock"><code>nock</code></a> and <a href="https://github.com/spectolabs/hoverfly"><code>hoverfly</code></a>, Unmock aims to simplify the integration testing process by creating a small, isolated, ephemeral stack for every test that makes a network call. This stack represents the world outside your test, and is Just Good Enough™ to reliably mock that world so that your tests pass when they should and, more importantly, fail when they should.</p>
-<h2><a class="anchor" aria-hidden="true" id="how-it-works"></a><a href="#how-it-works" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How it works</h2>
-<pre><code class="hljs css language-javascript"><span class="hljs-comment">// user.test.js</span>
-<span class="hljs-keyword">import</span> unmock <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>; <span class="hljs-comment">// ES6</span>
-<span class="hljs-comment">// const unmock = require("unmock").default;  // CommonJS</span>
+            </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo-white.svg" alt="Unmock"/><h2 class="headerTitleWithLogo">Unmock</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/unmock/unmock-js" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Introduction</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/introduction">Getting started with Unmock</a></li><li class="navListItem"><a class="navItem" href="/example">A Simple Example</a></li><li class="navListItem"><a class="navItem" href="/hello">Hello World</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Services</h3><ul class=""><li class="navListItem"><a class="navItem" href="/layout">Service layout</a></li><li class="navListItem"><a class="navItem" href="/loas3">Lazy OpenAPI</a></li><li class="navListItem"><a class="navItem" href="/fetching">Fetching services</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">State</h3><ul class=""><li class="navListItem"><a class="navItem" href="/setting-state">Setting state</a></li><li class="navListItem"><a class="navItem" href="/setting-state-dsl">Advanced DSL</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Expectations</h3><ul class=""><li class="navListItem"><a class="navItem" href="/expectations">Great Expectations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced usage</h3><ul class=""><li class="navListItem"><a class="navItem" href="/configuration">Configuration</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Roadmap</h3><ul class=""><li class="navListItem"><a class="navItem" href="/roadmap">Where we&#x27;re going</a></li><li class="navListItem"><a class="navItem" href="/contributing">Contributing</a></li><li class="navListItem"><a class="navItem" href="/about">About us</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
 
-<span class="hljs-comment">// Activate unmock to intercept all outgoing traffic</span>
-<span class="hljs-keyword">const</span> {
-  <span class="hljs-attr">services</span>: { github },
-} = unmock.on();
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
 
-test(<span class="hljs-string">"returns correct response"</span>, <span class="hljs-keyword">async</span> () =&gt; {
-  github.state({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Modify `github` service to return "id" 1</span>
-  <span class="hljs-keyword">const</span> fetchResult = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">"https://api.github.com/user"</span>); <span class="hljs-comment">// Fetch data</span>
-  expect(fetchResult.json().id).toBe(<span class="hljs-number">1</span>);
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/introduction.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Getting started with Unmock</h1></header><article><div><span><p>Welcome! 👋</p>
+<p>Unmock is a JavaScript library that helps you test API integrations, from third-party services like Facebook to microservices. It helps you focus more on verifying the correctness of your code and less on reverse engineering external APIs.</p>
+<h2><a class="anchor" aria-hidden="true" id="installation"></a><a href="#installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p>Unmock can be installed via <code>yarn</code> or <code>npm</code>.</p>
+<div class="tabs"><div class="nav-tabs"><div id="tab-group-19-tab-20" class="nav-link active" data-group="group_19" data-tab="tab-group-19-content-20">yarn</div><div id="tab-group-19-tab-21" class="nav-link" data-group="group_19" data-tab="tab-group-19-content-21">npm</div></div><div class="tab-content"><div id="tab-group-19-content-20" class="tab-pane active" data-group="group_19" tabindex="-1"><div><span><pre><code class="hljs css language-bash">$ yarn add -D unmock<br /></code></pre>
+</span></div></div><div id="tab-group-19-content-21" class="tab-pane" data-group="group_19" tabindex="-1"><div><span><pre><code class="hljs css language-bash">$ npm install --save-dev unmock<br /></code></pre>
+</span></div></div></div></div>
+<h2><a class="anchor" aria-hidden="true" id="turning-unmock-on-and-off"></a><a href="#turning-unmock-on-and-off" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Turning Unmock on and off</h2>
+<p>To turn Unmock on in any given file, simply call <code>unmock.on()</code>. For example, if you are using Jest, it is a good idea to turn Unmock on before each test or before all tests.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> unmock = <span class="hljs-built_in">require</span>(<span class="hljs-string">"unmock"</span>).default;
+<span class="hljs-comment">// import unmock from "unmock";  // ES6</span>
+
+beforeAll(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  unmock.on();
+}); <span class="hljs-comment">// Activate unmock to start intercepting traffic</span>
+</code></pre>
+<p>Similarly, you can turn Unmock off with <code>unmock.off()</code>.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> unmock = <span class="hljs-built_in">require</span>(<span class="hljs-string">"unmock"</span>).default;
+<span class="hljs-comment">// import unmock from "unmock";  // ES6</span>
+afterAll(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  unmock.off();
 });
 </code></pre>
-<p>Get started with unmock in the full <a href="/hello">Hello World example</a>.</p>
-<h2><a class="anchor" aria-hidden="true" id="motivation"></a><a href="#motivation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Motivation</h2>
-<p>Services are the glue connecting modern applications: for example, the GitHub API is a service. Every service has a specification describing how the service behaves, be either written documentation, <a href="https://www.openapis.org/">OpenAPI</a>, <a href="https://raml.org/">RAML</a>, or something else. The specification for a service is <em>reusable</em> across applications.</p>
-<p>Still, when testing how our applications integrate with external services, we rarely use the specifications directly. Instead, we write adhoc rules for how the services should behave. Writing such rules is error-prone, time-consuming, and hard to maintain.</p>
-<p>This is what unmock wants to fix. Testing the integration with external services should start from the <em>service specification</em>. Setting the service <em>state</em> should happen programmatically before every test. The state should be <em>consistent</em> with the service specification.</p>
-<h2><a class="anchor" aria-hidden="true" id="next-steps"></a><a href="#next-steps" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Next steps</h2>
-<ol>
-<li>Get started with a <a href="/hello">Hello World example</a></li>
-<li><a href="/installation">Install</a> unmock</li>
-<li>Learn about <a href="/layout">services</a></li>
-</ol>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#how-it-works">How it works</a></li><li><a href="#motivation">Motivation</a></li><li><a href="#next-steps">Next steps</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/introduction">Introduction</a><a href="/hello">Hello World</a></div><div><h5>Community</h5><a href="https://spectrum.chat/unmock">Spectrum Chat</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/example"><span>A Simple Example</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installation">Installation</a></li><li><a href="#turning-unmock-on-and-off">Turning Unmock on and off</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/introduction">Introduction</a><a href="/hello">Hello World</a></div><div><h5>Community</h5><a href="https://spectrum.chat/unmock">Spectrum Chat</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
