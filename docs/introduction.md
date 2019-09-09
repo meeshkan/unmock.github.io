@@ -1,44 +1,52 @@
 ---
 id: introduction
-title: Introduction
-sidebar_label: Introduction
+title: Getting started with Unmock
+sidebar_label: Getting started with Unmock
 ---
 
-Unmock is a JavaScript testing library that allows you to write comprehensive tests for third-party API integrations.
+Welcome! 👋
 
-Inspired by libraries like [`nock`](https://github.com/nock/nock) and [`hoverfly`](https://github.com/spectolabs/hoverfly), Unmock aims to simplify the integration testing process by creating a small, isolated, ephemeral stack for every test that makes a network call. This stack represents the world outside your test, and is Just Good Enough™ to reliably mock that world so that your tests pass when they should and, more importantly, fail when they should.
+Unmock is a JavaScript library that helps you test API integrations, from third-party services like Facebook to microservices. It helps you focus more on verifying the correctness of your code and less on reverse engineering external APIs.
 
-## How it works
+## Installation
 
-```javascript
-// user.test.js
-import unmock from "unmock"; // ES6
-// const unmock = require("unmock").default;  // CommonJS
+Unmock can be installed via `yarn` or `npm`.
 
-// Activate unmock to intercept all outgoing traffic
-const {
-  services: { github },
-} = unmock.on();
+<!--DOCUSAURUS_CODE_TABS-->
 
-test("returns correct response", async () => {
-  github.state({ id: 1 }); // Modify `github` service to return "id" 1
-  const fetchResult = await fetch("https://api.github.com/user"); // Fetch data
-  expect(fetchResult.json().id).toBe(1);
-});
+<!--yarn-->
+
+```bash
+$ yarn add -D unmock
 ```
 
-Get started with unmock in the full [Hello World example](hello.md).
+<!--npm-->
 
-## Motivation
+```bash
+$ npm install --save-dev unmock
+```
 
-Services are the glue connecting modern applications: for example, the GitHub API is a service. Every service has a specification describing how the service behaves, be either written documentation, [OpenAPI](https://www.openapis.org/), [RAML](https://raml.org/), or something else. The specification for a service is _reusable_ across applications.
+<!--END_DOCUSAURUS_CODE_TABS-->
 
-Still, when testing how our applications integrate with external services, we rarely use the specifications directly. Instead, we write adhoc rules for how the services should behave. Writing such rules is error-prone, time-consuming, and hard to maintain.
+## Turning Unmock on and off
 
-This is what unmock wants to fix. Testing the integration with external services should start from the _service specification_. Setting the service _state_ should happen programmatically before every test. The state should be _consistent_ with the service specification.
+To turn Unmock on in any given file, simply call `unmock.on()`. For example, if you are using Jest, it is a good idea to turn Unmock on before each test or before all tests.
 
-## Next steps
+```javascript
+const unmock = require("unmock").default;
+// import unmock from "unmock";  // ES6
 
-1. Get started with a [Hello World example](hello.md)
-1. [Install](installation.md) unmock
-1. Learn about [services](layout.md)
+beforeAll(() => {
+  unmock.on();
+}); // Activate unmock to start intercepting traffic
+```
+
+Similarly, you can turn Unmock off with `unmock.off()`.
+
+```javascript
+const unmock = require("unmock").default;
+// import unmock from "unmock";  // ES6
+afterAll(() => {
+  unmock.off();
+});
+```

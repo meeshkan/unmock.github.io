@@ -1,6 +1,6 @@
 {
   "docs": {
-    "Introduction": ["installation", "example", "hello"],
+    "Introduction": ["introduction", "example", "hello"],
     "Services": ["layout", "loas3", "fetching"],
     "State": ["setting-state", "setting-state-dsl"],
     "Expectations": ["expectations"],
