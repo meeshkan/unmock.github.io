@@ -1,14 +1,10 @@
 {
   "docs": {
-    "Getting started": [
-      "introduction",
-      "hello",
-      "installation",
-      "configuration"
-    ],
+    "Introduction": ["installation", "example", "hello"],
     "Services": ["layout", "loas3", "fetching"],
     "State": ["setting-state", "setting-state-dsl"],
     "Expectations": ["expectations"],
+    "Advanced usage": ["configuration"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
