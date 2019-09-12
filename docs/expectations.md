@@ -1,175 +1,398 @@
 ---
 id: expectations
-title: Using spies
-sidebar_label: Using spies
+title: Great Expectations
+sidebar_label: Great Expectations
 ---
 
-In Unmock, every service has a `spy` property that is a [SinonJS spy](https://sinonjs.org/releases/v7.4.1/spies/). Spies keep track of the requests made to each service and the associated fake responses. Using spies, you can
+Now that you know how to define services in Unmock, it would be useful to assert things about how they are used. When services are defined and loaded in Unmock, they automagically reside in the `unmock.services` object. These service objects contain lots of useful properties for you to write simple and effective tests.
 
-1. **assert outgoing requests** are correct:
+## Spying
 
-   ```js
-   // Using SinonJS assertions
-   assert.calledOnceWith(github.spy, expectedRequest);
+Unmock uses **[Sinon JS Spies](https://sinonjs.org/releases/v7.4.1/spies/)** to give you access to the number of times an API is called, its return value, and other bits of useful information. You can check out the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/) for more information on the types of assertions that can be made with spies. The section below acts as a cookbook for writing great tests with spies.
 
-   // Using unmock-expect
-   expect(github).calledOnceWith(expectedRequest);
-   ```
+Spies are properties of services. So, for example, to get the spy for GitHub, you would call:
 
-1. **assert your code handles responses** correctly:
-   ```js
-   // Get the return value of the first call to GitHub
-   const response: UnmockResponse = github.spy.firstCall.returnValue;
-   expect(myCodeReturnValue).toEqual(response.body);
-   ```
-
-## Verifying requests
-
-### Spies 101
-
-In Unmock, a spy is nothing but a wrapper for **request-response pairs, augmented with the rich [SinonJS API](https://sinonjs.org/releases/v7.4.1/spies/)** containing properties such as `callCount`, `getCalls`, `firstCall`, `calledOnce`, etc. To read more about test spies, see the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/).
-
-Spies are accessed via the service as follows:
-
-```js
+```javascript
 const {
   services: { github },
 } = unmock.on(); // Activate unmock and load services
 const githubSpy = github.spy;
 ```
 
-Spy has the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/):
+An unmock spy has all the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/). In addition to this, it has some useful functions that make working with HTTP(S) related concepts, like request or response bodies, easy.
 
-```js
-const wasCalled = githubSpy.calledOnce; // true or false
-const callCount = githubSpy.callCount; // Number of calls
-const firstCallArgs = githubSpy.args[0]; // Arguments of the first call.
+## Paths and Headers and Bodies, Oh My!
+
+When working with network calls, we will often want to make assertions like the right path was called, the right header was used or the right body was returned. Unmock spies have some useful functions for this that follow a simple convention.
+
+> `<method><Op>(/* matcher */)`
+
+- **method** is one of `get`, `post`, `put`, and `delete`.
+- **Op** is one of `requestHost`, `requestBody`, and `responseBody`. An exception is thrown if multiple calls matching the pattern are found.
+- **matcher**, which is optional, is a [SinonJS matcher](https://sinonjs.org/releases/v7.4.1/matchers/). For example, if you use `getPaths`, you may want to only match against paths in the form `user/{id}` - you would pass `sinon.match({ path: sinon.match("user/") })` to `getPaths`. The arguments passed to `sinon.match` should be properties of the [UnmockRequest](#unmockrequest) object. If you're not using `sinon` in your project, you can import it from `unmock`:
+
+  ```javascript
+  import { sinon } from "unmock";
+  ```
+
+Below is a simple test using `expect` together with `postRequestBody` and `postResponseBody` to verify the request body of a post request as well as the code output.
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+
+```javascript
+// augmentedUser.test.js
+import unmock from "unmock";
+import postAugmentedUser from "./postAugmentedUser";
+
+let myapi;
+
+beforeAll(() => {
+  myapi = unmock.on().services.myapi;
+});
+
+test("augmented user object composed correctly", async () => {
+  const augmentedUser = await postAugmentedUser(42, "Jane", "Fishing");
+  const requestBody = myapi.spy.postRequestBody();
+  // Verify request
+  expect(requestBody).toBe({
+    name: "Jane",
+    hobby: "Fishing",
+  });
+  // Access response body
+  const responseBody = myapi.spy.postResponseBody();
+  // Verify output has all properties of `responseBody`
+  expect(augmentedUser).toMatchObject(responseBody);
+  expect(augmentedUser).toHaveProperty("seenInSession", false);
+});
+
+afterEach(() => {
+  myapi.spy.reset();
+});
 ```
 
-While it is possible use boolean properties such as `githubSpy.calledOnce` for assertions, we recommend using either the SinonJS `assert` or `unmock-expect` as explained below for better error messages.
+<!--Code-->
 
-### Using SinonJS assert
+```javascript
+// augmentedUser.js
+import axios from "axios";
 
-To use SinonJS asserts, import `sinon` from `unmock-node`:
-
-```js
-import { sinon } from "unmock-node";
-const assert = sinon.assert;
+export default async (id, name, hobby) => {
+  const { data } = axios.post("https://myapi.com/users/" + id, { name, hobby });
+  return {
+    ...data,
+    fetchedOn: new Date(),
+    seenInSession: false,
+  };
+};
 ```
 
-The full documentation for SinonJS assertions can be found [here](https://sinonjs.org/releases/v7.4.1/assertions/). Here are some examples:
+<!--Service spec-->
 
-1. Verify GitHub API was called twice:
+```yaml
+# __unmock__/myapi/openapi.yaml
+openapi: 3.0.0
+info:
+  version: "1.0"
+  title: "myapi"
 
-   ```js
-   assert.calledTwice(githubSpy);
-   ```
-
-1. Verify GitHub was called once with the exact expected request:
-
-   ```js
-   const expectedRequest = {
-     method: "get",
-     path: "/v3/users",
-     protocol: "https",
-     body: undefined,
-   }; // UnmockRequest object
-
-   assert.calledOnceWith(githubSpy, expectedRequest);
-   ```
-
-1. Verify `github` was called with a request that matches the given properties:
-
-   ```js
-   const match = sinon.match;
-
-   const expectedRequest = {
-     method: "get",
-     path: "/v3/users",
-   }; // Partial UnmockRequest object
-
-   // Only match method and path
-   assert.calledWith(githubSpy, match(expectedRequest));
-   ```
-
-### Using `unmock-expect`
-
-> `unmock-expect` will be coming soon! It implements expressive assertions such as
->
-> ```js
-> expect(github).calledOnce();
-> expect(github).calledOnceWith(expectedRequest);
-> expect(github).calledOnceWithMatch({ path: "/v3/users" });
-> ```
-
-## Verifying individual calls
-
-### Spy calls 101
-
-As noted above, a service spy is essentially a wrapper around a list of request-response pairs. Each member of the list is a **spy call**, representing a single call to a service. Accessing individual calls helps with more detailed behavior verification when the spy is called more than once and also lets you access the response returned by an Unmock service.
-
-You can access individual calls via the [spy API](https://sinonjs.org/releases/v7.4.1/spies/) as follows:
-
-```js
-const firstCall = githubSpy.firstCall; // First call
-const lastCall = githubSpy.lastCall; // Last call
-const sixthCall = githubSpy.getCall(6); // Sixth call
+paths:
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+    post:
+      responses:
+        "200":
+          description: "User"
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - hobbies
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                  hobbies:
+                    type: array
+                    items:
+                      type: string
 ```
 
-A single spy call consists of the arguments of the call and the associated return value. Arguments are accessed via `args` property. It is a list of length one with `UnmockRequest` object as the only value:
+<!--END_DOCUSAURUS_CODE_TABS-->
 
-```js
-// Access the request of the first call
-const firstCallRequest = firstCall.args[0]; // UnmockRequest object
-const firstCallRequestAlt = firstCall.lastArg; // Same as above, list has one value
-const firstCallRequestMethod = firstCallRequest.method; // "get", "post", "put", etc.
+## Advanced usage
+
+When possible, you should use functions like `postRequestBody` or `postRequestHost` above to reason about HTTP(S) calls. They make your test easy to read and maintain. However, sometimes, you may need to make more fine grained assertions having to do with the order of network calls or other subtleties. In this case, you'll want to use the full power of SinonJS spies.
+
+Below is a test that uses only SinonJS spy properties such as `callCount` and `firstCall` to inspect [spy calls](https://sinonjs.org/releases/v7.4.1/spy-call/) and their return values (`firstCall.returnValue.body`).
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+
+```javascript
+// augmentedUser.test.js
+import unmock from "unmock";
+import postAugmentedUser from "./postAugmentedUser";
+
+let myapi;
+
+beforeAll(() => {
+  myapi = unmock.on().services.myapi;
+});
+
+test("augmented user object composed correctly", async () => {
+  const augmentedUser = await postAugmentedUser(42, "Jane", "Fishing");
+  expect(myapi.spy.callCount).toBe(1);
+  const firstCall = myapi.spy.firstCall;
+  // Verify request
+  expect(firstCall.args[0].body).toBe({
+    name: "Jane",
+    hobby: "Fishing",
+  });
+  // Verify code's return value
+  expect(augmentedUser).toMatchObject(firstCall.returnValue.body);
+});
+
+test("augmented user does not have race conditions", async () => {
+  const augmentedUsers = await Promise.all(
+    [[42, "Jane", "Fishing"], [43, "Bob", "Reading"]].map(i =>
+      postAugmentedUser.apply(null, i)
+    )
+  );
+  expect(myapi.spy.callCount).toBe(2);
+  expect(augmentedUsers[0]).toMatchObject(myapi.spy.firstCall.returnValue.body);
+  expect(augmentedUsers[1]).toMatchObject(
+    myapi.spy.secondCall.returnValue.body
+  );
+});
+
+afterEach(() => {
+  myapi.reset();
+});
 ```
 
-The return value in a spy call is an `UnmockResponse` object and it is accessed via the `returnValue` property:
+<!--Code-->
 
-```js
-// Access the response of the first call
-const firstCallResponse = firstCall.returnValue; // UnmockResponse object
-const firstCallResponseStatus = firstCallResponse.statusCode; // Status code
+```javascript
+// augmentedUser.js
+import axios from "axios";
+
+export default async (id, name, hobby) => {
+  const { data } = axios.post("https://myapi.com/users/" + id, { name, hobby });
+  return {
+    ...data,
+    fetchedOn: new Date(),
+    seenInSession: false,
+  };
+};
 ```
 
-The full spy call API is documented [here](https://sinonjs.org/releases/v7.4.1/spy-call/). For example, this checks if the call matched the expected properties:
+<!--Service spec-->
 
-```js
-const calledCorrectly = firstCall.calledWith(match(expectedUnmockRequest)); // true or false
+```yaml
+# __unmock__/myapi/openapi.yaml
+openapi: 3.0.0
+info:
+  version: "1.0"
+  title: "myapi"
+
+paths:
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+    post:
+      responses:
+        "200":
+          description: "User"
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - hobbies
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                  hobbies:
+                    type: array
+                    items:
+                      type: string
 ```
 
-Similarly as for spies, it is not recommended to boolean properties for assertions but use `assert` or `unmock-expect` as explained below.
+<!--END_DOCUSAURUS_CODE_TABS-->
 
-### Using SinonJS assert
+The argument in `spyCall.args[0]` is an `UnmockRequest` object and the `returnValue` is an `UnmockResponse` object as [defined below](#unmockrequest).
 
-First import SinonJS `assert`:
+Because Unmock service spies are Sinon JS spy objects, you can also use [SinonJS assert](https://sinonjs.org/releases/v7.4.1/assertions/) for more expressive assertions such as `calledOnce`:
 
-```js
-import { sinon } from "unmock-node";
-const assert = sinon.assert;
+```javascript
+import { assert, match } from "sinon";
+assert.calledOnce(github.spy);
+assert.calledOnceWith(github.spy, match({ method: "get" }));
 ```
 
-Here are some examples of asserts on single calls:
+If you're not using `sinon` in your project, you can import `sinon` from `unmock`:
 
-1. Verify call was made with the exact `UnmockRequest` expected:
+```javascript
+import { sinon } from "unmock";
+```
 
-   ```js
-   // Full UnmockRequest object
-   const expectedRequest = { method: "get", path: "/v3/users", ... };
-   assert.calledWith(spyCall, expectedRequest);
-   ```
+## Requests and responses
 
-1. Verify call matches the given properties:
+The most important thing you'll need to know when working with Unmock assertions is how HTTP(S) requests and responses are represented at a lower level. To make assertions about things in HTTP-land like queries or headers, you need to use `UnmockRequest` and `UnmockResponse` objects.
 
-   ```js
-   const match = sinon.match;
-   assert.calledWith(spyCall, match({ method: "get", path: "/v3" }));
-   ```
+### `UnmockRequest`
 
-### Using `unmock-expect`
+An `UnmockRequest` is an object with the following fields. When used with `sinon`, the fields can be [Sinon matchers](https://sinonjs.org/releases/v7.4.1/matchers/), or the whole object can be enclosed in a matcher.
 
-> Coming soon!
+```javascript
+{
+  protocol: "", // the protocol, either http or https
+  host: "", // the host, like foo.com or bar.org
+  method: "", // the HTTP method (get, post, etc.)
+  path: "", // the full path that was called, including query parameters
+  pathname: "", // the path that was called without query parameters
+  headers: {}, // the headers, represented as key-value pairs
+  body: {}, // the body, a JSON object if it is a form or json, otherwise a string
+  query: {}  // query parameters as key-value pairs
+}
+```
+
+Here is how one can use `match` on an Unmock request object to perform assertions on specific requests.
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+
+```javascript
+// createUser.test.js
+import unmock from "unmock";
+import createUser from "./createUser";
+import { assert, match } from "sinon";
+
+const { myapi } = unmock.on().services;
+
+test("augmented user object composed correctly", async () => {
+  await createUser({ name: "Jane", isAdmin: true });
+  await createUser({ name: "Bob", isAdmin: false });
+  // Access the first request body with a matcher
+  const firstRequestBody = myapi.spy.postRequestBody(
+    match({ body: match({ name: "Jane" }) })
+  );
+  // Assert "type" field was set to "admin"
+  expect(firstRequestBody).toMatchObject({ type: "admin" });
+  // Access the second request body with a matcher
+  const secondRequestBody = myapi.spy.postRequestBody(
+    match({ body: match({ name: "Bob" }) })
+  );
+  // Assert "type" field was set to "user"
+  expect(secondtRequestBody).toMatchObject({ type: "user" });
+});
+
+afterEach(() => {
+  myapi.reset();
+});
+```
+
+<!--Code-->
+
+```javascript
+// createUser.js
+import axios from "axios";
+
+export default async ({ name, isAdmin }) => {
+  const { data } = axios.post("https://myapi.com/users/", {
+    name,
+    type: isAdmin ? "user" : "admin",
+  });
+  return data;
+};
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+### `UnmockResponse`
+
+Similarly, an object `UnmockResponse` can be used to verify API responses.
+
+```javascript
+{
+  status: 200, // the status code as a number
+  headers: {}, // the headers, represented as key-value pairs
+  body: {}, // the body, a JSON object if it is a form or json, otherwise a string
+}
+```
+
+We've avoided being too preachy in this documentation, but it's important to make one small suggestion at this point. When possible, avoid writing tests that test Unmock more than your own code. Often times, the barrier is subtle, but in the case below, the assertion about the status code can be removed - it makes the test longer, and only tells us that Unmock is working.
+
+<!--DOCUSAURUS_CODE_TABS-->
+
+<!--Test-->
+
+```javascript
+// augmentedUser.test.js
+import unmock from "unmock";
+import getAugmentedUser from "./getAugmentedUser";
+import { assert, match } from "sinon";
+
+const { myapi } = unmock.on().services;
+
+test("augmented user object composed correctly", async () => {
+  const augmentedUser = await getAugmentedUser(42);
+  // below is a garbage-in-garbage-out expectation using the statusCode
+  // of the UnmockResponse object. while this may be useful for debugging,
+  // it should be avoided when possible, as it tests your test but not
+  // your code
+  expect(200).toBe(myapi.spy.firstCall.returnValue.statusCode);
+  // uses the "body" field of the UnmockResponse object
+  expect(augmentedUser).toMatchObject(myapi.spy.getResponseBody());
+});
+
+afterEach(() => {
+  myapi.reset();
+});
+```
+
+<!--Code-->
+
+```javascript
+// augmentedUser.js
+import axios from "axios";
+
+export default async id => {
+  const { data } = axios("https://myapi.com/users/" + id);
+  return {
+    ...data,
+    fetchedOn: new Date(),
+    seenInSession: false,
+  };
+};
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
 
 ## Resetting spy
 

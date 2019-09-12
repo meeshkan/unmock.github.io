@@ -12,7 +12,7 @@ Sometimes, you need to refine Unmock's default behavior on a test-by-test basis.
 
 ```javascript
 // Access services via unmock.services:
-import unmock, { services } from "unmock-node";
+import unmock, { services } from "unmock";
 
 // Or via unmock.on():
 const { services } = unmock.on();
@@ -80,24 +80,37 @@ petstore.state.get("/path", "Document not found");
 
 ### Using a function as state
 
-Often you want to set the response body programmatically based on the intercepted request. This can be done by using a function as state input as follows:
+Often you want to set the response body programmatically based on the intercepted request. This can be done by using a function as state input. Functions can be used as either the value for an object state input, or as the entire state, as follows:
 
 ```javascript
-// Return the last element of the path as login field
+// Functions can be used as values in an object state input
+github.state.post("/users/*", {
+  type: "User",
+  login: req => req.path.split("/").pop()
+});
+// And they can also be used as the entire state input
 github.state.post("/users/*", req => ({ login: req.path.split("/").pop() }));
 ```
 
 or in TypeScript with typing:
 
 ```typescript
-import { UnmockRequest } from "unmock-node";
+import { UnmockRequest } from "unmock";
 
-states.github.post("/users/*", (req: UnmockRequest) => ({
-  login: req.path.split("/").pop(),
+// As value in an object state input
+github.state.post("/users/*", {
+  type: "User",
+  login: (req: UnmockRequest) => req.path.split("/").pop()
+});
+// Or as the entire state input
+github.state.post("/users/*", (req: UnmockRequest) => ({
+  login: req.path.split("/").pop()
 }));
 ```
 
-Note that the object returned from the function will be set as the _full_ response body.
+Note that when using functions as state input, their output cannot be validated against the service schema. In essence, this overrides the default behaviour.
+
+Similarly, when using functions as the state input, the object returned from the function will be set as the _full_ response body.
 
 Request object contains the following fields:
 
@@ -109,23 +122,6 @@ Request object contains the following fields:
 - `path`: request path
 
 > Note that path and query parameters are not automatically parsed in the `UnmockRequest` object.
-
-> Tip: You can use the `UnmockRequest` object to verify outgoing requests with the following pattern:
->
-> ```javascript
-> // Define a mock used as request handler
-> const mockRequestHandler = jest.fn().mockImplementationOnce((req) => "Any response");
-> // Call the mock for intercepted requests
-> petstore.state((req) => mockRequestHandler(req));
-> // Run your code calling the service...
-> // Then run your asserts
-> expect(mockRequestHandler).toHaveBeenCalledWith({
->   expect.objectContaining({
->     body: "Expected body"  // Verify request body
->     method: "GET",
->   }),
-> });
-> ```
 
 ## Modifying response code
 
@@ -164,7 +160,7 @@ github.state
 
 > Warning: You cannot chain new calls after `reset()` with the fluent API.
 
-## Merged state
+## Most accurate state
 
 Once the states are set and a request is captured, it is matched against the service and the most specific state is being used to generate the response. For example, assume the following state is being set:
 
@@ -177,9 +173,8 @@ petstore.state("/pets/1", { id: 1 });
 The following calls will generate the matching responses:
 
 ```javascript
-fetch(`${PETSTORE_URL}/pets/1`); // -> { id: 1, name: "Finn" }
-fetch(`${PETSTORE_URL}/pets/3`); // -> { id: -999, name: "Finn" }
-fetch(`${PETSTORE_URL}/pets/513`); // -> { id: -999, name: "Finn" }
+fetch(`${PETSTORE_URL}/pets/1`); // -> { id: 1, name: randomly generated }
+fetch(`${PETSTORE_URL}/pets/3`); // -> { id: randomly generated, name: "Finn" }
 fetch(`${PETSTORE_URL}/pets`);
 // -> [{ id: -999, name: randomly generated }, { id: -999, name: generated }, ... ]
 ```

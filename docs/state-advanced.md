@@ -65,7 +65,7 @@ Many other content types have a simple schema for a response. `text/plain`, `ima
 The text middleware accepts a string input, and optional object for top-level DSL.
 
 ```javascript
-// import { dsl: textResponse } from "unmock-node";  // ES6
+// import { dsl: textResponse } from "unmock";  // ES6
 const { dsl: textResponse } = require();
 petstore.state(textResponse("foo")); // Same as `states.petstore("foo")
 petstore.state("/pets/*", textResponse("bar", { $code: 200 })); // Same as `states.petstore("/pets/*", { $code: 200 }).petstore("/pets/*", "bar");
