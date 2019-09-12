@@ -14,3 +14,10 @@
 
 @media only screen and (min-width: 1500px) {
 }
+
+.gitter-chat-embed {
+  z-index: 99999;
+}
+.gitter-open-chat-button {
+  z-index: 99999;
+}
