@@ -4,7 +4,7 @@
     "Services": ["layout", "loas3", "fetching"],
     "State": ["setting-state", "setting-state-dsl"],
     "Expectations": ["expectations"],
-    "Advanced usage": ["configuration"],
+    "Advanced usage": ["configuration", "jest-reporter"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
