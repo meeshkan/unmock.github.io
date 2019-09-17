@@ -13,18 +13,24 @@ const users = [];
 
 const siteConfig = {
   title: "Unmock", // Title for your website.
-  tagline: "Make mocking fun again",
-  url: "https://unmock.github.io", // Your website URL
+  tagline: "We fake it while you make it.",
+  url: "https://www.unmock.io", // Your website URL
   cname: "www.unmock.io",
-  baseUrl: "/", // Base URL for your project
-  docsUrl: "", // Defaults to `docs`
+  baseUrl: "/", // Base URL for your project */
+  // For github.io type URLs, you would set the url and baseUrl like:
+  //   url: 'https://facebook.github.io',
+  //   baseUrl: '/test-site/',
+
   // Used for publishing and more
   projectName: "unmock.github.io",
   organizationName: "unmock",
+  // For top-level user or org sites, the organization is still the same.
+  // e.g., for the https://JoelMarcey.github.io site, it would be set like...
+  //   organizationName: 'JoelMarcey'
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: "introduction", label: "Docs" },
+    { doc: "installation", label: "Docs" },
     { href: "https://github.com/unmock/unmock-js", label: "GitHub" },
   ],
 
@@ -68,6 +74,7 @@ const siteConfig = {
 
   // Add custom scripts here that would be placed in <script> tags.
   scripts: [
+    "//katacoda.com/embed.js",
     "https://unpkg.com/unmock-gitter@0.0.0/index.js",
     {
       src: "https://sidecar.gitter.im/dist/sidecar.v1.js",
@@ -75,10 +82,14 @@ const siteConfig = {
       defer: true
     }
   ],
+
   // On page navigation for the current documentation page.
   onPageNav: "separate",
   // No .html extensions for paths.
   cleanUrl: true,
+  stylesheets: [
+    // custom css here
+  ],
 
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,
