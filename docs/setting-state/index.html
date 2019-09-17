@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Initializing Mocks · Unmock</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. For example, the snippet below will generate **either** `200` **or** `404`."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Initializing Mocks · Unmock"/><meta property="og:type" content="website"/><meta property="og:url" content="https://www.unmock.io/"/><meta property="og:description" content="Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. For example, the snippet below will generate **either** `200` **or** `404`."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/logo-purple.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-107981669-5', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="//katacoda.com/embed.js"></script><script type="text/javascript" src="https://unpkg.com/unmock-gitter@0.0.0/index.js"></script><script type="text/javascript" src="https://sidecar.gitter.im/dist/sidecar.v1.js" async="" defer=""></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo-white.svg" alt="Unmock"/><h2 class="headerTitleWithLogo">Unmock</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/unmock/unmock-js" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Basic Usage</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/introduction">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/docs/example">A Simple Example</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Services</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/unmock">Defining Services</a></li><li class="navListItem"><a class="navItem" href="/docs/openapi">Using OpenAPI</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Basic Usage</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/expectations">Great Expectations</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/setting-state">Initializing Mocks</a></li><li class="navListItem"><a class="navItem" href="/docs/fuzz">Fuzz Testing</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced Usage</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/jest-reporter">Jest Reporter</a></li><li class="navListItem"><a class="navItem" href="/docs/configuration">Configuration</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Roadmap</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/roadmap">Where we&#x27;re going</a></li><li class="navListItem"><a class="navItem" href="/docs/contributing">Contributing</a></li><li class="navListItem"><a class="navItem" href="/docs/about">About us</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/state.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Initializing Mocks</h1></header><article><div><span><p>Once activated, Unmock will mock services according to their specifications. The default behavior is to serve <em>randomly generated valid responses</em>. For example, the snippet below will generate <strong>either</strong> <code>200</code> <strong>or</strong> <code>404</code>.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
+
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>)
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">200</span>, {
+    <span class="hljs-attr">id</span>: u.number(),
+    <span class="hljs-attr">name</span>: u.string(<span class="hljs-string">"name.firstName"</span>)
+  })
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">404</span>, {
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"Naughty you!"</span>
+  })
+</code></pre>
+<p>That's all well and good, but sometimes, you'd like for a service to behave more specifically, like <strong>only</strong> responding with a given code or <strong>only</strong> responding with an array of size ten.  You can do this in one of two ways: calling <code>service.reset()</code> and redefining the service <em>or</em> using <code>service.state</code>.</p>
+<p>In most cases, resetting and redefining the service is all you need. However, when you are working with OpenAPI, or when you have a complex service defined, using the <code>state</code> can be a simple and elegant solution.</p>
+<h2><a class="anchor" aria-hidden="true" id="setting-state-for-a-service"></a><a href="#setting-state-for-a-service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setting state for a service</h2>
+<p>Let's revisit the example above, and use the state to make sure we are only returning 200.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u, gen } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
+<span class="hljs-keyword">const</span> { withCodes } = gen;
+
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>, <span class="hljs-string">'myapi'</span>)
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">200</span>, {
+    <span class="hljs-attr">id</span>: u.number(),
+    <span class="hljs-attr">name</span>: u.string(<span class="hljs-string">"name.firstName"</span>)
+  })
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">404</span>, {
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"Naughty you!"</span>
+  })
+
+<span class="hljs-keyword">const</span> { myapi } = unmock.on().services;
+myapi.state(withCodes(<span class="hljs-number">200</span>));
+</code></pre>
+<p>The example above shows two important concepts when working with a state.</p>
+<ol>
+<li>The service should have a name, which is created via the second argument to <code>unmock.nock</code>.</li>
+<li>The code is set to <code>200</code> by passing <code>withCodes(200)</code> to <code>myapi.state</code>.</li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="modifying-the-response-body"></a><a href="#modifying-the-response-body" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modifying the response body</h2>
+<p>One common need is to modify the response body.  We'll tweak the example from above to show how we can set any part of a response body.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u, gen } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
+<span class="hljs-keyword">const</span> { withCodes } = gen;
+
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>, <span class="hljs-string">'myapi'</span>)
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">200</span>, {
+    <span class="hljs-attr">id</span>: u.number(),
+    <span class="hljs-attr">name</span>: u.string(<span class="hljs-string">"name.firstName"</span>),
+    <span class="hljs-attr">zodiac</span>: {
+      <span class="hljs-attr">sign</span>: u.string(),
+      <span class="hljs-attr">ascendant</span>: u.string(),
+      <span class="hljs-attr">aspect</span>: u.string(),
+      <span class="hljs-attr">transit</span>: u.string()
+    }
+  })
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">404</span>, {
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"Naughty you!"</span>
+  })
+
+<span class="hljs-keyword">const</span> { myapi } = unmock.on().services;
+myapi.state(
+  withCodes(<span class="hljs-number">200</span>),
+  responseBody({ <span class="hljs-attr">address</span>: [<span class="hljs-string">"name"</span>]}).const(<span class="hljs-string">"Carolyn"</span>),
+  responseBody({ <span class="hljs-attr">address</span>: [<span class="hljs-string">"zodiac"</span>, <span class="hljs-string">"ascendenet"</span>]}).const(<span class="hljs-string">"Libra"</span>)
+);
+</code></pre>
+<p>We've overridden the body so that the value at the address <code>body.name</code> is <code>&quot;Carolyn&quot;</code> and <code>body.zodiac.ascendenet</code> is <code>&quot;Libra&quot;</code>.</p>
+<p>In your IDE, you can inspect the signature of <code>responseBody</code> to see the various parts of a body you can set. You can make a property required, set the minimum number of items in an array, and lots more!</p>
+<h2><a class="anchor" aria-hidden="true" id="resetting-the-state"></a><a href="#resetting-the-state" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resetting the state</h2>
+<p>To reset a specific service state or a whole service (including spies), you can use <code>reset()</code>.</p>
+<pre><code class="hljs css language-javascript">github.state.reset(); <span class="hljs-comment">// Reset the state for `github`</span>
+github.reset(); <span class="hljs-comment">// Reset the service, including state</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/expectations"><span class="arrow-prev">← </span><span>Great Expectations</span></a><a class="docs-next button" href="/docs/fuzz"><span>Fuzz Testing</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#setting-state-for-a-service">Setting state for a service</a></li><li><a href="#modifying-the-response-body">Modifying the response body</a></li><li><a href="#resetting-the-state">Resetting the state</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction">Introduction</a><a href="/docs/hello">Hello World</a></div><div><h5>Community</h5><a href="https://gitter.im/unmock/community">Gitter</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
