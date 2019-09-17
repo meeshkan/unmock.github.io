@@ -3,7 +3,7 @@
     "Introduction": ["introduction", "example"],
     "Services": ["unmock", "openapi"],
     "Expectations": ["expectations"],
-    "State": ["setting-state", "setting-state-dsl"],
+    "State": ["setting-state"],
     "Advanced usage": ["configuration", "jest-reporter"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
