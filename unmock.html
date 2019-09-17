@@ -67,8 +67,8 @@
 <pre><code class="hljs css language-javascript"><span class="hljs-comment">// mytest.js</span>
 <span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
 
-unmock(<span class="hljs-string">"https://www.myapi.com"</span>)
-  .nock
+unmock
+  .nock(<span class="hljs-string">"https://www.myapi.com"</span>)
   .get(<span class="hljs-string">"/users/{id}"</span>)
   .reply(<span class="hljs-number">200</span>, {
     <span class="hljs-attr">id</span>: u.integer(), <span class="hljs-comment">// a random integer</span>
@@ -85,7 +85,8 @@ unmock(<span class="hljs-string">"https://www.myapi.com"</span>)
 <p>GET requests can be built like this.</p>
 <pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
 
-unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>)
   .get(<span class="hljs-string">'/user/{id}'</span>)
   .reply(<span class="hljs-number">200</span>, {
     <span class="hljs-attr">id</span>: u.number(),
@@ -96,7 +97,8 @@ unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
 <p>POST requests can be defined similar to GET requests, with an optional body as a second argument to <code>post</code>.</p>
 <pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
 
-unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>)
   .post(<span class="hljs-string">'/user/{id}'</span>, {
     <span class="hljs-attr">name</span>: u.name.firstName,
   })
@@ -107,7 +109,8 @@ unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="other-verbs"></a><a href="#other-verbs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Other verbs</h3>
 <p>In addition to GET and POST, Unmock supports PUT, DELETE, PATCH, OPTIONS, and HEAD.</p>
-<pre><code class="hljs css language-javascript">unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
+<pre><code class="hljs css language-javascript">unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>)
   .delete(<span class="hljs-string">'/user/{id}'</span>)
   .reply(<span class="hljs-number">200</span>);
 </code></pre>
@@ -115,16 +118,18 @@ unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
 <p>Unmock allows you to specify request headers as a second argument to the <code>unmock</code> function.</p>
 <pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
 
-unmock(<span class="hljs-string">'https://api.myapi.com'</span>, <span class="hljs-attr">reqheaders</span>: {
-  [<span class="hljs-string">"X-Unmock-Is"</span>]: u.stringEnum([<span class="hljs-string">"Awesome"</span>, <span class="hljs-string">"Truly Awesome"</span>])
-})
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>, <span class="hljs-attr">reqheaders</span>: {
+    [<span class="hljs-string">"X-Unmock-Is"</span>]: u.stringEnum([<span class="hljs-string">"Awesome"</span>, <span class="hljs-string">"Truly Awesome"</span>])
+  })
   .get(<span class="hljs-string">'/user/{id}'</span>)
   .reply(<span class="hljs-number">200</span>, {
     <span class="hljs-attr">id</span>: u.number()
   });
 </code></pre>
 <p>Response headers can be specified as a third argument to the <code>reply</code> function.</p>
-<pre><code class="hljs css language-javascript">unmock(<span class="hljs-string">'https://api.myapi.com'</span>)
+<pre><code class="hljs css language-javascript">unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>)
   .get(<span class="hljs-string">'/user/{id}'</span>)
   .reply(<span class="hljs-number">200</span>, {
     <span class="hljs-attr">id</span>: u.number()
@@ -132,4 +137,20 @@ unmock(<span class="hljs-string">'https://api.myapi.com'</span>, <span class="hl
     [<span class="hljs-string">"X-LastSeen"</span>]: u.string(<span class="hljs-string">"date.past"</span>)
   });
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/example"><span class="arrow-prev">← </span><span>A Simple Example</span></a><a class="docs-next button" href="/openapi"><span class="function-name-prevnext">Using OpenAPI</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#poet">Poet</a></li><li><a href="#verbs">Verbs</a><ul class="toc-headings"><li><a href="#get-requests">GET requests</a></li><li><a href="#post-requests">POST requests</a></li><li><a href="#other-verbs">Other verbs</a></li></ul></li><li><a href="#headers">Headers</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/introduction">Introduction</a><a href="/hello">Hello World</a></div><div><h5>Community</h5><a href="https://spectrum.chat/unmock">Spectrum Chat</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
+<h2><a class="anchor" aria-hidden="true" id="fluid-api"></a><a href="#fluid-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fluid API</h2>
+<p>Services definitions can be chained in a fluid API <em>or</em> in separate calls to <code>unmock.nock</code>.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
+
+unmock
+  .nock(<span class="hljs-string">'https://api.myapi.com'</span>)
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">200</span>, {
+    <span class="hljs-attr">id</span>: u.number(),
+    <span class="hljs-attr">name</span>: u.string(<span class="hljs-string">"name.firstName"</span>)
+  })
+  .get(<span class="hljs-string">'/user/{id}'</span>)
+  .reply(<span class="hljs-number">404</span>, {
+    <span class="hljs-attr">message</span>: <span class="hljs-string">"Naughty you!"</span>
+  })
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/example"><span class="arrow-prev">← </span><span>A Simple Example</span></a><a class="docs-next button" href="/openapi"><span class="function-name-prevnext">Using OpenAPI</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#poet">Poet</a></li><li><a href="#verbs">Verbs</a><ul class="toc-headings"><li><a href="#get-requests">GET requests</a></li><li><a href="#post-requests">POST requests</a></li><li><a href="#other-verbs">Other verbs</a></li></ul></li><li><a href="#headers">Headers</a></li><li><a href="#fluid-api">Fluid API</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/introduction">Introduction</a><a href="/hello">Hello World</a></div><div><h5>Community</h5><a href="https://spectrum.chat/unmock">Spectrum Chat</a><a href="https://twitter.com/meeshkanml?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a></div></section><section class="copyright">Copyright © 2019 Meeshkan</section></footer></div></body></html>
