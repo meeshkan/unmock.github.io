@@ -65,7 +65,7 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/unmock.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Defining Services</h1></header><article><div><span><p>Unmock provides a programmatic and interactive way of building services across multiple test files. A <strong>service</strong> in Unmock is any REST API that is being mocked - a microservice, <a href="https://openweathermap.org/api">openweathermap.org</a>, etc.</p>
 <p>The service-definition syntax is a subset <a href="https://github.com/nock/nock"><code>nock</code></a> and lives under the object <code>unmock.nock</code>.  Here is a simple example of a GET request in unmock.</p>
 <pre><code class="hljs css language-javascript"><span class="hljs-comment">// mytest.js</span>
-<span class="hljs-keyword">import</span> unmock, { compose, u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
+<span class="hljs-keyword">import</span> unmock, { u } <span class="hljs-keyword">from</span> <span class="hljs-string">"unmock"</span>;
 
 unmock(<span class="hljs-string">"https://www.myapi.com"</span>)
   .nock
