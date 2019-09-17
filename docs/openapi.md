@@ -1,7 +1,7 @@
 ---
-id: loas3
-title: Lazy OpenAPI
-sidebar_label: Lazy OpenAPI
+id: openapi
+title: OpenAPI
+sidebar_label: OpenAPI
 ---
 
 Often you have an OpenAPI specification available for a service. Mature projects and companies, such as Stripe and Slack, tend to have robust OpenAPI specifications that account for API corner cases and cover all API endpoints. However, if a specification is not available, you will need to deal with APIs that have incomplete or no OpenAPI documentation. In this case, you will need to author your own.

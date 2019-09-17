@@ -1,7 +1,7 @@
 {
   "docs": {
     "Introduction": ["introduction", "example", "hello"],
-    "Services": ["layout", "loas3", "fetching"],
+    "Services": ["unmock", "openapi"],
     "State": ["setting-state", "setting-state-dsl"],
     "Expectations": ["expectations"],
     "Advanced usage": ["configuration", "jest-reporter"],
