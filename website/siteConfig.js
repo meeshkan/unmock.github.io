@@ -13,7 +13,7 @@ const users = [];
 
 const siteConfig = {
   title: "Unmock", // Title for your website.
-  tagline: "We fake it while you make it.",
+  tagline: "We fake it while you make it",
   url: "https://www.unmock.io", // Your website URL
   cname: "www.unmock.io",
   baseUrl: "/", // Base URL for your project */
