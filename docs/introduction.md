@@ -1,7 +1,7 @@
 ---
 id: introduction
-title: Getting started
-sidebar_label: Getting started with Unmock
+title: Getting Started
+sidebar_label: Getting Started
 ---
 
 Welcome! 👋
