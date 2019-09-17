@@ -1,6 +1,6 @@
 ---
 id: introduction
-title: Getting started with Unmock
+title: Getting started
 sidebar_label: Getting started with Unmock
 ---
 

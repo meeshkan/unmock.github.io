@@ -6,128 +6,24 @@ sidebar_label: Using OpenAPI
 
 Unmock supports service descriptions in two different flavors of OpenAPI: vanilla OpenAPI and Lazy OpenAPI 3 (loas3).
 
-## Your first OpenAPI Spec in Unmock
+OpenAPI specs should be added directly into an `__unmock__` directory at the top-level of your project. The only thing you need to do is make sure the spec is in YAML and is located in a subdirectory that represents the specification's logical name.  For example, if you have an OpenAPI spec for `https://api.cutekittens.io` and would like to refer to this as `cutekittens`, you can place the spec in `__unmock__/cutekittens/index.yml`.
 
-There are three ways to incldue OpenAPI in an unmock project.
+__unmock__/
+  cutekittens/
+    index.yaml
+package.json
+src/
+tests/
 
-1. Pull in an OpenAPI spec from [DefinitelyMocked](https://github.com/unmock/definitelymocked) or another package.
-1. Use the Unmock CLI or VS Code plugin to compose and edit specifications.
-1. Write or paste an OpenAPI file directly in the `unmock` directory.
-
-## Pulling a spec from DefinitelyMocked
-
-Lots of companies define OpenAPI specs for their APIs, and several projects, such as [apis.guru](https://apis.guru) and [OpenAPI Directory](https://github.com/APIs-guru/openapi-directory), act as a directory of OpenAPI specs.  We maintain our own directory, called [DefinitelyMocked](https://github.com/unmock/definitelymocked), that you can use right from the Unmock CLI.
-
-To import a spec from DefinitelyMocked, you can use `npm` or `yarn`. The following example imports the OpenAPI spec for the Stripe Version 3 API.
-
-<!--DOCUSAURUS_CODE_TABS-->
-
-<!--yarn-->
-```bash
-$ yarn add -D @unmock/stripe3
-```
-
-<!--npm-->
-```bash
-$ npm install --save-dev @unmock/stripe3
-```
-
-<!--END_DOCUSAURUS_CODE_TABS-->
-
-> If you are using typescript, make sure to add `unmock ts` as part of the `postinstall` script in `package.json`  to have types generated for your OpenAPI specs.
-
-Now, Unmock will automagically mock Stripe V3 whenever you call it.
-
-## Composing with the CLI
-
-The Unmock CLI and VS Code plugins both allow for you to compose services. This section will explore how to do this with the CLI. The VS Code plugin is self documenting from the Unmock pane in VS Code.
-
-### Associating a URL with an API
-
-To associate a URL with an API, use `unmock associate`.
-
-```bash
-$ unmock associate myapi https://myapi.com
-```
-
-Now, the endpoint `https://myapi.com` is associated with `myapi`. If you associate the same URL with two different APIs, unmock will throw an error.
-
-### Adding information
-
-You can add information to an API with the `unmock add` command.
-
-```bash
-$ unmock add -h
-usage: unmock add [api] [path] [verb] responses [code] content [media-type] key value
-usage: unmock add [api] [path] [verb] responses [code] headers key value
-usage: unmock add [api] [path] [verb] parameter [query/path/header/cookie] key value
-$ unmock add myapi "/user/{id}" get parameter path id random.number
-$ unmock add myapi "/user/{id}" get responses 200 content application/json id random.number
-$ unmock add myapi "/user/{id}" get responses 200 content application/json info.name name.firstName
-$ unmock show myapi "/user/{id}"
-/user/{id}:
-  get:
-    parameters:
-      - in: path
-        description: An id in the path.
-        name: id
-        type: integer
-    responses:
-      200:
-        application/json:
-        content:
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              info:
-                type: object
-                properties:
-                  country:
-                    type: string
-                    x-unmock-faker: address.countryCode
-```
-
-### Deleting information
-
-You can add information to an API with the `unmock delete` command.
-
-
-```bash
-$ unmock delete -h
-usage: unmock delete [api] [path] [verb] responses [code] content [media-type] key
-usage: unmock delete [api] [path] [verb] responses [code] headers key
-usage: unmock delete [api] [path] [verb] parameter [query/path/header/cookie] key
-$ unmock add myapi "/user/{id}" get responses 200 content application/json info.name
-$ unmock show myapi "/user/{id}"
-/user/{id}:
-  get:
-    parameters:
-      - in: path
-        description: An id in the path.
-        name: id
-        type: integer
-    responses:
-      200:
-        application/json:
-        content:
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-```
-
-
-## Manual OpenAPI spec creation
-
-Sometimes, you just want to copy and paste an OpenAPI spec or write one yourself. In this case, Unmock supports the addition of OpenAPI specs directly into the `__unmock__` directory. The only thing you need to do is make sure the spec is in YAML and is located in a subdirectory that represents the specification's logical name.  For example, if you have an OpenAPI spec for `https://api.cutekittens.io` and would like to refer to this as `cutekittens`, you can place the spec in `__unmock__/cutekittens/index.yml`. It will then be referenceable from the unmock.services object.
+It will then be referenceable from the unmock.services object.
 
 ```javascript
-import { services: { cutekittens } } from "unmock";
+import unmock from "unmock";
+const { services: { cutekittens } } = unmock.on();
 // now you can use a mock of the cutekittens.io API
 ```
+
+Any valid OpenAPI 3 specification can be added to your project this way. Many APIs (Stripe, Slack, etc) have mature and robust OpenAPI specifications. If you're wondering whether or not an API you're working with has an OpenAPI specification, API gurus provides an excellent directory of OpenAPI specs.
 
 ## Lazy Open API 3 (loas3)
 
