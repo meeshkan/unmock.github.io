@@ -8,13 +8,14 @@ Unmock supports service descriptions in two different flavors of OpenAPI: vanill
 
 OpenAPI specs should be added directly into an `__unmock__` directory at the top-level of your project. The only thing you need to do is make sure the spec is in YAML and is located in a subdirectory that represents the specification's logical name.  For example, if you have an OpenAPI spec for `https://api.cutekittens.io` and would like to refer to this as `cutekittens`, you can place the spec in `__unmock__/cutekittens/index.yml`.
 
+```yaml
 __unmock__/
   cutekittens/
     index.yaml
 package.json
 src/
 tests/
-
+```
 It will then be referenceable from the unmock.services object.
 
 ```javascript
