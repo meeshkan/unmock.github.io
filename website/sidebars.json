@@ -2,9 +2,8 @@
   "docs": {
     "Introduction": ["introduction", "example"],
     "Services": ["unmock", "openapi"],
-    "Expectations": ["expectations"],
-    "State": ["setting-state"],
-    "Advanced usage": ["configuration", "jest-reporter"],
+    "Usage": ["expectations", "setting-state"],
+    "Advanced Usage": ["configuration", "jest-reporter"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
