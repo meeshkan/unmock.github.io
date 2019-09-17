@@ -1,7 +1,7 @@
 ---
 id: setting-state
-title: Setting the State
-sidebar_label: Setting the State
+title: Initializing Mocks
+sidebar_label: Initializing Mocks
 ---
 
 Once activated, Unmock will mock services according to their specifications. The default behavior is to serve _randomly generated valid responses_. For example, the snippet below will generate **either** `200` **or** `404`.
