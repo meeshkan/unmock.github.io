@@ -10,7 +10,7 @@ The service-definition syntax is a subset [`nock`](https://github.com/nock/nock)
 
 ```javascript
 // mytest.js
-import unmock, { compose, u } from "unmock";
+import unmock, { u } from "unmock";
 
 unmock("https://www.myapi.com")
   .nock
