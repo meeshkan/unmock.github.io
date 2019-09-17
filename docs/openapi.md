@@ -6,15 +6,16 @@ sidebar_label: Using OpenAPI
 
 Unmock supports service descriptions in two different flavors of OpenAPI: vanilla OpenAPI and Lazy OpenAPI 3 (loas3).
 
-OpenAPI specs should be added directly into an `__unmock__` directory at the top-level of your project. The only thing you need to do is make sure the spec is in YAML and is located in a subdirectory that represents the specification's logical name.  For example, if you have an OpenAPI spec for `https://api.cutekittens.io` and would like to refer to this as `cutekittens`, you can place the spec in `__unmock__/cutekittens/index.yml`.
+OpenAPI specs should be added directly into an `__unmock__` directory at the top-level of your project. The only thing you need to do is make sure the spec is in YAML and is located in a subdirectory that represents the specification's logical name.  For example, if you have an OpenAPI spec for `https://api.cutekittens.io` and would like to refer to this as `cutekittens`, you can place the spec in `__unmock__/cutekittens/openapi.yml`.
 
+```
 __unmock__/
   cutekittens/
-    index.yaml
+    openapi.yml
 package.json
 src/
 tests/
-
+```
 It will then be referenceable from the unmock.services object.
 
 ```javascript
@@ -116,7 +117,7 @@ paths:
 
 One gotchya is that, if you use one of the keywords that can actually be part of a [Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject), `loas3` will treat the object like a Schema.
 
-> In unmock, `default` response is translated to a 200 response code.
+> In unmock, the `default` response is translated to a 500 response code.
 
 ### Parameters
 
