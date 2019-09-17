@@ -38,7 +38,7 @@ class HomeSplash extends React.Component {
       <div className="section promoSection">
         <img className="promoImage" src={`${baseUrl}img/logo-purple.svg`} alt="Project Logo" />
         <div className="promoRow">
-          <div className="pluginRowBlock">Unmock helps you test the business logic of your API integrations by creating unreasonably effective simulations of external APIs and microservices. Property testing, rich assertions, passthrough validation and more await you!</div>
+          <div className="pluginRowBlock">Unmock helps you test the business logic of your API integrations by creating unreasonably effective simulations of external APIs and microservices.</div>
         </div>
         <div className="promoRow">
           <div className="pluginRowBlock">{props.children}</div>
@@ -59,7 +59,7 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
-            <Button href={docUrl("installation.html")}>Get started</Button>
+            <Button href={docUrl("introduction.html")}>Get started</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -101,7 +101,7 @@ const Kataconda = () => (
           {
             content:
               "With lots of resources and examples, there is something for everyone, from Hello World to advanced API (un)mocking.",
-            image: `${baseUrl}img/undraw_knowledge.svg`,
+            image: `${baseUrl}img/undraw-knowledge.svg`,
             imageAlign: "left",
             title: "Learn Unmock",
           },
@@ -115,7 +115,7 @@ const Kataconda = () => (
           {
             content:
               "Unmock is useful whenever you are testing code that calls an external API. This can be a microservice, a backend server, a third-party API like Stripe or Contentful, or an analytics service like Sentry or Segment.",
-            image: `${baseUrl}img/undraw_programmer.svg`,
+            image: `${baseUrl}img/undraw-programmer.svg`,
             imageAlign: "right",
             title: "When should I use Unmock?",
           },

@@ -69,7 +69,7 @@ unmock
   .reply(200, {
     id: u.number(),
     name: u.string("name.firstName"),
-    address: {
+    location: {
       city: u.string(),
       state: u.string()
     }
@@ -83,11 +83,11 @@ const { myapi } = unmock.on().services;
 myapi.state(
   withCodes(200),
   responseBody({ address: ["name"]}).const("Bob"),
-  responseBody({ address: ["address", "city"]}).const("Denver")
+  responseBody({ address: ["location", "city"]}).const("Denver")
 );
 ```
 
-We've overridden the body so that the value at the address `body.name` is `"Bob"` and `body.address.city` is `"Denver"`.
+We've overridden the body so that the value at the address `body.name` is `"Bob"` and `body.location.city` is `"Denver"`.
 
 In your IDE, you can inspect the signature of `responseBody` to see the various parts of a body you can set. You can make a property required, set the minimum number of items in an array, and lots more!
 
