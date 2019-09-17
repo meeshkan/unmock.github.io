@@ -12,8 +12,8 @@ The service-definition syntax is a subset [`nock`](https://github.com/nock/nock)
 // mytest.js
 import unmock, { u } from "unmock";
 
-unmock("https://www.myapi.com")
-  .nock
+unmock
+  .nock("https://www.myapi.com")
   .get("/users/{id}")
   .reply(200, {
     id: u.integer(), // a random integer
@@ -38,7 +38,8 @@ GET requests can be built like this.
 ```javascript
 import unmock, { u } from "unmock";
 
-unmock('https://api.myapi.com')
+unmock
+  .nock('https://api.myapi.com')
   .get('/user/{id}')
   .reply(200, {
     id: u.number(),
@@ -53,7 +54,8 @@ POST requests can be defined similar to GET requests, with an optional body as a
 ```javascript
 import unmock, { u } from "unmock";
 
-unmock('https://api.myapi.com')
+unmock
+  .nock('https://api.myapi.com')
   .post('/user/{id}', {
     name: u.name.firstName,
   })
@@ -68,7 +70,8 @@ unmock('https://api.myapi.com')
 In addition to GET and POST, Unmock supports PUT, DELETE, PATCH, OPTIONS, and HEAD.
 
 ```javascript
-unmock('https://api.myapi.com')
+unmock
+  .nock('https://api.myapi.com')
   .delete('/user/{id}')
   .reply(200);
 ```
@@ -80,9 +83,10 @@ Unmock allows you to specify request headers as a second argument to the `unmock
 ```javascript
 import unmock, { u } from "unmock";
 
-unmock('https://api.myapi.com', reqheaders: {
-  ["X-Unmock-Is"]: u.stringEnum(["Awesome", "Truly Awesome"])
-})
+unmock
+  .nock('https://api.myapi.com', reqheaders: {
+    ["X-Unmock-Is"]: u.stringEnum(["Awesome", "Truly Awesome"])
+  })
   .get('/user/{id}')
   .reply(200, {
     id: u.number()
@@ -92,11 +96,32 @@ unmock('https://api.myapi.com', reqheaders: {
 Response headers can be specified as a third argument to the `reply` function.
 
 ```javascript
-unmock('https://api.myapi.com')
+unmock
+  .nock('https://api.myapi.com')
   .get('/user/{id}')
   .reply(200, {
     id: u.number()
   }, {
     ["X-LastSeen"]: u.string("date.past")
   });
+```
+
+## Fluid API
+
+Services definitions can be chained in a fluid API *or* in separate calls to `unmock.nock`.
+
+```javascript
+import unmock, { u } from "unmock";
+
+unmock
+  .nock('https://api.myapi.com')
+  .get('/user/{id}')
+  .reply(200, {
+    id: u.number(),
+    name: u.string("name.firstName")
+  })
+  .get('/user/{id}')
+  .reply(404, {
+    message: "Naughty you!"
+  })
 ```
