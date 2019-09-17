@@ -117,7 +117,7 @@ paths:
 
 One gotchya is that, if you use one of the keywords that can actually be part of a [Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject), `loas3` will treat the object like a Schema.
 
-> In unmock, `default` response is translated to a 200 response code.
+> In unmock, the `default` response is translated to a 500 response code.
 
 ### Parameters
 
