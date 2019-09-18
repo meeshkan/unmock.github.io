@@ -46,6 +46,9 @@ jobs:
       - run:
           name: "Run linter"
           command: "yarn lint"
+      - run:
+          name: "Run tests"
+          command: "yarn test"
       - persist_to_workspace:
           root: ~/unmock.github.io
           paths:
