@@ -31,7 +31,7 @@ class Footer extends React.Component {
           <div>
             <h5>Docs</h5>
             <a href={this.docUrl("introduction")}>Introduction</a>
-            <a href={this.docUrl("hello")}>Hello World</a>
+            <a href={"https://github.com/unmock/unmock-examples"}>Examples</a>
           </div>
           <div>
             <h5>Community</h5>
