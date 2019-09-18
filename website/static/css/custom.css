@@ -21,3 +21,16 @@
 .gitter-open-chat-button {
   z-index: 99999;
 }
+
+.promoImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+
+.buttonWrapper .button {
+  font-size: 26px;
+  padding: 0.5em 1.25em;
+  font-weight: bold;
+}

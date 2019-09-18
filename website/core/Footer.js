@@ -35,7 +35,7 @@ class Footer extends React.Component {
           </div>
           <div>
             <h5>Community</h5>
-            <a href="https://spectrum.chat/unmock">Spectrum Chat</a>
+            <a href="https://gitter.im/unmock/community">Gitter</a>
             <a
               href="https://twitter.com/meeshkanml?lang=en"
               target="_blank"

@@ -38,7 +38,11 @@ class HomeSplash extends React.Component {
       <div className="section promoSection">
         <img className="promoImage" src={`${baseUrl}img/logo-purple.svg`} alt="Project Logo" />
         <div className="promoRow">
+<<<<<<< HEAD
           <div className="pluginRowBlock">Unmock helps you test the business logic of your API integrations by creating unreasonably effective simulations of external APIs and microservices. Property testing, rich assertions, passthrough validation and more await you!</div>
+=======
+          <div className="pluginRowBlock">Unmock helps you test the business logic of your API integrations by creating unreasonably effective simulations of external APIs and microservices.</div>
+>>>>>>> 3443826863d7cab8584eded3a17b3abda46df913
         </div>
         <div className="promoRow">
           <div className="pluginRowBlock">{props.children}</div>
@@ -59,7 +63,11 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
+<<<<<<< HEAD
             <Button href={docUrl("installation.html")}>Get started</Button>
+=======
+            <Button href={docUrl("introduction.html")}>Get started</Button>
+>>>>>>> 3443826863d7cab8584eded3a17b3abda46df913
           </PromoSection>
         </div>
       </SplashContainer>
@@ -101,7 +109,11 @@ const Kataconda = () => (
           {
             content:
               "With lots of resources and examples, there is something for everyone, from Hello World to advanced API (un)mocking.",
+<<<<<<< HEAD
             image: `${baseUrl}img/undraw_knowledge.svg`,
+=======
+            image: `${baseUrl}img/undraw-knowledge.svg`,
+>>>>>>> 3443826863d7cab8584eded3a17b3abda46df913
             imageAlign: "left",
             title: "Learn Unmock",
           },
@@ -115,7 +127,11 @@ const Kataconda = () => (
           {
             content:
               "Unmock is useful whenever you are testing code that calls an external API. This can be a microservice, a backend server, a third-party API like Stripe or Contentful, or an analytics service like Sentry or Segment.",
+<<<<<<< HEAD
             image: `${baseUrl}img/undraw_programmer.svg`,
+=======
+            image: `${baseUrl}img/undraw-programmer.svg`,
+>>>>>>> 3443826863d7cab8584eded3a17b3abda46df913
             imageAlign: "right",
             title: "When should I use Unmock?",
           },
