@@ -6,7 +6,7 @@ sidebar_label: Getting Started
 
 Welcome! 👋
 
-Unmock is a JavaScript library that helps you test API integrations, from third-party services like Facebook to microservices. It helps you focus more on verifying the correctness of your code and less on reverse engineering external APIs.
+Unmock is a JavaScript library that helps you test API integrations, from third-party services like Stripe and Salesforce to microservices.
 
 ## Installation
 
