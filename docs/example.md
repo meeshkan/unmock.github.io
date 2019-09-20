@@ -1,115 +1,105 @@
 ---
 id: example
-title: A Simple Example
-sidebar_label: A Simple Example
+title: A Motivating Example
+sidebar_label: A Motivating Example
 ---
 
-Here's an example of several different features in Unmock. While it is slightly longer than your typical "Hello World", it shows several useful features of Unmock all rolled into one example.
+Below is a fully functional example of Unmock in action! You can also run it yourself by cloning our [examples repository](https://github.com/unmock/unmock-examples). It shows the most important concepts of Unmock all rolled into one example.
 
-<!--DOCUSAURUS_CODE_TABS-->
+The example will use TypeScript syntax, although the same is possible in JavaScript. First, let's import everything we need.
 
-<!--Test-->
-
-```javascript
-// userAsUIObject.test.js
-
-import unmock from "unmock";
-import userAsUIObject from "./userAsUIObject";
-
-describe("user from backend", () => {
-  let myapi;
-  beforeAll(() => {
-    myapi = unmock.on().services.myapi;
-  });
-  afterAll(() => {
-    unmock.off();
-  });
-
-  test("should be correct as UI object", async () => {
-    const user = await userAsUIObject(id);
-    /* Request verification */
-    expect(myapi.spy.getPath()).toBe("https://api.myapi.com/users/" + id);
-    /* Output verification */
-    expect(user).toMatchObject(myapi.getResponseBody());
-    /* Output verification */
-    expect(user.welcomeMessage).toBe(`Hello ${user.name}!`);
-  });
-});
+```ts
+import unmock, { runner, u, transform } from "unmock";
+import axios from "axios";
+const { withCodes, withoutCodes } = transform;
 ```
 
-<!--Code-->
+Then, let's write a function that fetches a horoscope from our fictional horoscope API and transforms it into a human-readable string.
 
-```javascript
-// userAsUIObject.js
-/*
-  In this file, we make a call to our API and enrich the object
-  with some client-side fields for representing the user in the UI.
-*/
-const userAsUIObject = async id => {
-  const { data: user } = await axios("https://api.myapi.com/users/" + id);
-  return {
-    ...user,
-    seen: false,
-    edited: false,
-    welcomeMessage: `Hello ${user.name}!`,
-  };
+```ts
+const getHoroscope = async (user: string) => {
+  try {
+    const { data } = await axios("https://zodiac.com/horoscope/" + user);
+    return `Here's your horoscope, ${data.user} of the Great and Mighty sign ${data.sign}. ${data.horoscope}.`;
+  } catch (e) {
+    return `Sorry, your stars are not aligned today :-(`;
+  }
 };
-export default userAsUIObject;
 ```
 
-<!--YAML-->
+Because our service does not exist yet, we need to (un)mock it!
 
-```yaml
-// __unmock__/myapi/openapi.yaml
-// Service specification for myapi
-
-openapi: 3.0.0
-info:
-  version: "1.0"
-  title: "myapi"
-
-paths:
-  /users/{id}:
-    parameters:
-      - name: id
-        in: path
-        description: User ID
-        required: true
-        schema:
-          type: integer
-          minimum: 0
-    get:
-      responses:
-        "200":
-          description: "User"
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - age
-                  - type
-                properties:
-                  id:
-                    type: integer
-                    minimum: 0
-                  name:
-                    type: string
-                  age:
-                    type: integer
-                    minimum: 1
-                  type:
-                    type: string
-                    default: "user"
+```ts
+unmock
+  .nock("https://zodiac.com", "zodiac")
+  .get("/horoscope/{user}")
+  .reply(200, {
+    id: u.integer(),
+    name: u.string("name.firstName"),
+    sign: u.string(),
+    ascendant: u.string(),
+    type: "horoscope",
+  })
+  .get("/horoscope/{user}")
+  .reply(404, { message: "Not authorized." });
 ```
 
-<!--END_DOCUSAURUS_CODE_TABS-->
+Here, there are two possible outcomes: `200`, which is success, and `404`, which is an authorization failure. Let's write three tests using [Jest](https://jestjs.io).
 
-Examples like the one above show how Unmock helps answer two essential questions.
+```ts
+let zodiac: Service;
+
+beforeAll(() => {
+  zodiac = unmock.on().services.zodiac;
+});
+
+beforeEach(() => zodiac.reset());
+
+afterEach(() => zodiac.spy.resetHistory());
+
+test(
+  "call to the horoscope service uses the username",
+  runner(async () => {
+    zodiac.state(withCodes(200));
+    await getHoroscope("jane");
+    const requestPath = zodiac.spy.getRequestPath();
+    expect(requestPath).toBe(`/horoscope/jane`);
+    zodiac.spy.resetHistory();
+  })
+);
+
+test(
+  "horoscope does not result in unexpected error when resposne is 200",
+  runner(async () => {
+    zodiac.state(withCodes(200));
+    const horoscope = await getHoroscope("jane");
+    const responseBody = JSON.parse(zodiac.spy.getResponseBody());
+    expect(horoscope).toBe(
+      `Here's your horoscope, ${responseBody.user} of the Great and Mighty sign ${responseBody.sign}. ${responseBody.horoscope}.`
+    );
+    zodiac.spy.resetHistory();
+  })
+);
+
+test(
+  "when the response is not 200, the only outcome is an error",
+  runner(async () => {
+    zodiac.state(withoutCodes(200));
+    const horoscope = await getHoroscope("jane");
+    if (zodiac.spy.getResponseCode() !== 200) {
+      expect(horoscope).toBe(`Sorry, your stars are not aligned today :-(`);
+    }
+    zodiac.spy.resetHistory();
+  })
+);
+```
+
+In addition to writing tests, it would make us more confident that our code works as expected if we could see the network traffic of our tests in realtime. The [Jest reporter](jest-reporter.md) exists for this reason.
+
+Examples like the one above show how Unmock helps answer several essential questions.
 
 1. **Request Verification**: Does my code correctly compose the input for network calls?
-2. **Response Verification**: Does my code correctly handle the output of network calls?
+1. **Response Verification**: Does my code correctly handle the output of network calls?
+1. **Fuzz Testing**: Does my code work as expected even when the behavior of the API varies subtly?
 
 Before looking at these questions in detail, it's important to understand how services are defined in Unmock.
