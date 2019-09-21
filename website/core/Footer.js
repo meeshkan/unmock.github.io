@@ -37,7 +37,7 @@ class Footer extends React.Component {
             <h5>Community</h5>
             <a href="https://gitter.im/unmock/community">Gitter</a>
             <a
-              href="https://twitter.com/meeshkanml?lang=en"
+              href="https://twitter.com/unmockapis?lang=en"
               target="_blank"
               rel="noreferrer noopener"
             >
@@ -49,7 +49,8 @@ class Footer extends React.Component {
             <a href="https://github.com/unmock">GitHub</a>
           </div>
         </section>
-        <section className="copyright">{this.props.config.copyright}</section>
+        {/*<section className="copyright">{this.props.config.copyright}</section>*/}
+        <section className="copyright">Copyright © {new Date().getFullYear()} <a href="https://meeshkan.com">Meeshkan</a></section>
       </footer>
     );
   }
