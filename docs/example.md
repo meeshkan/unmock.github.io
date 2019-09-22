@@ -4,7 +4,7 @@ title: A Motivating Example
 sidebar_label: A Motivating Example
 ---
 
-Below is a fully functional example of Unmock in action! You can also download the example [here](https://www.github.com/unmock/unmock-examples) and inspect its output results [here](https://www.output-resuts.com). It shows the most important concepts of Unmock all rolled into one example.
+Below is a fully functional example of Unmock in action! You can also view the example on github [here](https://github.com/unmock/unmock-examples/tree/master/starter) and inspect its output results [here](http://htmlpreview.github.io/?https://github.com/unmock/unmock-examples/blob/add-report-to-git/starter/__unmock__/unmock-report.html). It shows the most important concepts of Unmock all rolled into one example.
 
 The example will use TypeScript syntax, although the same is possible in JavaScript. First, let's import everything we need.
 
@@ -94,7 +94,7 @@ test(
 );
 ```
 
-In addition to writing tests, it would make us more confident that our code works as expected if we could see the network traffic of our tests in realtime. The [Jest reporter](/reporter) exists for this reason, and an example of the reporter used with the example above lives [here](https://www.foo.com).
+In addition to writing tests, it would make us more confident that our code works as expected if we could see the network traffic of our tests in realtime. The [Jest reporter](/reporter) exists for this reason, and an example of the reporter used with the example above lives [here](http://htmlpreview.github.io/?https://github.com/unmock/unmock-examples/blob/add-report-to-git/starter/__unmock__/unmock-report.html).
 
 Examples like the one above show how Unmock helps answer several essential questions.
 

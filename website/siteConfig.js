@@ -75,6 +75,10 @@ const siteConfig = {
   // Add custom scripts here that would be placed in <script> tags.
   scripts: [
     "//katacoda.com/embed.js",
+    {
+      src: "https://assets.digitalclimatestrike.net/widget.js",
+      async: true
+    },
     "https://unpkg.com/unmock-gitter@0.0.0/index.js",
     {
       src: "https://sidecar.gitter.im/dist/sidecar.v1.js",
