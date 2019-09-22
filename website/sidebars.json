@@ -1,6 +1,6 @@
 {
   "docs": {
-    "Introduction": ["introduction", "example"],
+    "Introduction": ["introduction", "example", "resources"],
     "Services": ["unmock", "openapi"],
     "Basic Usage": ["expectations", "setting-state", "fuzz"],
     "Advanced Usage": ["jest-reporter", "configuration"],
