@@ -17,7 +17,7 @@ const MiniRepl = ({ baseUrl }) => {
       <div className="hero-repl__editor">
         <div className="hero-repl__pane hero-repl__pane--left">
           <h3 id="hero-repl__title" className="hero-repl__title">
-            See how it works
+            {/* Filled-in by examples */}
           </h3>
           <div id="hero-repl-in" className="hero-repl__code" />
         </div>
@@ -63,15 +63,17 @@ class HomeSplash extends React.Component {
           alt="Project Logo"
         />*/}
         <MiniRepl baseUrl={siteConfig.baseUrl} />
-        <div className="promoRow">
-          <div className="pluginRowBlock">
-            Unmock helps you test the business logic of your API integrations by
-            creating unreasonably effective simulations of external APIs and
-            microservices.
+        <div className="promoCallToAction">
+          <div className="promoRow">
+            <div className="pluginRowBlock">
+              Unmock helps you test the business logic of your API integrations
+              by creating unreasonably effective simulations of external APIs
+              and microservices.
+            </div>
           </div>
-        </div>
-        <div className="promoRow">
-          <div className="pluginRowBlock">{props.children}</div>
+          <div className="promoRow">
+            <div className="pluginRowBlock">{props.children}</div>
+          </div>
         </div>
       </div>
     );

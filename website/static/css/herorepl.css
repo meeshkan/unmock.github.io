@@ -9,6 +9,7 @@
   margin: 0 auto;
   opacity: 1;
   transition: opacity 0.25s ease-out;
+  margin-bottom: 1em;
 }
 
 .hero-repl--visible {
