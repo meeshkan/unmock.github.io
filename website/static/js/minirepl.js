@@ -1,12 +1,21 @@
-/*global $ ace */
+/* global ace */
+
+const REPL_CONTAINER_ID = "hero-repl";
+const REPL_EDITOR_ID = "hero-repl-in";
 
 const miniReplExamples = [
-  "[1, 2, 3].map(n => n ** 2);",
-  "var [a,,b] = [1,2,3];",
-  "const x = [1, 2, 3];\nfoo([...x]);",
-  'var obj = {\n  shorthand,\n  method() {\n    return "😀";\n  }\n};',
-  'var name = "Guy Fieri";\nvar place = "Flavortown";\n\n`Hello ${name}, ready for ${place}?`;',
-  'let yourTurn = "Type some code in here!";',
+  {
+    title: "Define services",
+    content: `unmock
+  .nock("https://zodiac.com", "zodiac")
+  .get("/horoscope/{user}")
+  .reply(200, {
+    id: u.integer(),
+    name: u.string("name.firstName"),
+  })
+  .get("/horoscope/{user}")
+  .reply(404, { message: "Not authorized." });`,
+  },
 ];
 
 let inEditor;
@@ -47,43 +56,9 @@ function setupEditor(id, readOnly) {
   return editor;
 }
 
-function simulateKeys(inEditor, outEditor, texts) {
-  let textIndex = 0;
-  let charIndex = 0;
-  let timeout;
-
-  function simulateKey(changingText) {
-    const delay = changingText ? 4000 : Math.round(Math.random() * 125) + 30;
-
-    timeout = setTimeout(function() {
-      if (!runDemo) {
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-        return;
-      }
-
-      const text = texts[textIndex];
-
-      charIndex++;
-
-      inEditor.setValue(text.substring(0, charIndex), 1);
-
-      if (charIndex < text.length) {
-        simulateKey();
-      } else if (charIndex === text.length && textIndex < texts.length - 1) {
-        textIndex++;
-        charIndex = 0;
-        simulateKey(true);
-      } else {
-        inEditor.selection.selectAll();
-        inEditor.setReadOnly(false);
-        clearTimeout(timeout);
-      }
-    }, delay);
-  }
-
-  simulateKey();
+function showText(inEditor, example) {
+  inEditor.setValue(example.content, 1);
+  document.getElementById("hero-repl__title").innerText = example.title;
 }
 
 const BABEL_MINI_REPL = {
@@ -91,28 +66,15 @@ const BABEL_MINI_REPL = {
     // don't init editor on mobile devices
     if (isMobile()) return;
 
-    document.getElementById("hero-repl").style.display = "block";
+    // Display container
+    document.getElementById(REPL_CONTAINER_ID).style.display = "block";
 
-    // $(".hero-repl").prop("hidden", false);
+    inEditor = setupEditor(REPL_EDITOR_ID, true);
 
-    inEditor = setupEditor("hero-repl-in", true);
-
-    setTimeout(function() {
-      // $(".hero-repl").addClass("hero-repl--visible");
-      simulateKeys(inEditor, undefined, miniReplExamples);
-    }, 150);
-  },
-
-  stopDemo: function() {
-    // debouncedUpdate.cancel();
-    runDemo = false;
-    inEditor.setReadOnly(false);
-    inEditor.setValue("");
-    // outEditor.setValue("");
+    showText(inEditor, miniReplExamples[0]);
   },
 };
 
-// relies on zepto being present on the page
 window.onload = function() {
   BABEL_MINI_REPL.start();
 };

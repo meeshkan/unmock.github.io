@@ -16,7 +16,9 @@ const MiniRepl = ({ baseUrl }) => {
     <div id="hero-repl" className="hero-repl">
       <div className="hero-repl__editor">
         <div className="hero-repl__pane hero-repl__pane--left">
-          <h3>See how it works</h3>
+          <h3 id="hero-repl__title" className="hero-repl__title">
+            See how it works
+          </h3>
           <div id="hero-repl-in" className="hero-repl__code" />
         </div>
       </div>
