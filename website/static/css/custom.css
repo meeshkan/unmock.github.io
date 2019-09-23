@@ -5,8 +5,8 @@
 }
 
 .thanks {
+  color: $primaryColor;
   margin-top: 1rem;
-  color: #ba00ff;
   font-size: 1.3rem;
 }
 
@@ -48,6 +48,6 @@
 .promoCallToAction {
   font-size: 1.5rem;
   font-weight: normal;
-  color: #ba00ff;
+  color: $primaryColor;
   margin-top: 1rem;
 }
