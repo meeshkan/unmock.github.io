@@ -49,18 +49,9 @@ const siteConfig = {
   },
 
   /* Custom fonts for website */
-  /*
   fonts: {
-    myFont: [
-      "Times New Roman",
-      "Serif"
-    ],
-    myOtherFont: [
-      "-apple-system",
-      "system-ui"
-    ]
+    hero: ["monospace", "Courier"],
   },
-  */
 
   editUrl: "https://github.com/unmock/unmock.github.io/edit/source/docs/",
 
@@ -77,14 +68,14 @@ const siteConfig = {
     "//katacoda.com/embed.js",
     {
       src: "https://assets.digitalclimatestrike.net/widget.js",
-      async: true
+      async: true,
     },
     "https://unpkg.com/unmock-gitter@0.0.0/index.js",
     {
       src: "https://sidecar.gitter.im/dist/sidecar.v1.js",
       async: true,
-      defer: true
-    }
+      defer: true,
+    },
   ],
 
   // On page navigation for the current documentation page.

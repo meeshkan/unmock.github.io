@@ -41,7 +41,7 @@ class HomeSplash extends React.Component {
           src={`${baseUrl}img/logo-purple.svg`}
           alt="Project Logo"
         />
-        <div className="promoRow">
+        <div className="promoRow promoCallToAction">
           <div className="pluginRowBlock">
             Unmock helps you test the business logic of your API integrations by
             creating unreasonably effective simulations of external APIs and
@@ -64,7 +64,7 @@ class HomeSplash extends React.Component {
 
     return (
       <SplashContainer>
-        <div className="inner">
+        <div className="inner hero">
           <ProjectTitle />
           <PromoSection>
             <Button href={docUrl("introduction.html")}>Get started</Button>
@@ -141,7 +141,7 @@ class Index extends React.Component {
     );
 
     const Thanks = () => (
-      <div className="homeContainer">
+      <div className="homeContainer thanks">
         <div className="section promoSection">
           <div className="promoRow">
             <div
