@@ -11,6 +11,26 @@ const CompLibrary = require("../../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
+const MiniRepl = ({ baseUrl }) => {
+  return (
+    <div id="hero-repl" className="hero-repl">
+      <div className="hero-repl__editor">
+        <div className="hero-repl__pane hero-repl__pane--left">
+          <h3 id="hero-repl__title" className="hero-repl__title">
+            {/* Filled-in by examples */}
+          </h3>
+          <div id="hero-repl-in" className="hero-repl__code" />
+        </div>
+      </div>
+      <script
+        src="https://unpkg.com/ace-builds@1.3.3/src-min-noconflict/ace.js"
+        defer={true}
+      />
+      <script src={`${baseUrl}js/minirepl.js`} defer={true} />
+    </div>
+  );
+};
+
 class HomeSplash extends React.Component {
   render() {
     const { siteConfig, language = "" } = this.props;
@@ -36,20 +56,24 @@ class HomeSplash extends React.Component {
 
     const PromoSection = props => (
       <div className="section promoSection">
+        {/*
         <img
           className="promoImage"
           src={`${baseUrl}img/logo-purple.svg`}
           alt="Project Logo"
-        />
-        <div className="promoRow">
-          <div className="pluginRowBlock">
-            Unmock helps you test the business logic of your API integrations by
-            creating unreasonably effective simulations of external APIs and
-            microservices.
+        />*/}
+        <MiniRepl baseUrl={siteConfig.baseUrl} />
+        <div className="promoCallToAction">
+          <div className="promoRow">
+            <div className="pluginRowBlock">
+              Unmock helps you test the business logic of your API integrations
+              by creating unreasonably effective simulations of external APIs
+              and microservices.
+            </div>
           </div>
-        </div>
-        <div className="promoRow">
-          <div className="pluginRowBlock">{props.children}</div>
+          <div className="promoRow">
+            <div className="pluginRowBlock">{props.children}</div>
+          </div>
         </div>
       </div>
     );
