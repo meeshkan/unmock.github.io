@@ -22,9 +22,7 @@ const miniReplExamples = [
     zodiac.state(withCodes(200));
     await getHoroscope("jane");
     const requestPath = zodiac.spy.getRequestPath();
-    expect(requestPath).toBe(\` /
-      horoscope /
-      jane\`);
+    expect(requestPath).toBe("/horoscope/jane");
     zodiac.spy.resetHistory();
   })
 );`,
