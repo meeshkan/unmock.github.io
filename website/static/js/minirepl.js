@@ -16,6 +16,19 @@ const miniReplExamples = [
   .get("/horoscope/{user}")
   .reply(404, { message: "Not authorized." });`,
   },
+  {
+    title: "Test properties",
+    content: `test("call to the horoscope service uses the username", runner(async () => {
+    zodiac.state(withCodes(200));
+    await getHoroscope("jane");
+    const requestPath = zodiac.spy.getRequestPath();
+    expect(requestPath).toBe(\` /
+      horoscope /
+      jane\`);
+    zodiac.spy.resetHistory();
+  })
+);`,
+  },
 ];
 
 let inEditor;
@@ -61,6 +74,8 @@ function showText(inEditor, example) {
   document.getElementById("hero-repl__title").innerText = example.title;
 }
 
+const DELAY = 5000;
+
 const BABEL_MINI_REPL = {
   start: function() {
     // don't init editor on mobile devices
@@ -71,7 +86,18 @@ const BABEL_MINI_REPL = {
 
     inEditor = setupEditor(REPL_EDITOR_ID, true);
 
+    let showing = 0;
     showText(inEditor, miniReplExamples[0]);
+
+    const update = () => {
+      showing += 1;
+      if (showing >= miniReplExamples.length) {
+        showing = 0;
+      }
+      showText(inEditor, miniReplExamples[showing]);
+    };
+
+    setInterval(update, DELAY);
   },
 };
 
