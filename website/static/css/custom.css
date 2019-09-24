@@ -20,16 +20,18 @@
 }
 
 .get-started__button-container {
-  padding: 0.3rem 0.75rem;
+  padding: 0.5rem 2rem;
 }
 
 .get-started__button {
   margin-top: 1rem;
   border: 2px solid #ffffff;
-  border-radius: 1rem;
+  border-radius: 0.3rem;
   padding: 0rem;
-  opacity: 0.7;
-  transition: opacity 0.5s;
+  opacity: 1;
+  transition: background-color 0.5s;
+  text-transform: uppercase;
+  font-family: $secondary;
 }
 
 .get-started__button a {
@@ -37,6 +39,7 @@
 }
 
 .get-started__button:hover {
+  background-color: $primaryColor;
   opacity: 1;
 }
 
