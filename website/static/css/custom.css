@@ -1,25 +1,66 @@
 /* your custom css */
 
+.homeContainer {
+  background-image: linear-gradient(to bottom, $primaryColor, $unmockBlue);
+}
+
 .hero {
   font-family: $primary;
+  color: #ffffff;
 }
 
 .landing {
   font-family: $primary;
 }
 
-.promoButton {
+.promoButton .buttonWrapper {
   font-family: $secondary;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.get-started__button-container {
+  padding: 0.3rem 0.75rem;
+}
+
+.get-started__button {
+  margin-top: 1rem;
+  border: 2px solid #ffffff;
+  border-radius: 1rem;
+  padding: 0rem;
+  opacity: 0.7;
+  transition: opacity 0.5s;
+}
+
+.get-started__button a {
+  color: #ffffff;
+}
+
+.get-started__button:hover {
+  opacity: 1;
 }
 
 .projectTitle {
   font-weight: bold;
+  color: #ffffff;
 }
 
 .thanks {
   color: $primaryColor;
   margin-top: 1rem;
   font-size: 1.3rem;
+  text-align: center;
+}
+
+.thanks__content-line {
+  display: block;
+}
+
+.promoCallToAction {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: #ffffff;
+  margin-top: 1rem;
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
@@ -60,6 +101,6 @@
 .promoCallToAction {
   font-size: 1.5rem;
   font-weight: normal;
-  color: $primaryColor;
+  color: #ffffff;
   margin-top: 1rem;
 }

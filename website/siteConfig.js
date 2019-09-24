@@ -46,6 +46,7 @@ const siteConfig = {
   colors: {
     primaryColor: "#BA00FF",
     secondaryColor: "#353b44",
+    unmockBlue: "#6a81ff",
   },
 
   /* Custom fonts for website */
