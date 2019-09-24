@@ -48,12 +48,18 @@
 .thanks {
   color: $primaryColor;
   margin-top: 1rem;
-  font-size: 1.3rem;
   text-align: center;
 }
 
-.thanks__content-line {
+.thanks__heading {
   display: block;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.thanks__secondary {
+  display: block;
+  font-size: 1rem;
 }
 
 .promoCallToAction {

@@ -143,10 +143,10 @@ class Index extends React.Component {
           <div className="promoRow">
             <div className="pluginRowBlock">
               <div className="thanks__content">
-                <span className="thanks__content-line">
+                <span className="thanks__heading">
                   Thanks for checking out Unmock!
                 </span>
-                <span className="thanks__content-line">
+                <span className="thanks__secondary">
                   We value your feedback and hope you will join our community
                   through one of the links below. See you soon!
                 </span>
