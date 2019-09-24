@@ -1,7 +1,12 @@
 /* your custom css */
 
 .homeContainer {
-  background-image: linear-gradient(to bottom, $primaryColor, $unmockBlue);
+  background-image: linear-gradient(
+    to bottom,
+    $primaryColor,
+    #9240ff,
+    $unmockBlue
+  );
 }
 
 .hero {
