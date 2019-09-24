@@ -50,7 +50,8 @@ const siteConfig = {
 
   /* Custom fonts for website */
   fonts: {
-    hero: ["monospace", "Courier"],
+    primary: ["Open Sans"],
+    secondary: ["Source Code Pro"],
   },
 
   editUrl: "https://github.com/unmock/unmock.github.io/edit/source/docs/",
@@ -83,7 +84,7 @@ const siteConfig = {
   // No .html extensions for paths.
   cleanUrl: true,
   stylesheets: [
-    // custom css here
+    "https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:400,700&display=swap",
   ],
 
   // Show documentation's last contributor's name.

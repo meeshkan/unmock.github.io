@@ -1,11 +1,19 @@
 /* your custom css */
 
 .hero {
-  font-family: $hero;
+  font-family: $primary;
 }
 
 .landing {
-  font-family: $hero;
+  font-family: $primary;
+}
+
+.promoButton {
+  font-family: $secondary;
+}
+
+.projectTitle {
+  font-weight: bold;
 }
 
 .thanks {

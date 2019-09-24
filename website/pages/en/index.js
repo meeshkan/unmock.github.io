@@ -48,7 +48,7 @@ class HomeSplash extends React.Component {
             microservices.
           </div>
         </div>
-        <div className="promoRow">
+        <div className="promoRow promoButton">
           <div className="pluginRowBlock">{props.children}</div>
         </div>
       </div>
