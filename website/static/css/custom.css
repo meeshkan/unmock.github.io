@@ -37,22 +37,23 @@
   margin-top: 0;
 }
 
+.projectTitle > * {
+  background: -webkit-linear-gradient($primaryColor 0%, #6a81ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: $primaryColor; /* Backup in case webkit does not exist */
+}
+
 .projectTitle__main {
-  background: linear-gradient(to bottom, $primaryColor 0%, #6a81ff 100%);
   font-size: 5rem;
   font-weight: bold;
   margin-top: 3rem;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .projectTitle__secondary {
-  background: linear-gradient(to bottom, $primaryColor 0%, #6a81ff 100%);
   font-size: 2rem;
   font-weight: bold;
   margin-top: 1rem;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .promoCallToAction {
