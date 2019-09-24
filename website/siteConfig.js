@@ -84,7 +84,7 @@ const siteConfig = {
   // No .html extensions for paths.
   cleanUrl: true,
   stylesheets: [
-    "https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:400,700&display=swap",
+    "https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Source+Code+Pro:400,700&display=swap",
   ],
 
   // Show documentation's last contributor's name.
