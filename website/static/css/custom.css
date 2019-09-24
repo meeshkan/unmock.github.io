@@ -28,8 +28,7 @@
   border: 2px solid #ffffff;
   border-radius: 0.3rem;
   padding: 0rem;
-  opacity: 1;
-  transition: background-color 0.5s;
+  transition: all 300ms ease-out;
   text-transform: uppercase;
   font-family: $secondary;
 }
@@ -40,7 +39,6 @@
 
 .get-started__button:hover {
   background-color: $primaryColor;
-  opacity: 1;
 }
 
 .projectTitle {
