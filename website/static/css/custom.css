@@ -1,17 +1,10 @@
 /* your custom css */
 
 .homeContainer {
-  background-image: linear-gradient(
-    to bottom,
-    $primaryColor,
-    #9240ff,
-    $unmockBlue
-  );
 }
 
 .hero {
   font-family: $primary;
-  color: #ffffff;
 }
 
 .landing {
@@ -20,35 +13,54 @@
 
 .promoButton .buttonWrapper {
   font-family: $secondary;
-  color: #ffffff;
-  border-color: #ffffff;
+  color: #margiff;
+  border-color: #margiff;
 }
 
 .get-started__button-container {
-  padding: 0.5rem 2rem;
-}
-
-.get-started__button {
   margin-top: 1rem;
-  border: 2px solid #ffffff;
+  border: 2px solid $primaryColor;
   border-radius: 0.3rem;
-  padding: 0rem;
+  padding: 0.5rem 1rem;
+  color: $primaryColor;
   transition: all 300ms ease-out;
   text-transform: uppercase;
   font-family: $secondary;
 }
 
-.get-started__button a {
-  color: #ffffff;
-}
-
-.get-started__button:hover {
+.get-started__button-container:hover {
   background-color: $primaryColor;
+  color: #ffffff;
 }
 
 .projectTitle {
+  margin-top: 0;
+}
+
+.projectTitle__main {
+  background: linear-gradient(to bottom, $primaryColor 0%, #6a81ff 100%);
+  font-size: 5rem;
   font-weight: bold;
-  color: #ffffff;
+  margin-top: 3rem;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.projectTitle__secondary {
+  background: linear-gradient(to bottom, $primaryColor 0%, #6a81ff 100%);
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.promoCallToAction {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: $primaryColor;
+  margin-top: 1rem;
+  font-family: $secondary;
 }
 
 .thanks {
@@ -66,13 +78,6 @@
 .thanks__secondary {
   display: block;
   font-size: 1rem;
-}
-
-.promoCallToAction {
-  font-size: 1.5rem;
-  font-weight: normal;
-  color: #ffffff;
-  margin-top: 1rem;
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
@@ -108,11 +113,4 @@
   font-size: 26px;
   padding: 0.5em 1.25em;
   font-weight: bold;
-}
-
-.promoCallToAction {
-  font-size: 1.5rem;
-  font-weight: normal;
-  color: #ffffff;
-  margin-top: 1rem;
 }

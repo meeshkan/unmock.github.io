@@ -28,19 +28,18 @@ class HomeSplash extends React.Component {
     );
 
     const ProjectTitle = () => (
-      <h2 className="projectTitle">
-        {siteConfig.title}
-        <small>{siteConfig.tagline}</small>
-      </h2>
+      <div className="projectTitle">
+        <h2 className="projectTitle__main">{siteConfig.title}</h2>
+        <h3 className="projectTitle__secondary">{siteConfig.tagline}</h3>
+      </div>
     );
 
     const PromoSection = props => (
       <div className="section promoSection">
         <div className="promoRow promoCallToAction">
           <div className="pluginRowBlock">
-            Unmock helps you test the business logic of your API integrations by
-            creating unreasonably effective simulations of external APIs and
-            microservices.
+            Unmock helps you test API integrations by creating unreasonably
+            effective simulations of external APIs and microservices.
           </div>
         </div>
         <div className="promoRow promoButton">
