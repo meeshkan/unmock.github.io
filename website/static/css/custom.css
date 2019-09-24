@@ -1,5 +1,27 @@
 /* your custom css */
 
+.hero {
+  font-family: $primary;
+}
+
+.landing {
+  font-family: $primary;
+}
+
+.promoButton {
+  font-family: $secondary;
+}
+
+.projectTitle {
+  font-weight: bold;
+}
+
+.thanks {
+  color: $primaryColor;
+  margin-top: 1rem;
+  font-size: 1.3rem;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 
@@ -33,4 +55,11 @@
   font-size: 26px;
   padding: 0.5em 1.25em;
   font-weight: bold;
+}
+
+.promoCallToAction {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: $primaryColor;
+  margin-top: 1rem;
 }

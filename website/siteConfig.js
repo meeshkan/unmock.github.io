@@ -49,18 +49,10 @@ const siteConfig = {
   },
 
   /* Custom fonts for website */
-  /*
   fonts: {
-    myFont: [
-      "Times New Roman",
-      "Serif"
-    ],
-    myOtherFont: [
-      "-apple-system",
-      "system-ui"
-    ]
+    primary: ["Open Sans"],
+    secondary: ["Source Code Pro"],
   },
-  */
 
   editUrl: "https://github.com/unmock/unmock.github.io/edit/source/docs/",
 
@@ -77,14 +69,14 @@ const siteConfig = {
     "//katacoda.com/embed.js",
     {
       src: "https://assets.digitalclimatestrike.net/widget.js",
-      async: true
+      async: true,
     },
     "https://unpkg.com/unmock-gitter@0.0.0/index.js",
     {
       src: "https://sidecar.gitter.im/dist/sidecar.v1.js",
       async: true,
-      defer: true
-    }
+      defer: true,
+    },
   ],
 
   // On page navigation for the current documentation page.
@@ -92,7 +84,7 @@ const siteConfig = {
   // No .html extensions for paths.
   cleanUrl: true,
   stylesheets: [
-    // custom css here
+    "https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Source+Code+Pro:400,700&display=swap",
   ],
 
   // Show documentation's last contributor's name.
