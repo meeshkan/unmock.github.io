@@ -4,6 +4,10 @@
   font-family: $hero;
 }
 
+.landing {
+  font-family: $hero;
+}
+
 .thanks {
   color: $primaryColor;
   margin-top: 1rem;
