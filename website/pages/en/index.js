@@ -28,24 +28,18 @@ class HomeSplash extends React.Component {
     );
 
     const ProjectTitle = () => (
-      <h2 className="projectTitle">
-        {siteConfig.title}
-        <small>{siteConfig.tagline}</small>
-      </h2>
+      <div className="projectTitle">
+        <h2 className="projectTitle__main">{siteConfig.title}</h2>
+        <h3 className="projectTitle__secondary">{siteConfig.tagline}</h3>
+      </div>
     );
 
     const PromoSection = props => (
       <div className="section promoSection">
-        <img
-          className="promoImage"
-          src={`${baseUrl}img/logo-purple.svg`}
-          alt="Project Logo"
-        />
         <div className="promoRow promoCallToAction">
           <div className="pluginRowBlock">
-            Unmock helps you test the business logic of your API integrations by
-            creating unreasonably effective simulations of external APIs and
-            microservices.
+            Unmock helps you test API integrations by creating unreasonably
+            effective simulations of external APIs and microservices.
           </div>
         </div>
         <div className="promoRow promoButton">
@@ -55,8 +49,8 @@ class HomeSplash extends React.Component {
     );
 
     const Button = props => (
-      <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={props.href} target={props.target}>
+      <div className="get-started__button">
+        <a href={props.href} target={props.target}>
           {props.children}
         </a>
       </div>
@@ -67,7 +61,9 @@ class HomeSplash extends React.Component {
         <div className="inner hero">
           <ProjectTitle />
           <PromoSection>
-            <Button href={docUrl("introduction.html")}>Get started</Button>
+            <Button href={docUrl("introduction.html")}>
+              <div className="get-started__button-container">Get started</div>
+            </Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -141,16 +137,19 @@ class Index extends React.Component {
     );
 
     const Thanks = () => (
-      <div className="homeContainer thanks">
+      <div className="thanks">
         <div className="section promoSection">
           <div className="promoRow">
-            <div
-              className="pluginRowBlock"
-              style={{ margin: "auto", width: "80%", display: "block" }}
-            >
-              Thanks for checking out Unmock! We value your feedback and hope
-              you will join our community through one of the links below. See
-              you soon!
+            <div className="pluginRowBlock">
+              <div className="thanks__content">
+                <span className="thanks__heading">
+                  Thanks for checking out Unmock!
+                </span>
+                <span className="thanks__secondary">
+                  We value your feedback and hope you will join our community
+                  through one of the links below. See you soon!
+                </span>
+              </div>
             </div>
           </div>
         </div>

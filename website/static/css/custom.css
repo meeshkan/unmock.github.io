@@ -1,5 +1,8 @@
 /* your custom css */
 
+.homeContainer {
+}
+
 .hero {
   font-family: $primary;
 }
@@ -8,18 +11,74 @@
   font-family: $primary;
 }
 
-.promoButton {
+.promoButton .buttonWrapper {
+  font-family: $secondary;
+  color: #margiff;
+  border-color: #margiff;
+}
+
+.get-started__button-container {
+  margin-top: 1rem;
+  border: 2px solid $primaryColor;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  color: $primaryColor;
+  transition: all 300ms ease-out;
+  text-transform: uppercase;
   font-family: $secondary;
 }
 
+.get-started__button-container:hover {
+  background-color: $primaryColor;
+  color: #ffffff;
+}
+
 .projectTitle {
+  margin-top: 0;
+}
+
+.projectTitle > * {
+  background: -webkit-linear-gradient($primaryColor 0%, #6a81ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: $primaryColor; /* Backup in case webkit does not exist */
+}
+
+.projectTitle__main {
+  font-size: 5rem;
   font-weight: bold;
+  margin-top: 3rem;
+}
+
+.projectTitle__secondary {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.promoCallToAction {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: $primaryColor;
+  margin-top: 1rem;
+  font-family: $secondary;
 }
 
 .thanks {
   color: $primaryColor;
   margin-top: 1rem;
-  font-size: 1.3rem;
+  text-align: center;
+}
+
+.thanks__heading {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.thanks__secondary {
+  display: block;
+  font-size: 1rem;
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
@@ -55,11 +114,4 @@
   font-size: 26px;
   padding: 0.5em 1.25em;
   font-weight: bold;
-}
-
-.promoCallToAction {
-  font-size: 1.5rem;
-  font-weight: normal;
-  color: $primaryColor;
-  margin-top: 1rem;
 }
