@@ -94,7 +94,7 @@ test(
 );
 ```
 
-In addition to writing tests, it would make us more confident that our code works as expected if we could see the network traffic of our tests in realtime. The [Jest reporter](/docs/reporter) exists for this reason, and an example of the reporter used with the example above lives [here](http://htmlpreview.github.io/?https://github.com/unmock/unmock-examples/blob/add-report-to-git/starter/__unmock__/unmock-report.html).
+In addition to writing tests, it would make us more confident that our code works as expected if we could see the network traffic of our tests in realtime. The [Jest reporter](jest-reporter.md) exists for this reason, and an example of the reporter used with the example above lives [here](http://htmlpreview.github.io/?https://github.com/unmock/unmock-examples/blob/add-report-to-git/starter/__unmock__/unmock-report.html).
 
 Examples like the one above show how Unmock helps answer several essential questions.
 
