@@ -4,7 +4,7 @@ title: Fuzz Testing
 sidebar_label: Fuzz Testing
 ---
 
-Because Unmock generates random responses, it is not very useful to test out just one. The real power of unmock comes from testing many different outcomes of interactions with an API.  To do this, unmock supports fuzz testing, or the testing of multiple random outcomes, with `unmock.runner`.
+Because Unmock generates random responses, it is not very useful to test out just one. The real power of Unmock comes from testing many different outcomes of interactions with an API.  To do this, `unmock` supports fuzz testing, or the testing of multiple random outcomes, with `unmock.runner`.
 
 ```javascript
 import unmock, { u, transform, runner } from "unmock";
