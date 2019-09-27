@@ -28,7 +28,7 @@ In most cases, resetting and redefining the service is all you need. However, wh
 
 ## Setting state for a service
 
-Let's revisit the example above, and use the state to make sure we are only returning 200.
+Let's revisit the example above, and use the state to make sure we are only returning `200`.
 
 ```javascript
 import unmock, { u, transform } from "unmock";
