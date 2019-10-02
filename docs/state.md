@@ -24,7 +24,7 @@ unmock
 
 That's all well and good, but sometimes, you'd like for a service to behave more specifically, like **only** responding with a given code or **only** responding with an array of size ten.  You can do this in one of two ways: calling `service.reset()` and redefining the service *or* using `service.state`.
 
-In most cases, resetting and redefining the service is all you need. However, when you are working with OpenAPI, or when you have a complex service defined, using the `state` can be a simple and elegant solution.
+In most cases, resetting and redefining the service is all you need. However, when you are working with OpenAPI, or when you have a complex service defined, using the `state` can be an elegant solution.
 
 ## Setting state for a service
 
@@ -91,7 +91,7 @@ myapi.state(
 
 We've overridden the body so that the value at `body.name` is `"Carolyn"` and `body.zodiac.ascendenet` is `"Libra"`. `lens` acts as a lens that zooms in on part of an object, not unlike the concept of lenses [optics](https://en.wikibooks.org/wiki/Haskell/Lenses_and_functional_references) from functional programming.
 
-One gotchya is how to zoom in on objects with variable numbers of propreties. To zoom in on an index of an array, just use the number. To zoom in on every element of the array, use the `unmock.Arr` symbol in the lens, ie `[Arr, "id"]` to set the `id` of every element in a top-level array. To zoom in on every element of a Record (an object with key-value pairs) use `Addl`, ie `[Addl, "id"]` to set the `id` of every element in a record.
+One gotchya is how to zoom in on objects with variable numbers of propreties. To zoom in on an index of an array, use the number. To zoom in on every element of the array, use the `unmock.Arr` symbol in the lens, ie `[Arr, "id"]` to set the `id` of every element in a top-level array. To zoom in on every element of a Record (an object with key-value pairs) use `Addl`, ie `[Addl, "id"]` to set the `id` of every element in a record.
 
 In your IDE, you can inspect the signature of `responseBody` to see the various parts of a body you can set. You can make a property required, set the minimum number of items in an array, and lots more!
 

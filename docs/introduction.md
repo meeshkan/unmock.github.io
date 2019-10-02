@@ -30,7 +30,7 @@ $ npm install --save-dev unmock
 
 ## Turning Unmock on and off
 
-To turn Unmock on in any given file, simply call `unmock.on()`. For example, if you are using Jest, it is a good idea to turn Unmock on before each test or before all tests.
+To turn Unmock on in any given file, call `unmock.on()`. For example, if you are using Jest, it is a good idea to turn Unmock on before each test or before all tests.
 
 ```javascript
 const unmock = require("unmock").default;
