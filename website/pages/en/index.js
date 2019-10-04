@@ -90,7 +90,7 @@ class Index extends React.Component {
       </Container>
     );
 
-    const Kataconda = () => (
+    const Katacoda = () => (
       <div style={{ backgroundColor: "#f1f1f1" }}>
         <div
           id="katacoda-scenario-1"
@@ -160,7 +160,7 @@ class Index extends React.Component {
       <div className="container">
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer landing">
-          <Kataconda />
+          <Katacoda />
           <WhenUnmock />
           <Learn />
           <Thanks />
