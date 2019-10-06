@@ -6,7 +6,7 @@ sidebar_label: Defining Services
 
 Unmock provides a programmatic and interactive way of building services across multiple test files. A **service** in Unmock is any REST API that is being mocked - a microservice, [openweathermap.org](https://openweathermap.org/api), etc.
 
-The service-definition syntax is a subset [`nock`](https://github.com/nock/nock) and lives under the object `unmock.nock`.  Here is a simple example of a GET request in unmock.
+The service-definition syntax is a subset [`nock`](https://github.com/nock/nock) and lives under the object `unmock.nock`.  Here is an example of a GET request in unmock.
 
 ```javascript
 // mytest.js

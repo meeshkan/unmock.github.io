@@ -4,7 +4,7 @@ title: Great Expectations
 sidebar_label: Great Expectations
 ---
 
-Now that you know how to define services in Unmock, it would be useful to assert things about how they are used. When services are defined and loaded in Unmock, they automagically reside in the `unmock.services` object. These service objects contain lots of useful properties for you to write simple and effective tests.
+Now that you know how to define services in Unmock, it would be useful to assert things about how they are used. When services are defined and loaded in Unmock, they automagically reside in the `unmock.services` object. These service objects contain lots of useful properties for you to write clear and effective tests.
 
 ## Spying
 
@@ -19,11 +19,11 @@ const {
 const githubSpy = github.spy;
 ```
 
-An unmock spy has all the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/). In addition to this, it has some useful functions that make working with HTTP(S) related concepts, like request or response bodies, easy.
+An unmock spy has all the properties documented in the [SinonJS documentation](https://sinonjs.org/releases/v7.4.1/spies/). In addition to this, it has some useful functions that can help when working with HTTP(S) related concepts, like request or response bodies.
 
 ## Paths and Headers and Bodies, Oh My!
 
-When working with network calls, we will often want to make assertions like the right path was called, the right header was used or the right body was returned. Unmock spies have some useful functions for this that follow a simple convention.
+When working with network calls, we will often want to make assertions like the right path was called, the right header was used or the right body was returned. Unmock spies have some useful functions for this that follow a basic convention.
 
 > `<method><Op>(/* matcher */)`
 
@@ -35,7 +35,7 @@ When working with network calls, we will often want to make assertions like the 
   import { sinon } from "unmock";
   ```
 
-Below is a simple test using `expect` together with `postRequestBody` and `postResponseBody` to verify the request body of a post request as well as the code output.
+Below is a test using `expect` together with `postRequestBody` and `postResponseBody` to verify the request body of a post request as well as the code output.
 
 <!--DOCUSAURUS_CODE_TABS-->
 
@@ -134,7 +134,7 @@ paths:
 
 ## Advanced usage
 
-When possible, you should use functions like `postRequestBody` or `postRequestHost` above to reason about HTTP(S) calls. They make your test easy to read and maintain. However, sometimes, you may need to make more fine grained assertions having to do with the order of network calls or other subtleties. In this case, you'll want to use the full power of SinonJS spies.
+When possible, you should use functions like `postRequestBody` or `postRequestHost` above to reason about HTTP(S) calls. They make your test easier to read and maintain. However, sometimes, you may need to make more fine grained assertions having to do with the order of network calls or other subtleties. In this case, you'll want to use the full power of SinonJS spies.
 
 Below is a test that uses only SinonJS spy properties such as `callCount` and `firstCall` to inspect [spy calls](https://sinonjs.org/releases/v7.4.1/spy-call/) and their return values (`firstCall.returnValue.body`).
 

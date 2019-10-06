@@ -25,7 +25,7 @@ We'll talk about how to fetch the GitHub and other service definitions in [Fetch
 
 ## Service specification
 
-In Unmock, services are simply documents designed according to the [OpenAPI 3.0.0 specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md).
+In Unmock, services are documents designed according to the [OpenAPI 3.0.0 specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md).
 
 Unmock is able to turn most OpenAPI specifications into viable mocks without any tinkering, but there are a few service extensions we provide to make the mocks moxier. Unmock uses the `x-` pattern defined in the [OpenAPI specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#specificationExtensions).
 
