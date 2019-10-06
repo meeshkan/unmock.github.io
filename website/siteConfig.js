@@ -31,6 +31,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: "introduction", label: "Docs" },
+    { page: "sandbox", label: "Sandbox" },
     { href: "https://github.com/unmock/unmock-js", label: "GitHub" },
   ],
 
