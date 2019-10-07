@@ -78,6 +78,9 @@ const siteConfig = {
       async: true,
       defer: true,
     },
+    "https://buttons.github.io/buttons.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js",
+    "/js/code-block-buttons.js",
   ],
 
   // On page navigation for the current documentation page.
@@ -86,6 +89,7 @@ const siteConfig = {
   cleanUrl: true,
   stylesheets: [
     "https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Source+Code+Pro:400,700&display=swap",
+    "/css/code-block-buttons.css",
   ],
 
   // Show documentation's last contributor's name.
