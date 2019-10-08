@@ -115,7 +115,7 @@ test(
 );
 
 test(
-  <span class="hljs-string">"horoscope does not result in unexpected error when resposne is 200"</span>,
+  <span class="hljs-string">"horoscope does not result in unexpected error when response is 200"</span>,
   runner(<span class="hljs-keyword">async</span> () =&gt; {
     zodiac.state(withCodes(<span class="hljs-number">200</span>));
     <span class="hljs-keyword">const</span> horoscope = <span class="hljs-keyword">await</span> getHoroscope(<span class="hljs-string">"jane"</span>);
