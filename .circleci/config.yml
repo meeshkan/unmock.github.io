@@ -47,6 +47,9 @@ jobs:
           name: "Run linter"
           command: "yarn lint"
       - run:
+          name: "Run language linter"
+          command: "yarn lint-language"
+      - run:
           name: "Run tests"
           command: "yarn test"
       - persist_to_workspace:
