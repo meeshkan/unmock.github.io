@@ -92,7 +92,8 @@
   .get(<span class="hljs-string">"/horoscope/{user}"</span>)
   .reply(<span class="hljs-number">404</span>, { message: <span class="hljs-string">"Not authorized."</span> });
 </code></pre>
-<p>Here, there are two possible outcomes: <code>200</code>, which is success, and <code>404</code>, which is an authorization failure. Let's write three tests using <a href="https://jestjs.io">Jest</a>.</p>
+<!-- alex ignore failure -->
+Here, there are two possible outcomes: `200`, which is success, and `404`, which is an authorization failure. Let's write three tests using [Jest](https://jestjs.io).
 <pre><code class="hljs css language-ts"><span class="hljs-keyword">let</span> zodiac: Service;
 
 beforeAll(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
