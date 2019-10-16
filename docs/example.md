@@ -44,6 +44,7 @@ unmock
   .reply(404, { message: "Not authorized." });
 ```
 
+<!-- alex ignore failure -->
 Here, there are two possible outcomes: `200`, which is success, and `404`, which is an authorization failure. Let's write three tests using [Jest](https://jestjs.io).
 
 ```ts
