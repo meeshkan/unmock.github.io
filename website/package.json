@@ -11,9 +11,11 @@
     "format-check": "prettier --check '**/*.{js,ts}'",
     "format": "prettier '{../docs/*.md,**/*.{js,ts}}' --write",
     "lint": "eslint pages/**/*.js",
+    "lint-language": "cd ../ && alex",
     "test": "jest"
   },
   "dependencies": {
+    "alex": "^8.0.0",
     "docusaurus": "^1.11.0"
   },
   "devDependencies": {
