@@ -3,7 +3,7 @@
     "Introduction": ["introduction", "example", "resources"],
     "Services": ["unmock", "openapi"],
     "Basic Usage": ["expectations", "setting-state", "fuzz"],
-    "Advanced Usage": ["jest-reporter", "configuration"],
+    "Advanced Usage": ["jest-reporter", "react-native", "configuration"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
 }
