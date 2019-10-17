@@ -1,6 +1,6 @@
 ---
 id: react-native
-title: Testing React Native
+title: Testing React Native Applications
 sidebar_label: React Native
 ---
 
