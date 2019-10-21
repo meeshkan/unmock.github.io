@@ -20,4 +20,4 @@ Here are some highlights from our roadmap. The roadmap itself is open-sourced on
 
 ## One year
 
-- Release of Unmock studio, a tool that makes it easy to create mock services by using natural language processing on recordings of API traffic and OpenAPI specifications.
+- Release of Unmock studio, a tool that makes it painless to create mock services by using natural language processing on recordings of API traffic and OpenAPI specifications.
