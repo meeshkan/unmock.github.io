@@ -4,7 +4,7 @@ title: Jest reporter
 sidebar_label: Jest Reporter
 ---
 
-Unmock includes a Jest reporter for easy integration with [Jest](https://jestjs.io/), a delightful JS testing framework. When run with Jest, the reporter outputs an HTML report of the HTTP traffic made by each test.
+Unmock includes a Jest reporter for painless integration with [Jest](https://jestjs.io/), a delightful JS testing framework. When run with Jest, the reporter outputs an HTML report of the HTTP traffic made by each test.
 
 ## Installation
 

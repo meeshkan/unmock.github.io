@@ -1,2 +1,2 @@
-# Temporarily ignoring docs until issues are resolved
-docs/
+# The Code of Conduct includes descriptions of harassment so it's not linted
+docs/code-of-conduct.md
