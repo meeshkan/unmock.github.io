@@ -4,6 +4,7 @@
     "Services": ["unmock", "openapi"],
     "Basic Usage": ["expectations", "setting-state", "fuzz"],
     "Advanced Usage": ["jest-reporter", "configuration"],
+    "Guides": ["react-native"],
     "Community": ["code-of-conduct"],
     "Roadmap": ["roadmap", "contributing", "about"]
   }
