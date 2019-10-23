@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Testing React Native Applications · Unmock</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Unmock supports mocking API dependencies in React Native applications for tests running in Node.js. "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Testing React Native Applications · Unmock"/><meta property="og:type" content="website"/><meta property="og:url" content="https://www.unmock.io/"/><meta property="og:description" content="Unmock supports mocking API dependencies in React Native applications for tests running in Node.js. "/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/logo-purple.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-107981669-5', 'auto');
+              ga('send', 'pageview');
+            </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Source+Code+Pro:400,700&amp;display=swap"/><link rel="stylesheet" href="/css/code-block-buttons.css"/><script type="text/javascript" src="//katacoda.com/embed.js"></script><script type="text/javascript" src="https://assets.digitalclimatestrike.net/widget.js" async=""></script><script type="text/javascript" src="https://unpkg.com/unmock-gitter@0.0.0/index.js"></script><script type="text/javascript" src="https://sidecar.gitter.im/dist/sidecar.v1.js" async="" defer=""></script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-block-buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo-white.svg" alt="Unmock"/><h2 class="headerTitleWithLogo">Unmock</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/unmock/unmock-js" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Guides</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/introduction">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/docs/example">A Motivating Example</a></li><li class="navListItem"><a class="navItem" href="/docs/resources">More Resources</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Services</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/unmock">Defining Services</a></li><li class="navListItem"><a class="navItem" href="/docs/openapi">Using OpenAPI</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Basic Usage</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/expectations">Great Expectations</a></li><li class="navListItem"><a class="navItem" href="/docs/setting-state">Initializing Mocks</a></li><li class="navListItem"><a class="navItem" href="/docs/fuzz">Fuzz Testing</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Advanced Usage</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/jest-reporter">Jest Reporter</a></li><li class="navListItem"><a class="navItem" href="/docs/configuration">Configuration</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Guides</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/react-native">React Native</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/code-of-conduct">Code of Conduct</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Roadmap</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/roadmap">Where we&#x27;re going</a></li><li class="navListItem"><a class="navItem" href="/docs/contributing">Contributing</a></li><li class="navListItem"><a class="navItem" href="/docs/about">About us</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/react-native.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Testing React Native Applications</h1></header><article><div><span><p>Unmock supports mocking API dependencies in React Native applications for tests running in Node.js.</p>
+<p>For a full example showing how to test asynchronous data loading with React hooks using <a href="https://jestjs.io/">Jest</a> and <a href="https://github.com/callstack/react-native-testing-library">react-native-testing-library</a>, see <a href="https://github.com/unmock/unmock-react-native-example">unmock-react-native-example</a> repository. Below we walk through the example.</p>
+<h2><a class="anchor" aria-hidden="true" id="tour-of-the-example-app"></a><a href="#tour-of-the-example-app" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tour of the example app</h2>
+<p>The <a href="https://github.com/unmock/unmock-react-native-example">example application</a> shows a random cat fact fetched from the <a href="https://alexwohlbruck.github.io/cat-facts/">Cat Facts API</a>. User can refresh the fact by pressing the button.</p>
+<p>The app logic is contained in <a href="https://github.com/unmock/unmock-react-native-example/blob/master/src/App.tsx">App.tsx</a>. Data fetching and state management is managed with <code>useState</code> from React hooks:</p>
+<pre><code class="hljs css language-ts"><span class="hljs-keyword">const</span> [shownFact, setFact] = useState(<span class="hljs-string">''</span>);
+<span class="hljs-keyword">const</span> [err, setError] = useState(<span class="hljs-literal">null</span>);
+<span class="hljs-keyword">const</span> [loading, setLoading] = useState(<span class="hljs-literal">false</span>);
+</code></pre>
+<p>Refreshing the shown fact at start-up or when user presses the button is made via <code>refreshFact</code> function:</p>
+<pre><code class="hljs css language-ts"><span class="hljs-keyword">const</span> refreshFact = <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">try</span> {
+        setLoading(<span class="hljs-literal">true</span>);
+        <span class="hljs-keyword">const</span> fact = <span class="hljs-keyword">await</span> fetchFact();
+        setFact(fact);
+        setError(<span class="hljs-literal">null</span>);
+    } <span class="hljs-keyword">catch</span> (err) {
+        setError(err);
+    } <span class="hljs-keyword">finally</span> {
+        setLoading(<span class="hljs-literal">false</span>);
+    }
+};
+</code></pre>
+<p>Data fetching for the first rendering is triggered with <code>useEffect</code>:</p>
+<pre><code class="hljs css language-ts">useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    refreshFact();
+}, []);
+</code></pre>
+<p>Content is rendered based on the values of <code>loading</code> and <code>err</code>:</p>
+<pre><code class="hljs css language-jsx">{loading ? (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Text</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{styles.loading}</span> <span class="hljs-attr">testID</span>=<span class="hljs-string">"loading"</span>&gt;</span>
+    Loading...
+<span class="hljs-tag">&lt;/<span class="hljs-name">Text</span>&gt;</span></span>
+) : err ? (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Text</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{{...styles.fact,</span> <span class="hljs-attr">...styles.error</span>}} <span class="hljs-attr">testID</span>=<span class="hljs-string">"error"</span>&gt;</span>
+    Something went horribly wrong, please try again!
+<span class="hljs-tag">&lt;/<span class="hljs-name">Text</span>&gt;</span></span>
+) : (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Text</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{styles.fact}</span> <span class="hljs-attr">testID</span>=<span class="hljs-string">"fact"</span>&gt;</span>
+    {shownFact}
+<span class="hljs-tag">&lt;/<span class="hljs-name">Text</span>&gt;</span></span>
+)}
+</code></pre>
+<p>Note that we also give <code>testID</code> properties to components to simplify testing.</p>
+<h2><a class="anchor" aria-hidden="true" id="writing-tests"></a><a href="#writing-tests" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writing tests</h2>
+<h3><a class="anchor" aria-hidden="true" id="prerequisites"></a><a href="#prerequisites" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+<p>Tests for the application are found in <a href="https://github.com/unmock/unmock-react-native-example/blob/master/__tests__/App.test.tsx">App.test.tsx</a>.</p>
+<p>The first step in the tests is to fill in <code>fetch</code> (not natively available in Node.js) with <a href="https://www.npmjs.com/package/node-fetch">node-fetch</a>:</p>
+<pre><code class="hljs css language-ts"><span class="hljs-comment">// @ts-ignore</span>
+global.fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-fetch'</span>);
+</code></pre>
+<p>In the <code>beforeAll</code> block, we switch on Unmock to intercept all outgoing traffic and define the API behaviour with <code>nock</code> syntax:</p>
+<pre><code class="hljs css language-ts">beforeAll(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  unmock.on();
+  unmock
+    .nock(<span class="hljs-string">'https://cat-fact.herokuapp.com'</span>, <span class="hljs-string">'catFactApi'</span>)
+    .get(<span class="hljs-string">'/facts/random?animal_type=cat&amp;amount=1'</span>)
+    .reply(<span class="hljs-number">200</span>, { text: u.string(<span class="hljs-string">'lorem.sentence'</span>) })
+    .reply(<span class="hljs-number">500</span>, <span class="hljs-string">'Internal server error'</span>);
+});
+</code></pre>
+<p>Unmock state is resetted before each test so that the tests remain independent:</p>
+<pre><code class="hljs css language-ts">beforeEach(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  unmock.reset();
+});
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="test-for-success"></a><a href="#test-for-success" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Test for success</h3>
+<p>The first test ensures that when the API successfully returns a cat fact, the fact block is displayed to the user:</p>
+<pre><code class="hljs css language-ts">it(<span class="hljs-string">'renders the fact block when API succeeds'</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> api = unmock.services[<span class="hljs-string">'catFactApi'</span>];
+    api.state(transform.withCodes(<span class="hljs-number">200</span>));
+    <span class="hljs-keyword">const</span> renderApi: RenderAPI = render(&lt;App /&gt;);
+
+    <span class="hljs-keyword">await</span> waitForElement(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> renderApi.getByTestId(<span class="hljs-string">"fact"</span>);
+    });
+  });
+</code></pre>
+<p>First we set the API to always return 200, simulating success. We then use <code>render</code> from <code>react-native-testing-library</code> to fully render the component and run all hooks. We then use <code>waitForElement</code> from the same library to wait for the element with <code>testID=&quot;fact&quot;</code> to show up.</p>
+<p>Second test for success ensures that when user clicks the button, new fact is fetched from API. The button press is simulated with the <code>fireEvent</code> from <code>react-native-testing-library</code>:</p>
+<pre><code class="hljs css language-ts">it(<span class="hljs-string">'renders new fact after clicking the button'</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> api = unmock.services[<span class="hljs-string">'catFactApi'</span>];
+    api.state(transform.withCodes(<span class="hljs-number">200</span>));
+
+    <span class="hljs-keyword">const</span> renderApi: RenderAPI = render(&lt;App /&gt;);
+
+    fireEvent.press(renderApi.getByText(<span class="hljs-string">'Get me a new one'</span>));
+
+    <span class="hljs-keyword">await</span> waitForElement(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">const</span> secondCall = api.spy.secondCall;
+      <span class="hljs-keyword">const</span> secondFact = secondCall.returnValue.bodyAsJson;
+      <span class="hljs-keyword">return</span> renderApi.getByText(secondFact.text);
+    });
+  });
+</code></pre>
+<p>Here we again use <code>waitForElement</code>, but instead of relying on an element with <code>testID=&quot;fact&quot;</code> to show up, we wait for an element that contains the same text as the (random) fact returned from the API.</p>
+<h3><a class="anchor" aria-hidden="true" id="test-for-failure"></a><a href="#test-for-failure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Test for failure</h3>
+<p>Test for failure proceeds similarly as the test for success: we change the API to return status code 500, render the app, and wait for the element with <code>testID=&quot;error&quot;</code> to show up.</p>
+<pre><code class="hljs css language-ts">it(<span class="hljs-string">'renders error when the API fails'</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> api = unmock.services[<span class="hljs-string">'catFactApi'</span>];
+    api.state(transform.withCodes(<span class="hljs-number">500</span>));
+
+    <span class="hljs-keyword">const</span> renderApi: RenderAPI = render(&lt;App /&gt;);
+
+    <span class="hljs-keyword">await</span> waitForElement(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> renderApi.getByTestId(<span class="hljs-string">'error'</span>);
+    });
+});
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/configuration"><span class="arrow-prev">← </span><span>Configuration</span></a><a class="docs-next button" href="/docs/code-of-conduct"><span>Code of Conduct</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#tour-of-the-example-app">Tour of the example app</a></li><li><a href="#writing-tests">Writing tests</a><ul class="toc-headings"><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#test-for-success">Test for success</a></li><li><a href="#test-for-failure">Test for failure</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="Unmock" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/introduction">Introduction</a><a href="https://github.com/unmock/unmock-examples">Examples</a></div><div><h5>Community</h5><a href="https://gitter.im/unmock/community">Gitter</a><a href="https://twitter.com/unmockapis?lang=en" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/unmock">GitHub</a><a href="https://github.com/unmock/code-of-conduct">Code of Conduct</a></div></section><section class="copyright">Copyright © 2019 <a href="https://meeshkan.com">Meeshkan</a></section></footer></div></body></html>
