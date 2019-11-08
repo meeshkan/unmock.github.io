@@ -11,10 +11,10 @@
 <p>Every service in unmock should be in a subfolder of the <code>__unmock__</code> folder in the root directory of a project. The subfolders must not be one of the following reserved keywords: <code>get, post, patch, delete, options, head, put, reset</code>. Generally, for clarity, it is a good idea to name them after the service, as the subfolder name defines how you will later interact with the service state. So, for example, if you are interacting with the GitHub API, <code>__unmock__/github</code> should contain the service definition for the GitHub API.</p>
 <pre><code class="hljs">__unmock__/
     github/
-        index<span class="hljs-selector-class">.yaml</span>
+        <span class="hljs-keyword">index</span>.yaml
     slack/
-        index<span class="hljs-selector-class">.yaml</span>
-package<span class="hljs-selector-class">.json</span>
+        <span class="hljs-keyword">index</span>.yaml
+package.json
 src/
 tests/
 </code></pre>
