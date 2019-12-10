@@ -62,7 +62,7 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/openapi.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Using OpenAPI</h1></header><article><div><span><p>Unmock supports service descriptions in two different flavors of OpenAPI: vanilla OpenAPI and Lazy OpenAPI 3 (loas3).</p>
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/unmock/unmock.github.io/edit/source/docs/openapi.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Using OpenAPI</h1></header><article><div><span><p>Unmock supports service descriptions in two different flavors of OpenAPI: vanilla OpenAPI and Lazy OpenAPI 3 (loas3).</p>
 <p>OpenAPI specs should be added directly into an <code>__unmock__</code> directory at the top-level of your project. The only thing you need to do is make sure the spec is in YAML and is located in a subdirectory that represents the specification's logical name.  For example, if you have an OpenAPI spec for <code>https://api.cutekittens.io</code> and would like to refer to this as <code>cutekittens</code>, you can place the spec in <code>__unmock__/cutekittens/openapi.yml</code>.</p>
 <pre><code class="hljs">__unmock__/
   cutekittens/
