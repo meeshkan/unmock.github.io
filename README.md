@@ -1,6 +1,7 @@
-# [unmock documentation](https://unmock.github.io)
+# [Unmock Documentation](https://unmock.github.io)
 
 [![CircleCI](https://circleci.com/gh/unmock/unmock.github.io/tree/source.svg?style=svg)](https://circleci.com/gh/unmock/unmock.github.io/tree/source)
+[![Chat on Gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/unmock/community)
 
 Documentation using [Docusaurus](https://docusaurus.io/).
 
