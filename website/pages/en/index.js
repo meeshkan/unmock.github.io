@@ -96,6 +96,8 @@ class Index extends React.Component {
           id="katacoda-scenario-1"
           data-katacoda-id="unmock/introduction"
           data-katacoda-color="004d7f"
+          data-katacoda-ctaurl="https://www.unmock.io/docs/introduction"
+          data-katacoda-ctatext="LEARN MORE"
           style={{
             display: "block",
             margin: "auto",
