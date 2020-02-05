@@ -31,13 +31,13 @@ class Footer extends React.Component {
           <div>
             <h5>Docs</h5>
             <a href={this.docUrl("introduction")}>Introduction</a>
-            <a href={"https://github.com/unmock/unmock-examples"}>Examples</a>
+            <a href={"https://github.com/meeshkan/unmock-examples"}>Examples</a>
           </div>
           <div>
             <h5>Community</h5>
             <a href="https://gitter.im/unmock/community">Gitter</a>
             <a
-              href="https://twitter.com/unmockapis?lang=en"
+              href="https://twitter.com/meeshkanml?lang=en"
               target="_blank"
               rel="noreferrer noopener"
             >
@@ -46,8 +46,8 @@ class Footer extends React.Component {
           </div>
           <div>
             <h5>More</h5>
-            <a href="https://github.com/unmock">GitHub</a>
-            <a href="https://github.com/unmock/code-of-conduct">Code of Conduct</a>
+            <a href="https://github.com/meeshkan">GitHub</a>
+            <a href="https://github.com/meeshkan/code-of-conduct">Code of Conduct</a>
           </div>
         </section>
         {/*<section className="copyright">{this.props.config.copyright}</section>*/}

@@ -25,7 +25,7 @@ unmock
 
 ## Poet
 
-The Unmock `u` object uses the same syntax as [`json-schema-poet`](https://github.com/unmock/json-schema-poet) to represent indeterminate fields in a response header or body.  For example, `u.number` generates a random number, `u.stringEnum` generates a random string choosing from an array of string values, etc. To see the full list of options, check out the [`json-schema-poet`](https://github.com/unmock/json-schema-poet) README.
+The Unmock `u` object uses the same syntax as [`json-schema-poet`](https://github.com/meeshkan/json-schema-poet) to represent indeterminate fields in a response header or body.  For example, `u.number` generates a random number, `u.stringEnum` generates a random string choosing from an array of string values, etc. To see the full list of options, check out the [`json-schema-poet`](https://github.com/meeshkan/json-schema-poet) README.
 
 ## Verbs
 

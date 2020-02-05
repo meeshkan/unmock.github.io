@@ -31,7 +31,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: "introduction", label: "Docs" },
-    { href: "https://github.com/unmock/unmock-js", label: "GitHub" },
+    { href: "https://github.com/meeshkan/unmock-js", label: "GitHub" },
   ],
 
   // If you have users set above, you add it here:

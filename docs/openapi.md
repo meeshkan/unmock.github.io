@@ -28,7 +28,7 @@ Any valid OpenAPI 3 specification can be added to your project this way. Many AP
 
 ## Lazy Open API 3 (loas3)
 
-To help overcome the verbosity and tedium of writing an OpenAPI spec, Unmock can process [`loas3`](https://www.github.com/unmock/loas3), or Lazy OpenAPI 3, a syntactic superset of OpenAPI 3.0.0. This section gives a quick primer of the `loas3` specification. In addition to being less demanding to read and write, the specification usually results in documents that are 50% the size (or less!) of their more verbose OpenAPI counterparts.
+To help overcome the verbosity and tedium of writing an OpenAPI spec, Unmock can process [`loas3`](https://www.github.com/meeshkan/loas3), or Lazy OpenAPI 3, a syntactic superset of OpenAPI 3.0.0. This section gives a quick primer of the `loas3` specification. In addition to being less demanding to read and write, the specification usually results in documents that are 50% the size (or less!) of their more verbose OpenAPI counterparts.
 
 ### Cascading objects
 

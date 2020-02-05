@@ -7,7 +7,7 @@ sidebar_label: Code of Conduct
 ## Short Form Code of Conduct
 The Unmock community is dedicated to providing a safe, inclusive, welcoming, and harassment-free space and experience for all community participants, regardless of gender identity and expression, sexual orientation, disability, physical appearance, socioeconomic status, body size, ethnicity, nationality, level of experience, age, religion (or lack thereof), or other identity markers. 
 
-Our Code of Conduct exists because of that dedication, and we do not tolerate harassment in any form. If you need to report an incident, please refer to our [reporting guidelines](https://github.com/unmock/code-of-conduct/blob/master/incident-reporting.md).
+Our Code of Conduct exists because of that dedication, and we do not tolerate harassment in any form. If you need to report an incident, please refer to our [reporting guidelines](https://github.com/meeshkan/code-of-conduct/blob/master/incident-reporting.md).
 
 ## Long Form Code of Conduct
 The Unmock community is dedicated to providing a safe, inclusive, welcoming, and harassment-free space and experience for all community participants, regardless of gender identity and expression, sexual orientation, disability, physical appearance, socioeconomic status, body size, ethnicity, nationality, level of experience, age, or religion (or lack thereof). Our Code of Conduct exists because of that dedication, and we do not tolerate harassment in any form.
@@ -61,7 +61,7 @@ Harassment includes:
 
 ### Procedures
 
-[Guidelines for Incident Reporting](https://github.com/unmock/code-of-conduct/blob/master/incident-reporting.md)
+[Guidelines for Incident Reporting](https://github.com/meeshkan/code-of-conduct/blob/master/incident-reporting.md)
 
 ### Enforcement
 - Participants asked to stop any harassing behavior are expected to comply immediately, even if participants do not agree with or fully acknowledge the behavior being reported.
@@ -79,7 +79,7 @@ Code of Conduct moderators will:
 - Keep each other accountable.
 - Trade off duties when needed.
 - Recuse themselves or be excused from handling an incident if they are listed as a possible Code of Conduct violator.
-- Be kept up-to-date in the [Unmock community moderators document](https://github.com/unmock/code-of-conduct/blob/master/moderators.md).
+- Be kept up-to-date in the [Unmock community moderators document](https://github.com/meeshkan/code-of-conduct/blob/master/moderators.md).
 
 ### Additional Items
 Please also note:
@@ -93,7 +93,7 @@ Please also note:
 - We will not name harassment victims without their consent. At our discretion, we may publicly name a person about whom we’ve received harassment complaints, or privately warn third parties about them, if we believe that doing so will increase the safety of the Unmock community or the general public.
 
 ### Code of Conduct Feedback
-Feedback is always appreciated! You can create an [issue in the Github repository](https://github.com/unmock/code-of-conduct/issues).
+Feedback is always appreciated! You can create an [issue in the Github repository](https://github.com/meeshkan/code-of-conduct/issues).
 
 The Unmock Community Code of Conduct is a living document. It will grow with the Unmock community to ensure we are providing a safe, inclusive, welcoming, and harassment-free space and experience for all community participants.
 
