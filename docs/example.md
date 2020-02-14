@@ -9,7 +9,8 @@ Below is a fully functional example of Unmock in action! You can also [view the 
 The example will use TypeScript syntax, although the same is possible in JavaScript. First, let's import everything we need.
 
 ```ts
-import unmock, { runner, u, transform } from "unmock";
+import unmock, { u, transform } from "unmock";
+import runner from "unmock-jest-runner";
 import axios from "axios";
 const { withCodes, withoutCodes } = transform;
 ```
