@@ -6,13 +6,13 @@ sidebar_label: React Native
 
 Unmock supports mocking API dependencies in React Native applications for tests running in Node.js. 
 
-For a full example showing how to test asynchronous data loading with React hooks using [Jest](https://jestjs.io/) and [react-native-testing-library](https://github.com/callstack/react-native-testing-library), see [unmock-react-native-example](https://github.com/unmock/unmock-react-native-example) repository. Below we walk through the example.
+For a full example showing how to test asynchronous data loading with React hooks using [Jest](https://jestjs.io/) and [react-native-testing-library](https://github.com/callstack/react-native-testing-library), see [unmock-react-native-example](https://github.com/meeshkan/unmock-react-native-example) repository. Below we walk through the example.
 
 ## Tour of the example app
 
-The [example application](https://github.com/unmock/unmock-react-native-example) shows a random cat fact fetched from the [Cat Facts API](https://alexwohlbruck.github.io/cat-facts/). User can refresh the fact by pressing the button. 
+The [example application](https://github.com/meeshkan/unmock-react-native-example) shows a random cat fact fetched from the [Cat Facts API](https://alexwohlbruck.github.io/cat-facts/). User can refresh the fact by pressing the button. 
 
-The app logic is contained in [App.tsx](https://github.com/unmock/unmock-react-native-example/blob/master/src/App.tsx). Data fetching and state management is managed with `useState` from React hooks:
+The app logic is contained in [App.tsx](https://github.com/meeshkan/unmock-react-native-example/blob/master/src/App.tsx). Data fetching and state management is managed with `useState` from React hooks:
 
 ```ts
 const [shownFact, setFact] = useState('');
@@ -69,7 +69,7 @@ Note that we also give `testID` properties to components to simplify testing.
 
 ### Prerequisites
 
-Tests for the application are found in [App.test.tsx](https://github.com/unmock/unmock-react-native-example/blob/master/__tests__/App.test.tsx). 
+Tests for the application are found in [App.test.tsx](https://github.com/meeshkan/unmock-react-native-example/blob/master/__tests__/App.test.tsx). 
 
 The first step in the tests is to fill in `fetch` (not natively available in Node.js) with [node-fetch](https://www.npmjs.com/package/node-fetch):
 
