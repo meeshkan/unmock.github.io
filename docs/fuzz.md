@@ -4,10 +4,13 @@ title: Fuzz Testing
 sidebar_label: Fuzz Testing
 ---
 
-Because Unmock generates random responses, it is not very useful to test out only one. The real power of Unmock comes from testing many different outcomes of interactions with an API.  To do this, `unmock` supports fuzz testing, or the testing of multiple random outcomes, with `unmock.runner`.
+Because Unmock generates random responses, it is not very useful to test out only one. The real power of Unmock comes from testing many different outcomes of interactions with an API.  To do this, `unmock` supports fuzz testing, or the testing of multiple random outcomes, with the Unmock `runner`.
+
+By default, the `runner` will run your test 20 times. In this example, we're importing a Jest configuration of the `runner` from a separate [`unmock-jest-runner`](https://github.com/meeshkan/unmock-jest-runner) package. 
 
 ```javascript
-import unmock, { u, transform, runner } from "unmock";
+import unmock, { u, transform } from "unmock";
+import runner from "unmock-jest-runner";
 const { withCodes } = transform;
 
 unmock
