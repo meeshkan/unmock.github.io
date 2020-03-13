@@ -75,7 +75,7 @@ afterEach(() => {
 <!--Code-->
 
 ```javascript
-// augmentedUser.js
+// postAugmentedUser.js
 import axios from "axios";
 
 export default async (id, name, hobby) => {
@@ -187,7 +187,7 @@ afterEach(() => {
 <!--Code-->
 
 ```javascript
-// augmentedUser.js
+// postAugmentedUser.js
 import axios from "axios";
 
 export default async (id, name, hobby) => {
